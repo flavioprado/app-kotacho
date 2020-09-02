@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "postinstall": "npm run build",
-    "start":"ng serve",
-    "start:serve": "node server",
+    "start": "node server",
+    "start:front": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
