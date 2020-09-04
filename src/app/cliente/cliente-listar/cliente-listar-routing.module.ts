@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ClienteListarComponent } from './components/cliente-listar.component';
 
 const routes: Routes = [
-   {path: "", component: ClienteListarComponent}
+   {path: "", component: ClienteListarComponent},
+   {path: "clientes", component: ClienteListarComponent}
 ];
 
 @NgModule({
