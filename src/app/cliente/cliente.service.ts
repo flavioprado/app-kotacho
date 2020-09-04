@@ -10,7 +10,7 @@ import { QueryBuilder, Page } from '../_util/Pagination';
   providedIn: 'root'
 })
 export class ClienteService {
-  private baseURL = 'http://localhost:3000';
+  private baseURL = 'http://api-pedido-com-br.umbler.net/';
   private endpoint= 'clientes'
 
   constructor(private httpClient: HttpClient) { }
