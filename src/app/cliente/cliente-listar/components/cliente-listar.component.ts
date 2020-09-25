@@ -53,7 +53,6 @@ export class ClienteListarComponent implements OnInit {
             .pipe(take(1))
             .subscribe(
                 (page) => {
-                    console.log('page '+JSON.stringify(page))
                     this.page = page;
                     this.carregando = false;
                 },

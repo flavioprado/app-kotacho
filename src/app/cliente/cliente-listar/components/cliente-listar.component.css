@@ -13,3 +13,8 @@ table {
 .delete > i {
     color: #e35e6b;
 }
+
+.btn-success {
+    background-color: green;
+    color: #fff;
+}

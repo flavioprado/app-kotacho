@@ -6,6 +6,9 @@ import { ClienteService } from '../../cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Endereco } from 'src/app/interfaces/endereco.model';
+import * as _ from 'lodash';
+
 
 @Component({
     selector: 'app-cliente-cad-edit',
@@ -14,11 +17,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ClienteCadEditComponent implements OnInit {
 
-    formGroup: FormGroup;
+
+    formCadastro: FormGroup;
     cliente: Cliente;
+    endereco: Endereco;
+    
 
     constructor(
-        private formBuilder: FormBuilder,
+        private fb: FormBuilder,
         private clienteService: ClienteService,
         private router: Router,
         private route: ActivatedRoute,
@@ -29,31 +35,51 @@ export class ClienteCadEditComponent implements OnInit {
     ngOnInit() {
         let id = this.route.snapshot.paramMap.get('id');
 
-        if(id){
+        if (id) {
             this.loadCliente(id);
         }
-        
-        this.formGroup = this.formBuilder.group({
-            id: [this.cliente && this.cliente.cli_id ? this.cliente.cli_id : null],
-            nome: [this.cliente && this.cliente.nome ? this.cliente.nome : "", Validators.required],
-        });
-       
+
+        this.buildForm();
     }
 
-    loadCliente(id){
+    loadCliente(id) {
         this.clienteService.pesquisarPorId(id).subscribe((cliente) => {
             this.cliente = cliente;
-
-            this.formGroup = this.formBuilder.group({
-                id: [this.cliente && this.cliente.cli_id ? this.cliente.cli_id : null],
-                nome: [this.cliente && this.cliente.nome ? this.cliente.nome : "", Validators.required],
-            });
+            debugger;
+            this.loadObjectInForm(cliente);
         })
+    }
+
+    private loadObjectInForm(cliente: Cliente) {
+        // const res = _.omit(cliente, [
+        //      'id'
+        // ]);
+        this.formCadastro.patchValue(cliente);
+        //  this.setValueOnForm(this.formCadastro, 'tipo', res.tipo.id);
+    }
+
+    buildForm() {
+        this.formCadastro = this.fb.group({
+            id: [null],
+            nome: ["", Validators.required],
+            email: ["", Validators.required],
+            telefone: ["", Validators.required],
+            senha: [""],
+            endereco: this.fb.group({
+                logradouro: ["", Validators.required],
+                numero: ["", Validators.required],
+                complemento: [""],
+                bairro: ["", Validators.required],
+                cidade: ["", Validators.required],
+                uf: ["", Validators.required],
+                cep: ["", Validators.required],
+            }),
+        });
     }
 
     salvar() {
         if (this.cliente && this.cliente.cli_id) {
-            this.clienteService.atualizar(this.formGroup.value).subscribe(
+            this.clienteService.atualizar(this.formCadastro.value).subscribe(
                 (itemAtualizado) => {
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
@@ -69,7 +95,7 @@ export class ClienteCadEditComponent implements OnInit {
                 }
             );
         } else {
-            this.clienteService.cadastrar(this.formGroup.value).subscribe(
+            this.clienteService.cadastrar(this.formCadastro.value).subscribe(
                 (itemCadastrado) => {
                     this.matSnackBar.open("Cadastrado com sucesso!", null, {
                         duration: 5000,

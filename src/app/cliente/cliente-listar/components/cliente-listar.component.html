@@ -1,7 +1,7 @@
 <div class="mat-elevation-z4">
 
-    <button mat-raised-button routerLink="/clientes/cadastrar">
-        Novo Cliente
+     <button button="submit" mat-raised-button class="btn-success" routerLink="/clientes/cadastrar">
+      <mat-icon>add</mat-icon> Novo Cliente
     </button>
 
     <table mat-table [dataSource]="page.content" matSort (matSortChange)="sortEvent = $event; listarItens();">
