@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class ClienteListarComponent implements OnInit {
 
-    colunasTabela = ["cli_id", "nome", "action"];
+    colunasTabela = ["cli_id", "nome", "cnpj","action"];
 
     page: Page<Cliente> = new Page([], 0);
     pageEvent: PageEvent;

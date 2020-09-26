@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DialogoConfirmacaoComponent } from 'src/app/_shared/dialogo-confirmacao/dialogo-confirmacao.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Cliente } from '../../cliente.model';
@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Endereco } from 'src/app/interfaces/endereco.model';
 import * as _ from 'lodash';
+import { MatInput } from '@angular/material/input';
+import { CpfCnpjValidator } from 'src/app/_validators/cpf-cnpj.validator';
 
 
 @Component({
@@ -16,12 +18,14 @@ import * as _ from 'lodash';
     styleUrls: ['./cliente-cad-edit.component.css']
 })
 export class ClienteCadEditComponent implements OnInit {
+    @ViewChild("name") nameField: ElementRef;
 
 
+    emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
     cliente: Cliente;
     endereco: Endereco;
-    
+
 
     constructor(
         private fb: FormBuilder,
@@ -33,6 +37,7 @@ export class ClienteCadEditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+
         let id = this.route.snapshot.paramMap.get('id');
 
         if (id) {
@@ -40,7 +45,11 @@ export class ClienteCadEditComponent implements OnInit {
         }
 
         this.buildForm();
+
     }
+    // editName(): void {
+    //     this.nameField.nativeElement.focus();
+    //   }
 
     loadCliente(id) {
         this.clienteService.pesquisarPorId(id).subscribe((cliente) => {
@@ -50,6 +59,9 @@ export class ClienteCadEditComponent implements OnInit {
         })
     }
 
+    ngAfterViewInit() {
+        this.nameField.nativeElement.focus();
+    }
     private loadObjectInForm(cliente: Cliente) {
         // const res = _.omit(cliente, [
         //      'id'
@@ -59,10 +71,18 @@ export class ClienteCadEditComponent implements OnInit {
     }
 
     buildForm() {
+        let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         this.formCadastro = this.fb.group({
             id: [null],
             nome: ["", Validators.required],
-            email: ["", Validators.required],
+            cnpj: ["", [
+                Validators.required,
+                Validators.pattern(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/),
+                Validators.minLength(14),
+                Validators.maxLength(25),
+                CpfCnpjValidator.validate,
+            ]],
+            email: [null, [Validators.required, Validators.pattern(emailregex)]],
             telefone: ["", Validators.required],
             senha: [""],
             endereco: this.fb.group({
@@ -75,6 +95,18 @@ export class ClienteCadEditComponent implements OnInit {
                 cep: ["", Validators.required],
             }),
         });
+    }
+
+    getErrorEmail() {
+        return this.formCadastro.get('email').hasError('required') ? 'Email é obrigatório' :
+            this.formCadastro.get('email').hasError('pattern') ? 'Email inválido' :
+                this.formCadastro.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
+    }
+
+    getErrorCnpj() {
+        return this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
+            this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' : '';
+
     }
 
     salvar() {

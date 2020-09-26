@@ -3,9 +3,19 @@
         <tr>
             <td>
                 <mat-form-field class="example-full-width">
-                    <mat-label>Nome / Razão Social</mat-label>
-                    <input matInput placeholder="Nome" formControlName="nome" required autocomplete="off">
-                    <mat-error>Campo é obrigatório</mat-error>
+                    <mat-label>Razão Social</mat-label>
+                    <input matInput placeholder="Nome" autofocus formControlName="nome" required  #name >
+                    <mat-error>Razão Social é obrigatória</mat-error>
+                </mat-form-field>
+            </td>
+
+            <td>
+                <mat-form-field class="example-full-width">
+                    <mat-label>CNPJ</mat-label>
+                    <input matInput placeholder="CNPJ"  formControlName="cnpj" required   >
+                    <mat-error *ngIf="!formCadastro.controls['cnpj'].valid && formCadastro.controls['cnpj'].touched">
+                        {{getErrorCnpj()}}
+                    </mat-error>
                 </mat-form-field>
             </td>
         </tr>
@@ -14,7 +24,9 @@
                 <mat-form-field class="example-full-width">
                     <mat-label>Email</mat-label>
                     <input matInput placeholder="Email" formControlName="email" required autocomplete="off">
-                    <mat-error>Campo é obrigatório</mat-error>
+                    <mat-error *ngIf="!formCadastro.controls['email'].valid && formCadastro.controls['email'].touched">
+                        {{ getErrorEmail() }}
+                    </mat-error>
                 </mat-form-field>
             </td>
         </tr>
