@@ -24,7 +24,7 @@ export class ClienteCadEditComponent implements OnInit {
     formCadastro: FormGroup;
     cliente: Cliente;
     endereco: Endereco;
-
+    labelForm: string;
 
     constructor(
         private fb: FormBuilder,
@@ -38,6 +38,8 @@ export class ClienteCadEditComponent implements OnInit {
     ngOnInit() {
 
         let id = this.route.snapshot.paramMap.get('id');
+
+        this.labelForm = id?'Editar':'Cadastrar';
 
         if (id) {
             this.loadCliente(id);

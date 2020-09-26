@@ -1,26 +1,28 @@
-<form class="example-form" [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()">
-    <table class="example-full-width" cellspacing="0">
-        <tr>
-            <td>
+<!-- Title group  -->
+<div class="title-group">
+    <h1 class="mat-h1">{{labelForm}} Cliente</h1>
+    <mat-divider fxFlex="1 0"></mat-divider>
+</div>
+
+<!-- Form -->
+<div class="inner-wrapper">
+    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" #resetFormCadastro="ngForm" novalidate>
+        <!-- Left block -->
+        <mat-card>
+            <div class="controlers-wrapper">
                 <mat-form-field class="example-full-width">
                     <mat-label>Razão Social</mat-label>
-                    <input matInput placeholder="Nome"  formControlName="nome" required #name>
+                    <input matInput placeholder="Nome" formControlName="nome" required #name>
                     <mat-error>Razão Social é obrigatória</mat-error>
                 </mat-form-field>
-            </td>
-
-            <td>
                 <mat-form-field class="example-full-width">
                     <mat-label>CNPJ</mat-label>
-                    <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" [dropSpecialCharacters]="false" formControlName="cnpj" required>
+                    <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" [dropSpecialCharacters]="false"
+                        formControlName="cnpj" required>
                     <mat-error *ngIf="!formCadastro.controls['cnpj'].valid && formCadastro.controls['cnpj'].touched">
                         {{getErrorCnpj()}}
                     </mat-error>
                 </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <mat-form-field class="example-full-width">
                     <mat-label>Email</mat-label>
                     <input matInput placeholder="Email" formControlName="email" required autocomplete="off">
@@ -28,161 +30,75 @@
                         {{ getErrorEmail() }}
                     </mat-error>
                 </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Senha</mat-label>
-                    <input matInput placeholder="Senha" formControlName="senha" autocomplete="off">
-                    <mat-error>Campo é obrigatório</mat-error>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td>
+
                 <mat-form-field class="example-full-width">
                     <mat-label>Telefone</mat-label>
                     <input matInput placeholder="Telefone" mask="(00)0000-0000" formControlName="telefone" required
                         autocomplete="off">
                     <mat-error>Campo é obrigatório</mat-error>
                 </mat-form-field>
-            </td>
-        </tr>
 
-    </table>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Senha</mat-label>
+                    <input matInput placeholder="Senha" formControlName="senha" autocomplete="off">
+                    <mat-error>Campo é obrigatório</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card>
 
-    <div formGroupName="endereco">
-        <table class="example-full-width" cellspacing="0">
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>CEP</mat-label>
-                        <input matInput placeholder="cep" mask="00000-000" [dropSpecialCharacters]="false" maxlength="10" formControlName="cep" required
-                            autocomplete="off">
+        <!-- Right block -->
+        <mat-card>
+            <div formGroupName="endereco">
+                <mat-form-field class="example-full-width">
+                    <mat-label>CEP</mat-label>
+                    <input matInput placeholder="cep" mask="00000-000" [dropSpecialCharacters]="false" maxlength="10"
+                        formControlName="cep" required autocomplete="off">
 
-                        <mat-error
-                            *ngIf="!formCadastro.get('endereco.cep').valid && formCadastro.get('endereco.cep').touched">
-                            {{ getErrorCep() }}
-                        </mat-error>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Endereço</mat-label>
-                        <input matInput placeholder="endereço" formControlName="logradouro" required
-                            autocomplete="off">
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Número</mat-label>
-                        <input matInput placeholder="numero" formControlName="numero" required autocomplete="off">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Complemento</mat-label>
-                        <input matInput placeholder="complemento" formControlName="complemento">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>bairro</mat-label>
-                        <input matInput placeholder="bairro" formControlName="bairro" required autocomplete="off">
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Cidade</mat-label>
-                        <input matInput placeholder="cidade" formControlName="cidade" required autocomplete="off">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <mat-label>UF</mat-label>
-                        <input matInput placeholder="uf" formControlName="uf" required autocomplete="off">
-                    </mat-form-field>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="linha-botoes">
-        <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
-        <button type="button" mat-raised-button routerLink="/clientes">Cancelar</button>
-    </div>
-</form>
+                    <mat-error
+                        *ngIf="!formCadastro.get('endereco.cep').valid && formCadastro.get('endereco.cep').touched">
+                        {{ getErrorCep() }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Endereço</mat-label>
+                    <input matInput placeholder="endereço" formControlName="logradouro" required autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Número</mat-label>
+                    <input matInput placeholder="numero" formControlName="numero" required autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Complemento</mat-label>
+                    <input matInput placeholder="complemento" formControlName="complemento">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>bairro</mat-label>
+                    <input matInput placeholder="bairro" formControlName="bairro" required autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cidade</mat-label>
+                    <input matInput placeholder="cidade" formControlName="cidade" required autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>UF</mat-label>
+                    <input matInput placeholder="uf" formControlName="uf" required autocomplete="off">
+                </mat-form-field>
+            </div>
+        </mat-card>
 
-
-<!-- 
-<div class="container">
-
-    <form class="form-padrao" [formGroup]="formGroup" (ngSubmit)="formGroup.valid && salvar()"
-        novalidate>
-        <mat-form-field>
-            <mat-label>Nome / Razão Social</mat-label>
-            <input matInput placeholder="Nome" formControlName="nome" required autocomplete="off">
-            <mat-error>Campo é obrigatório</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" formControlName="email" required autocomplete="off">
-            <mat-error>Campo é obrigatório</mat-error>
-        </mat-form-field>
-
-
-        <mat-form-field>
-            <mat-label>Telefone</mat-label>
-            <input matInput placeholder="Telefone" formControlName="telefone" required autocomplete="off">
-            <mat-error>Campo é obrigatório</mat-error>
-        </mat-form-field>
-
-
-        <div formGroupName="endereco">
-            <mat-form-field>
-                <mat-label>Endereço</mat-label>
-                <input matInput placeholder="Endereço" formControlName="logradouro" required autocomplete="off">
-                <mat-error>Campo é obrigatório</mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>número</mat-label>
-                <input matInput placeholder="número" formControlName="numero" required width="5px" autocomplete="off">
-                <mat-error>Campo é obrigatório</mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>complemento</mat-label>
-                <input matInput placeholder="Complemento" formControlName="complemento" >
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Cidade</mat-label>
-                <input matInput placeholder="Cidade" formControlName="cidade" required autocomplete="off">
-                <mat-error>Campo é obrigatório</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>estado</mat-label>
-                <input matInput placeholder="Estado" formControlName="estado" required autocomplete="off">
-                <mat-error>Campo é obrigatório</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>CEP</mat-label>
-                <input matInput placeholder="cep" formControlName="cep" required autocomplete="off">
-                <mat-error>Campo é obrigatório</mat-error>
-            </mat-form-field> 
-        </div>
-
-        <div class="linha-botoes">
-            <button mat-raised-button color="primary" [disabled]="!formGroup.valid">Salvar</button>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
             <button type="button" mat-raised-button routerLink="/clientes">Cancelar</button>
-        </div>
+        </mat-card-actions>
+
+
+        <!-- Submit & Reset -->
+        <!-- <mat-card>
+            <div class="full-wrapper button-wrapper">
+                <div class="button-wrapper">
+                    <button mat-flat-button color="warn">Salvar</button>
+                </div>
+            </div>
+        </mat-card>  -->
     </form>
-</div> -->
+</div>
