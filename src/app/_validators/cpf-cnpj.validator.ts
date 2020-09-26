@@ -10,8 +10,6 @@ export class CpfCnpjValidator implements Validator {
      * Calcula o dígito verificador do CPF ou CNPJ.
      */
     static buildDigit(arr: number[]): number {
-        debugger;
-
         const isCpf = arr.length < CpfCnpjValidator.cpfLength;
         const digit = arr
             .map((val, idx) => val * ((!isCpf ? idx % 8 : idx) + 2))

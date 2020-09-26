@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Endereco } from 'src/app/interfaces/endereco.model';
 import * as _ from 'lodash';
-import { MatInput } from '@angular/material/input';
 import { CpfCnpjValidator } from 'src/app/_validators/cpf-cnpj.validator';
 
 
@@ -54,13 +53,12 @@ export class ClienteCadEditComponent implements OnInit {
     loadCliente(id) {
         this.clienteService.pesquisarPorId(id).subscribe((cliente) => {
             this.cliente = cliente;
-            debugger;
             this.loadObjectInForm(cliente);
         })
     }
 
     ngAfterViewInit() {
-        this.nameField.nativeElement.focus();
+        // this.nameField.nativeElement.focus();
     }
     private loadObjectInForm(cliente: Cliente) {
         // const res = _.omit(cliente, [
@@ -78,11 +76,11 @@ export class ClienteCadEditComponent implements OnInit {
             cnpj: ["", [
                 Validators.required,
                 Validators.pattern(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/),
-                Validators.minLength(14),
-                Validators.maxLength(25),
+                // Validators.minLength(14),
+                // Validators.maxLength(25),
                 CpfCnpjValidator.validate,
             ]],
-            email: [null, [Validators.required, Validators.pattern(emailregex)]],
+            email: ["", [Validators.required, Validators.pattern(emailregex)]],
             telefone: ["", Validators.required],
             senha: [""],
             endereco: this.fb.group({
@@ -92,7 +90,9 @@ export class ClienteCadEditComponent implements OnInit {
                 bairro: ["", Validators.required],
                 cidade: ["", Validators.required],
                 uf: ["", Validators.required],
-                cep: ["", Validators.required],
+                // cep: ["", [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]],
+                cep: ["", [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]],
+
             }),
         });
     }
@@ -104,8 +104,22 @@ export class ClienteCadEditComponent implements OnInit {
     }
 
     getErrorCnpj() {
-        return this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
-            this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' : '';
+        const cnpj = this.formCadastro.get('cnpj').value;
+        console.log();
+        const valida = this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
+            this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' :
+                this.formCadastro.get('cnpj').hasError('digit') ? 'CNPJ inválido' : '';
+
+        return valida;
+
+    }
+
+    getErrorCep() {
+        const cep = this.formCadastro.get('endereco.cep').value;
+        console.log('cEP--- ' + cep);
+        const retorno = this.formCadastro.get('endereco.cep').hasError('required') ? 'CEP é obrigatório' :
+            this.formCadastro.get('endereco.cep').hasError('pattern') ? 'CEP inválido' : '';
+        return retorno;
 
     }
 

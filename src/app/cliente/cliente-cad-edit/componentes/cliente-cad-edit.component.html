@@ -4,7 +4,7 @@
             <td>
                 <mat-form-field class="example-full-width">
                     <mat-label>Razão Social</mat-label>
-                    <input matInput placeholder="Nome" autofocus formControlName="nome" required  #name >
+                    <input matInput placeholder="Nome"  formControlName="nome" required #name>
                     <mat-error>Razão Social é obrigatória</mat-error>
                 </mat-form-field>
             </td>
@@ -12,7 +12,7 @@
             <td>
                 <mat-form-field class="example-full-width">
                     <mat-label>CNPJ</mat-label>
-                    <input matInput placeholder="CNPJ"  formControlName="cnpj" required   >
+                    <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" [dropSpecialCharacters]="false" formControlName="cnpj" required>
                     <mat-error *ngIf="!formCadastro.controls['cnpj'].valid && formCadastro.controls['cnpj'].touched">
                         {{getErrorCnpj()}}
                     </mat-error>
@@ -43,7 +43,8 @@
             <td>
                 <mat-form-field class="example-full-width">
                     <mat-label>Telefone</mat-label>
-                    <input matInput placeholder="Telefone" formControlName="telefone" required autocomplete="off">
+                    <input matInput placeholder="Telefone" mask="(00)0000-0000" formControlName="telefone" required
+                        autocomplete="off">
                     <mat-error>Campo é obrigatório</mat-error>
                 </mat-form-field>
             </td>
@@ -57,10 +58,13 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>CEP</mat-label>
-                        <input matInput placeholder="cep" maxlength="8" formControlName="cep" required
+                        <input matInput placeholder="cep" mask="00000-000" [dropSpecialCharacters]="false" maxlength="10" formControlName="cep" required
                             autocomplete="off">
 
-                        <!-- <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>  -->
+                        <mat-error
+                            *ngIf="!formCadastro.get('endereco.cep').valid && formCadastro.get('endereco.cep').touched">
+                            {{ getErrorCep() }}
+                        </mat-error>
                     </mat-form-field>
                 </td>
             </tr>
@@ -68,10 +72,12 @@
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Endereço</mat-label>
-                        <input matInput placeholder="logradouro" formControlName="logradouro" required
+                        <input matInput placeholder="endereço" formControlName="logradouro" required
                             autocomplete="off">
                     </mat-form-field>
                 </td>
+            </tr>
+            <tr>
                 <td>
                     <mat-form-field class="example-full-width">
                         <mat-label>Número</mat-label>
