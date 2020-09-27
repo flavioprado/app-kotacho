@@ -64,18 +64,31 @@ export class ClienteCadEditComponent implements OnInit {
     ngAfterViewInit() {
         // this.nameField.nativeElement.focus();
     }
+    private setValueOnForm(form: FormGroup, pathOnForm: string, value: any) {
+        if (value) {
+            form.get(pathOnForm).setValue(value);
+        }
+    }
     private loadObjectInForm(cliente: Cliente) {
-        // const res = _.omit(cliente, [
-        //      'id'
-        // ]);
-        this.formCadastro.patchValue(cliente);
-        //  this.setValueOnForm(this.formCadastro, 'tipo', res.tipo.id);
+        debugger;
+        this.setValueOnForm(this.formCadastro, 'id', cliente.cli_id);
+        this.setValueOnForm(this.formCadastro, 'nome', cliente.nome);
+        this.setValueOnForm(this.formCadastro, 'email', cliente.email);
+        this.setValueOnForm(this.formCadastro, 'telefone', cliente.telefone);
+        this.setValueOnForm(this.formCadastro, 'cnpj', cliente.cnpj);
+        this.setValueOnForm(this.formCadastro, 'senha', cliente.senha);
+        this.setValueOnForm(this.formCadastro, 'endereco.logradouro', cliente.endereco.logradouro);
+        this.setValueOnForm(this.formCadastro, 'endereco.cep', cliente.endereco.cep);
+        this.setValueOnForm(this.formCadastro, 'endereco.numero', cliente.endereco.numero);
+        this.setValueOnForm(this.formCadastro, 'endereco.cidade', cliente.endereco.cidade);
+        this.setValueOnForm(this.formCadastro, 'endereco.uf', cliente.endereco.uf);
+        this.setValueOnForm(this.formCadastro, 'endereco.bairro', cliente.endereco.bairro);
     }
 
     buildForm() {
         let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         this.formCadastro = this.fb.group({
-            id: [null],
+            id: null,
             nome: ["", Validators.required],
             cnpj: ["", [
                 Validators.required,
@@ -108,8 +121,6 @@ export class ClienteCadEditComponent implements OnInit {
     }
 
     getErrorCnpj() {
-        const cnpj = this.formCadastro.get('cnpj').value;
-        console.log();
         const valida = this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
             this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' :
                 this.formCadastro.get('cnpj').hasError('digit') ? 'CNPJ inválido' : '';
@@ -127,7 +138,6 @@ export class ClienteCadEditComponent implements OnInit {
     }
 
     pesquisarCep(cep: string) {
-        debugger
         cep = cep.replace(/\D/g, '');
 
         if (cep) {
@@ -146,8 +156,32 @@ export class ClienteCadEditComponent implements OnInit {
     }
 
     salvar() {
+        debugger;
+
+        const {
+            nome,
+            email,
+            telefone,
+            cnpj,
+            senha,
+            endereco
+        } = this.formCadastro.value;
+
+        const cliente = {
+            nome,
+            email,
+            telefone,
+            cnpj,
+            senha,
+            endereco
+        } as Cliente;
+
+        cliente.cli_id = this.formCadastro.get('id').value;
+
+        debugger
+
         if (this.cliente && this.cliente.cli_id) {
-            this.clienteService.atualizar(this.formCadastro.value).subscribe(
+            this.clienteService.atualizar(cliente).subscribe(
                 (itemAtualizado) => {
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,

@@ -5,6 +5,7 @@ export interface Cliente {
     nome: string,
     email: string,
     telefone: number,
-    cpnj: string,
+    cnpj: string,
+    senha:string,
     endereco: Endereco
 }
