@@ -51,8 +51,9 @@
             <div formGroupName="endereco">
                 <mat-form-field class="example-full-width">
                     <mat-label>CEP</mat-label>
-                    <input matInput placeholder="cep" mask="00000-000" [dropSpecialCharacters]="false" maxlength="10"
-                        formControlName="cep" required autocomplete="off">
+                    <input matInput placeholder="cep" mask="00000-000"  [dropSpecialCharacters]="false" maxlength="10"
+                     id="cep"
+                    formControlName="cep" (blur)="pesquisarCep($event.target.value)" required autocomplete="off">
 
                     <mat-error
                         *ngIf="!formCadastro.get('endereco.cep').valid && formCadastro.get('endereco.cep').touched">

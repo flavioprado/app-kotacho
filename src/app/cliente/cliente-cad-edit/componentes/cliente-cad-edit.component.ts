@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Endereco } from 'src/app/interfaces/endereco.model';
 import * as _ from 'lodash';
 import { CpfCnpjValidator } from 'src/app/_validators/cpf-cnpj.validator';
+import { CepService } from '../../../../cep/cep.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class ClienteCadEditComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private clienteService: ClienteService,
+        private cepService: CepService,
         private router: Router,
         private route: ActivatedRoute,
         public matDialog: MatDialog,
@@ -39,7 +41,7 @@ export class ClienteCadEditComponent implements OnInit {
 
         let id = this.route.snapshot.paramMap.get('id');
 
-        this.labelForm = id?'Editar':'Cadastrar';
+        this.labelForm = id ? 'Editar' : 'Cadastrar';
 
         if (id) {
             this.loadCliente(id);
@@ -118,11 +120,29 @@ export class ClienteCadEditComponent implements OnInit {
 
     getErrorCep() {
         const cep = this.formCadastro.get('endereco.cep').value;
-        console.log('cEP--- ' + cep);
         const retorno = this.formCadastro.get('endereco.cep').hasError('required') ? 'CEP é obrigatório' :
             this.formCadastro.get('endereco.cep').hasError('pattern') ? 'CEP inválido' : '';
         return retorno;
 
+    }
+
+    pesquisarCep(cep: string) {
+        debugger
+        cep = cep.replace(/\D/g, '');
+
+        if (cep) {
+            this.cepService.pesquisar(cep).subscribe(dados => {
+                this.loadCepInForm(dados);
+                console.log(dados);
+            })
+        }
+    }
+
+    loadCepInForm(result) {
+        this.formCadastro.get('endereco.logradouro').setValue(result.logradouro);
+        this.formCadastro.get('endereco.bairro').setValue(result.bairro);
+        this.formCadastro.get('endereco.cidade').setValue(result.localidade);
+        this.formCadastro.get('endereco.uf').setValue(result.uf);
     }
 
     salvar() {
