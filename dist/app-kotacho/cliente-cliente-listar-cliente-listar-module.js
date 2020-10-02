@@ -1,5 +1,58 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["cliente-cliente-listar-cliente-listar-module"],{
 
+/***/ "./src/app/_util/Pagination.ts":
+/*!*************************************!*\
+  !*** ./src/app/_util/Pagination.ts ***!
+  \*************************************/
+/*! exports provided: PageRequest, Page */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageRequest", function() { return PageRequest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Page", function() { return Page; });
+class PageRequest {
+    constructor(pageQuery, sortQuery, aditionalQuery) {
+        this.pageQuery = pageQuery;
+        this.sortQuery = sortQuery;
+        this.aditionalQuery = aditionalQuery;
+    }
+    buildQueryMap() {
+        let buildQueryMap = new Map([...this.buildPageQueryMap(), ...this.buildSortQueryMap()]);
+        if (this.aditionalQuery) {
+            buildQueryMap = new Map([...buildQueryMap, ...this.aditionalQuery]);
+        }
+        return buildQueryMap;
+    }
+    buildQueryString() {
+        return Array.from(this.buildQueryMap()).map(itemArray => `${itemArray[0]}=${itemArray[1]}`).join("&");
+    }
+    buildPageQueryMap() {
+        let buildPageQueryMap = new Map();
+        buildPageQueryMap.set("_page", `${this.pageQuery.pageNumber + 1}`);
+        buildPageQueryMap.set("_limit", `${this.pageQuery.pageSize}`);
+        return buildPageQueryMap;
+    }
+    buildSortQueryMap() {
+        let buildPageQueryMap = new Map();
+        buildPageQueryMap.set("_sort", `${this.sortQuery.property}`);
+        buildPageQueryMap.set("_order", `${this.sortQuery.direction}`);
+        return buildPageQueryMap;
+    }
+}
+class Page {
+    constructor(content, totalElements) {
+        this.content = content;
+        this.totalElements = totalElements;
+    }
+    static fromResponse(response) {
+        return new Page(response.body, parseInt(response.headers.get("X-Total-Count")));
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/app/cliente/cliente-listar/cliente-listar-routing.module.ts":
 /*!*************************************************************************!*\
   !*** ./src/app/cliente/cliente-listar/cliente-listar-routing.module.ts ***!

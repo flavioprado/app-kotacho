@@ -50,11 +50,23 @@ const routes = [
     },
     {
         path: "clientes/cadastrar",
-        loadChildren: () => Promise.all(/*! import() | cliente-cliente-cad-edit-cliente-cad-edit-module */[__webpack_require__.e("common"), __webpack_require__.e("cliente-cliente-cad-edit-cliente-cad-edit-module")]).then(__webpack_require__.bind(null, /*! ./cliente/cliente-cad-edit/cliente-cad-edit.module */ "./src/app/cliente/cliente-cad-edit/cliente-cad-edit.module.ts")).then(modulo => modulo.ClienteCadEditModule)
+        loadChildren: () => Promise.all(/*! import() | cliente-cliente-cad-edit-cliente-cad-edit-module */[__webpack_require__.e("default~cliente-cliente-cad-edit-cliente-cad-edit-module~produto-produto-cad-edit-produto-cad-edit-module"), __webpack_require__.e("common"), __webpack_require__.e("cliente-cliente-cad-edit-cliente-cad-edit-module")]).then(__webpack_require__.bind(null, /*! ./cliente/cliente-cad-edit/cliente-cad-edit.module */ "./src/app/cliente/cliente-cad-edit/cliente-cad-edit.module.ts")).then(modulo => modulo.ClienteCadEditModule)
     },
     {
         path: "clientes/editar/:id",
-        loadChildren: () => Promise.all(/*! import() | cliente-cliente-cad-edit-cliente-cad-edit-module */[__webpack_require__.e("common"), __webpack_require__.e("cliente-cliente-cad-edit-cliente-cad-edit-module")]).then(__webpack_require__.bind(null, /*! ./cliente/cliente-cad-edit/cliente-cad-edit.module */ "./src/app/cliente/cliente-cad-edit/cliente-cad-edit.module.ts")).then(modulo => modulo.ClienteCadEditModule)
+        loadChildren: () => Promise.all(/*! import() | cliente-cliente-cad-edit-cliente-cad-edit-module */[__webpack_require__.e("default~cliente-cliente-cad-edit-cliente-cad-edit-module~produto-produto-cad-edit-produto-cad-edit-module"), __webpack_require__.e("common"), __webpack_require__.e("cliente-cliente-cad-edit-cliente-cad-edit-module")]).then(__webpack_require__.bind(null, /*! ./cliente/cliente-cad-edit/cliente-cad-edit.module */ "./src/app/cliente/cliente-cad-edit/cliente-cad-edit.module.ts")).then(modulo => modulo.ClienteCadEditModule)
+    },
+    {
+        path: "produtos",
+        loadChildren: () => Promise.all(/*! import() | produto-produto-listar-produto-listar-module */[__webpack_require__.e("common"), __webpack_require__.e("produto-produto-listar-produto-listar-module")]).then(__webpack_require__.bind(null, /*! ./produto/produto-listar/produto-listar.module */ "./src/app/produto/produto-listar/produto-listar.module.ts")).then(modulo => modulo.ProdutoListarModule)
+    },
+    {
+        path: "produtos/cadastrar",
+        loadChildren: () => Promise.all(/*! import() | produto-produto-cad-edit-produto-cad-edit-module */[__webpack_require__.e("default~cliente-cliente-cad-edit-cliente-cad-edit-module~produto-produto-cad-edit-produto-cad-edit-module"), __webpack_require__.e("common"), __webpack_require__.e("produto-produto-cad-edit-produto-cad-edit-module")]).then(__webpack_require__.bind(null, /*! ./produto/produto-cad-edit/produto-cad-edit.module */ "./src/app/produto/produto-cad-edit/produto-cad-edit.module.ts")).then(modulo => modulo.ProdutoCadEditModule)
+    },
+    {
+        path: "produtos/editar/:id",
+        loadChildren: () => Promise.all(/*! import() | produto-produto-cad-edit-produto-cad-edit-module */[__webpack_require__.e("default~cliente-cliente-cad-edit-cliente-cad-edit-module~produto-produto-cad-edit-produto-cad-edit-module"), __webpack_require__.e("common"), __webpack_require__.e("produto-produto-cad-edit-produto-cad-edit-module")]).then(__webpack_require__.bind(null, /*! ./produto/produto-cad-edit/produto-cad-edit.module */ "./src/app/produto/produto-cad-edit/produto-cad-edit.module.ts")).then(modulo => modulo.ProdutoCadEditModule)
     },
 ];
 class AppRoutingModule {
