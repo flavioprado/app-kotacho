@@ -1,0 +1,74 @@
+<!-- Title group  -->
+<div class="title-group">
+    <h1 class="mat-h1">{{labelForm}} Produto</h1>
+    <mat-divider fxFlex="1 0"></mat-divider>
+</div>
+
+<!-- Form -->
+<div class="inner-wrapper">
+    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" #resetFormCadastro="ngForm" novalidate>
+        <!-- Left block -->
+        <mat-card>
+            <div class="controlers-wrapper">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Nome</mat-label>
+                    <input matInput placeholder="Nome" formControlName="nome" required #name>
+                    <mat-error>Nome do Produto obrigatório</mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Detalhes</mat-label>
+                    <input matInput placeholder="Detalhes do Produto" formControlName="detalhe">
+                    <mat-error>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Preço Custo</mat-label>
+                    <input matInput placeholder="Preço de Custo" formControlName="precoCusto" required
+                        autocomplete="off">
+                    <mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Preço Venda</mat-label>
+                    <input matInput placeholder="Preço de Venda" formControlName="precoVenda" required
+                        autocomplete="off">
+                    <mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Imagem do Produto</mat-label>
+                    <input matInput placeholder="imagem" formControlName="imagem">
+                    <mat-error>
+                    </mat-error>
+                </mat-form-field>
+
+
+                <section class="example-section">
+                    <mat-label>Ativo</mat-label>
+                    <mat-checkbox id="ativo" class="ativo" color="primary" formControlName="ativo">
+                    </mat-checkbox>
+                    <mat-error>
+                    </mat-error>
+                </section>
+            </div>
+        </mat-card>
+
+
+        <mat-card-actions>
+            <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
+            <button type="button" mat-raised-button routerLink="/produtos">Cancelar</button>
+        </mat-card-actions>
+
+
+        <!-- Submit & Reset -->
+        <!-- <mat-card>
+            <div class="full-wrapper button-wrapper">
+                <div class="button-wrapper">
+                    <button mat-flat-button color="warn">Salvar</button>
+                </div>
+            </div>
+        </mat-card>  -->
+    </form>
+</div>

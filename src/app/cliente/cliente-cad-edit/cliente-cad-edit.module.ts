@@ -6,7 +6,6 @@ import { ClienteCadEditComponent } from './componentes/cliente-cad-edit.componen
 import { MaterialModule } from 'src/app/material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
-import { CepService } from 'src/cep/cep.service';
  
 const maskConfig: Partial<IConfig> = {
   validation: false,
