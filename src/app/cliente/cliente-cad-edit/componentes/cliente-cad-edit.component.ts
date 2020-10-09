@@ -70,7 +70,6 @@ export class ClienteCadEditComponent implements OnInit {
         }
     }
     private loadObjectInForm(cliente: Cliente) {
-        debugger;
         this.setValueOnForm(this.formCadastro, 'id', cliente.cli_id);
         this.setValueOnForm(this.formCadastro, 'nome', cliente.nome);
         this.setValueOnForm(this.formCadastro, 'email', cliente.email);
@@ -100,6 +99,8 @@ export class ClienteCadEditComponent implements OnInit {
             email: ["", [Validators.required, Validators.pattern(emailregex)]],
             telefone: ["", Validators.required],
             senha: [""],
+            ativo: [true],
+
             endereco: this.fb.group({
                 logradouro: ["", Validators.required],
                 numero: ["", Validators.required],
@@ -156,8 +157,6 @@ export class ClienteCadEditComponent implements OnInit {
     }
 
     salvar() {
-        debugger;
-
         const {
             nome,
             email,
@@ -178,7 +177,6 @@ export class ClienteCadEditComponent implements OnInit {
 
         cliente.cli_id = this.formCadastro.get('id').value;
 
-        debugger
 
         if (this.cliente && this.cliente.cli_id) {
             this.clienteService.atualizar(cliente).subscribe(

@@ -6,15 +6,21 @@
 
     <table mat-table [dataSource]="page.content" matSort (matSortChange)="sortEvent = $event; listarItens();">
       <!-- Id Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>Número</th>
-        <td mat-cell *matCellDef="let row">{{row.id}}</td>
-      </ng-container>
   
       <!-- Name Column -->
       <ng-container matColumnDef="nome">
         <th mat-header-cell *matHeaderCellDef>Nome</th>
         <td mat-cell *matCellDef="let row">{{row.nome}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="detalhe">
+        <th mat-header-cell *matHeaderCellDef>Detalhe</th>
+        <td mat-cell *matCellDef="let row">{{row.detalhe}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="medida">
+        <th mat-header-cell *matHeaderCellDef>Medida</th>
+        <td mat-cell *matCellDef="let row">{{row.medida}}</td>
       </ng-container>
 
       <ng-container matColumnDef="ativo">

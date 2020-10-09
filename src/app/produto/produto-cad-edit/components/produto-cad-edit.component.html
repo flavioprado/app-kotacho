@@ -2,11 +2,11 @@
 <div class="title-group">
     <h1 class="mat-h1">{{labelForm}} Produto</h1>
     <mat-divider fxFlex="1 0"></mat-divider>
-</div>
-
+</div> 
+{{imgFile|json}}
 <!-- Form -->
 <div class="inner-wrapper">
-    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" #resetFormCadastro="ngForm" novalidate>
+    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" >
         <!-- Left block -->
         <mat-card>
             <div class="controlers-wrapper">
@@ -21,14 +21,21 @@
                     <mat-error>
                     </mat-error>
                 </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Medida</mat-label>
+                    <mat-select formControlName="medida" required>
+                        <mat-option *ngFor="let medida of medidas" [value]="medida">
+                            {{medida}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <mat-form-field class="example-full-width">
                     <mat-label>Preço Custo</mat-label>
-                    <input matInput placeholder="Preço de Custo" formControlName="precoCusto" required
+                    <input matInput placeholder="000,00" mask="000,00|00,00" formControlName="precoCusto" required
                         autocomplete="off">
                     <mat-error>
                     </mat-error>
                 </mat-form-field>
-
                 <mat-form-field class="example-full-width">
                     <mat-label>Preço Venda</mat-label>
                     <input matInput placeholder="Preço de Venda" formControlName="precoVenda" required
@@ -36,15 +43,6 @@
                     <mat-error>
                     </mat-error>
                 </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                    <mat-label>Imagem do Produto</mat-label>
-                    <input matInput placeholder="imagem" formControlName="imagem">
-                    <mat-error>
-                    </mat-error>
-                </mat-form-field>
-
-
                 <section class="example-section">
                     <mat-label>Ativo</mat-label>
                     <mat-checkbox id="ativo" class="ativo" color="primary" formControlName="ativo">
@@ -72,3 +70,4 @@
         </mat-card>  -->
     </form>
 </div>
+

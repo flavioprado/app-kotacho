@@ -17,7 +17,7 @@ import { ProdutoService } from '../../produto.service';
 })
 export class ProdutoListarComponent implements OnInit {
 
-    colunasTabela = ["id", "nome", "ativo","action"];
+    colunasTabela = ["nome", "detalhe", "medida", "ativo", "action"];
 
     page: Page<Produto> = new Page([], 0);
     pageEvent: PageEvent;
@@ -25,7 +25,7 @@ export class ProdutoListarComponent implements OnInit {
 
     carregando = false;
 
-    constructor(private produtoService: ProdutoService, 
+    constructor(private produtoService: ProdutoService,
         private router: Router,
         private matSnackBar: MatSnackBar) { }
 
@@ -67,5 +67,5 @@ export class ProdutoListarComponent implements OnInit {
             );
     }
 
-   
+
 }

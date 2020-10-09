@@ -4,18 +4,130 @@
     <mat-divider fxFlex="1 0"></mat-divider>
 </div>
 
+<!-- 
+<form fxLayout="column" [formGroup]="form">
+    <mat-card >
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+      <mat-form-field flex fxFlex>
+        <input matInput type="text" placeholder="Name" formControlName="name">
+      </mat-form-field>
+  
+      <mat-form-field flex fxFlex>
+        <input matInput type="text" placeholder="Last Name" formControlName="lastName" >
+      </mat-form-field>
+  
+  
+    </div>
+  
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+      <mat-form-field flex fxFlex>
+        <input matInput  type="text"  placeholder="E-mail" formControlName="email" >
+      </mat-form-field>
+  
+      <mat-form-field flex fxFlex>
+          <input matInput type="text" placeholder="Phone" formControlName="phone" >
+        </mat-form-field>
+  
+    </div>
+    <br>
+    <br>
+  
+      <mat-card formGroupName="address">
+        <mat-card-header>
+          <mat-card-title>Address</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+  
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+                <mat-form-field flex fxFlex>
+                  <input matInput  type="text"  placeholder="Description" formControlName="description">
+                </mat-form-field>
+            </div>
+  
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+                <mat-form-field flex fxFlex="25">
+                  <input matInput  type="text"  placeholder="Zip-code" formControlName="zipCode" >
+                </mat-form-field>
+  
+                <mat-form-field flex fxFlex>
+                    <input matInput  type="text"  placeholder="Place" formControlName="place">
+                </mat-form-field>
+            </div>
+  
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+                <mat-form-field flex fxFlex="25">
+                  <input matInput  type="text"  placeholder="Neighborhood" formControlName="neighborhood" >
+                </mat-form-field>
+  
+                <mat-form-field flex fxFlex="17">
+                    <input matInput  type="text"  placeholder="Number" formControlName="number" >
+                </mat-form-field>
+  
+                <mat-form-field flex fxFlex>
+                    <input matInput  type="text"  placeholder="Complement" formControlName="complement" >
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+              <mat-form-field flex fxFlex>
+                <mat-label>State</mat-label>
+                <mat-select formControlName="state">
+                  <mat-option *ngFor="let state of states" [value]="state.id">
+                    {{state.name}}
+                  </mat-option>
+  
+                </mat-select>
+              </mat-form-field>
+  
+              <mat-form-field flex fxFlex>
+                <mat-label>City</mat-label>
+                <mat-select formControlName="city">
+                  <mat-option *ngFor="let city of cities | async"  [value]="city.name">
+                    {{city.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+  
+          <button mat-stroked-button  color="primary" (click)="onAddAddress()">
+              <mat-icon>add_circle</mat-icon>
+              Add
+          </button>
+          <br>
+          <br>
+  
+        <app-address-table [form]="form"></app-address-table>
+      </mat-card>
+  
+      <app-debug [form]="form"></app-debug>
+  
+  </mat-card>
+  </form> -->
+
+
+
+
+
 <!-- Form -->
 <div class="inner-wrapper">
-    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" #resetFormCadastro="ngForm" novalidate>
+    <form fxLayout="column" [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()"
+        #resetFormCadastro="ngForm" novalidate>
         <!-- Left block -->
         <mat-card>
-            <div class="controlers-wrapper">
-                <mat-form-field class="example-full-width">
+            <mat-card-header>
+                <mat-card-title>Dados Pessoais</mat-card-title>
+            </mat-card-header>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="80px" fxLayoutGap.lt-md="0px">
+                <mat-form-field flex fxFlex>
                     <mat-label>Razão Social</mat-label>
                     <input matInput placeholder="Nome" formControlName="nome" required #name>
                     <mat-error>Razão Social é obrigatória</mat-error>
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+
+            </div>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="100px" fxLayoutGap.lt-md="0px">
+
+                <mat-form-field flex fxFlex>
                     <mat-label>CNPJ</mat-label>
                     <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" [dropSpecialCharacters]="false"
                         formControlName="cnpj" required>
@@ -23,7 +135,9 @@
                         {{getErrorCnpj()}}
                     </mat-error>
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+            </div>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
+                <mat-form-field flex fxFlex>
                     <mat-label>Email</mat-label>
                     <input matInput placeholder="Email" formControlName="email" required autocomplete="off">
                     <mat-error *ngIf="!formCadastro.controls['email'].valid && formCadastro.controls['email'].touched">
@@ -31,14 +145,16 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>Telefone</mat-label>
                     <input matInput placeholder="Telefone" mask="(00)0000-0000" formControlName="telefone" required
                         autocomplete="off">
                     <mat-error>Campo é obrigatório</mat-error>
                 </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="100px" fxLayoutGap.lt-md="0px">
 
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>Senha</mat-label>
                     <input matInput placeholder="Senha" formControlName="senha" autocomplete="off">
                     <mat-error>Campo é obrigatório</mat-error>
@@ -47,40 +163,44 @@
         </mat-card>
 
         <!-- Right block -->
+
         <mat-card>
+            <mat-card-header>
+                <mat-card-title>Endereço</mat-card-title>
+            </mat-card-header>
             <div formGroupName="endereco">
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>CEP</mat-label>
-                    <input matInput placeholder="cep" mask="00000-000"  [dropSpecialCharacters]="false" maxlength="10"
-                     id="cep"
-                    formControlName="cep" (blur)="pesquisarCep($event.target.value)" required autocomplete="off">
+                    <input matInput placeholder="cep" mask="00000-000" [dropSpecialCharacters]="false" maxlength="10"
+                        id="cep" formControlName="cep" (blur)="pesquisarCep($event.target.value)" required
+                        autocomplete="off">
 
                     <mat-error
                         *ngIf="!formCadastro.get('endereco.cep').valid && formCadastro.get('endereco.cep').touched">
                         {{ getErrorCep() }}
                     </mat-error>
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>Endereço</mat-label>
                     <input matInput placeholder="endereço" formControlName="logradouro" required autocomplete="off">
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>Número</mat-label>
                     <input matInput placeholder="numero" formControlName="numero" required autocomplete="off">
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>Complemento</mat-label>
                     <input matInput placeholder="complemento" formControlName="complemento">
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>bairro</mat-label>
                     <input matInput placeholder="bairro" formControlName="bairro" required autocomplete="off">
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex fxFlex>
                     <mat-label>Cidade</mat-label>
                     <input matInput placeholder="cidade" formControlName="cidade" required autocomplete="off">
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field flex>
                     <mat-label>UF</mat-label>
                     <input matInput placeholder="uf" formControlName="uf" required autocomplete="off">
                 </mat-form-field>

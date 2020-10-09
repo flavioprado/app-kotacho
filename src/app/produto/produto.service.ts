@@ -1,11 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, EMPTY } from "rxjs";
+import { catchError, map } from 'rxjs/operators';
 import { QueryBuilder, Page } from '../_util/Pagination';
-import { Produto } from '../interfaces/produto.model';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Produto } from '../interfaces/produto.model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,8 @@ export class ProdutoService {
 
     private endpoint = 'produtos'
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private snackBar: MatSnackBar,
+        private httpClient: HttpClient) { }
 
     listar(queryBuilder: QueryBuilder): Observable<Page<Produto>> {
 
@@ -41,5 +43,26 @@ export class ProdutoService {
 
     deletar(produto: Produto): Observable<{}> {
         return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${produto.id}`);
+    }
+    uploadImage(file:any): Observable<any> {
+        return this.httpClient.post<any>(`${this.baseURL}/${this.endpoint}/upload`, file);
+    }
+    getProdutos(): Observable<Produto[]> {
+        return this.httpClient.get<Produto[]>(`${this.baseURL}/${this.endpoint}`).pipe(
+            map((obj) => obj),
+            catchError((e) => this.errorHandler(e))
+        );
+    }
+    showMessage(msg: string, isError: boolean = false): void {
+        this.snackBar.open(msg, "X", {
+            duration: 3000,
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: isError ? ["msg-error"] : ["msg-success"],
+        });
+    }
+    errorHandler(e: any): Observable<any> {
+        this.showMessage("Ocorreu um erro!", true);
+        return EMPTY;
     }
 }

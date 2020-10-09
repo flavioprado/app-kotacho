@@ -1,0 +1,15 @@
+<form [formGroup]="fileForm">
+    <mat-form-field class="example-full-width">
+        <mat-label>Imagem do Produto</mat-label>
+        <ngx-mat-file-input formControlName="file" placeholder="Imagem do Produto" accept="image/*"
+            (change)="selectImage($event)" required>
+            <mat-icon matSuffix>add_a_photo</mat-icon>
+            <mat-error *ngIf="fileForm.get('file').hasError('required')">
+                Favor selecionar a imagem do produto
+            </mat-error>
+            <mat-error *ngIf="fileForm.get('file').hasError('maxContentSize')">
+                O arquivo excedeu o tamanho máximo de 2mb
+            </mat-error>
+        </ngx-mat-file-input>
+    </mat-form-field>
+</form>

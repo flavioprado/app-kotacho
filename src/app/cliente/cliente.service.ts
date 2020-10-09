@@ -1,11 +1,13 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, EMPTY } from "rxjs";
+import { catchError, map } from 'rxjs/operators';
 import { Cliente } from './cliente.model';
 import { QueryBuilder, Page } from '../_util/Pagination';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from "@angular/material/snack-bar";
+
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +17,8 @@ export class ClienteService {
 
     private endpoint = 'clientes'
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private snackBar: MatSnackBar,
+        private httpClient: HttpClient) { }
 
     listar(queryBuilder: QueryBuilder): Observable<Page<Cliente>> {
 
@@ -42,4 +45,23 @@ export class ClienteService {
     deletar(cliente: Cliente): Observable<{}> {
         return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${cliente.cli_id}`);
     }
+    getClientes(): Observable<Cliente[]> {
+        return this.httpClient.get<Cliente[]>(`${this.baseURL}/${this.endpoint}`).pipe(
+            map((obj) => obj),
+            catchError((e) => this.errorHandler(e))
+        );
+    }
+    showMessage(msg: string, isError: boolean = false): void {
+        this.snackBar.open(msg, "X", {
+            duration: 3000,
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: isError ? ["msg-error"] : ["msg-success"],
+        });
+    }
+    errorHandler(e: any): Observable<any> {
+        this.showMessage("Ocorreu um erro!", true);
+        return EMPTY;
+    }
+
 }

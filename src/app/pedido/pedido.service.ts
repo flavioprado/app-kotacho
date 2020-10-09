@@ -1,0 +1,76 @@
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Pedido } from './pedido.model';
+import { QueryBuilder, Page } from '../_util/Pagination';
+import { environment } from 'src/environments/environment';
+import { Item } from '../model/item';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PedidoService {
+    private baseURL = environment.api.appBackend;
+    
+    private subject = new Subject<Item[]>();
+    private itemes = Array<Item>();
+    private endpoint = 'pedidos'
+
+    constructor(private httpClient: HttpClient) { }
+
+    listar(queryBuilder: QueryBuilder): Observable<Page<Pedido>> {
+
+        return this.httpClient
+            .get<Pedido[]>(`${this.baseURL}/${this.endpoint}?${queryBuilder.buildQueryString()}`, { observe: 'response' })
+            .pipe(
+                map(response => <Page<Pedido>>Page.fromResponse(response))
+            );
+
+    }
+
+    cadastrar(Pedido: Pedido): Observable<Pedido> {
+        return this.httpClient.post<Pedido>(`${this.baseURL}/${this.endpoint}`, Pedido);
+    }
+
+    pesquisarPorId(id: string): Observable<Pedido> {
+        return this.httpClient.get<Pedido>(`${this.baseURL}/${this.endpoint}/${id}`);
+    }
+
+    atualizar(pedido: Pedido): Observable<Pedido> {
+        return this.httpClient.put<Pedido>(`${this.baseURL}/${this.endpoint}/${pedido.id}`, pedido);
+    }
+
+    deletar(pedido: Pedido): Observable<{}> {
+        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${pedido.id}`);
+    }
+    
+
+    
+    addItem(item: Item) {
+        this.itemes.push(item);
+        this.subject.next(this.itemes);
+    }
+
+    removeItem(item) {
+        this.itemes = this.itemes.filter(elem => elem !== item);
+        this.subject.next(this.itemes);
+    }
+
+    loadItemes(): Observable<Item[]> {
+        return this.subject;
+    }
+
+    OnDestroy() {
+        this.subject.unsubscribe();
+    }
+
+    itemesIsEmpty(): boolean {
+        return this.itemes.length === 0;
+    }
+
+       
+  
+}
+

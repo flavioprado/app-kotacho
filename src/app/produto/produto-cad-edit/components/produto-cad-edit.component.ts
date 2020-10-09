@@ -8,6 +8,7 @@ import { Endereco } from 'src/app/interfaces/endereco.model';
 import * as _ from 'lodash';
 import { ProdutoService } from '../../produto.service';
 import { Produto } from 'src/app/interfaces/produto.model';
+import { FileValidator } from 'ngx-material-file-input';
 
 
 @Component({
@@ -18,11 +19,14 @@ import { Produto } from 'src/app/interfaces/produto.model';
 export class ProdutoCadEditComponent implements OnInit {
     @ViewChild("name") nameField: ElementRef;
 
-
+    imgFile: any;
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
     produto: Produto;
     labelForm: string;
+    medidas: string[] = ['Unidade', 'Kg', 'Caixa'];
+    readonly imageMaxSize = 2097152;
+
 
     constructor(
         private fb: FormBuilder,
@@ -44,6 +48,9 @@ export class ProdutoCadEditComponent implements OnInit {
         }
 
         this.buildForm();
+        let toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
+
 
     }
     // editName(): void {
@@ -75,7 +82,8 @@ export class ProdutoCadEditComponent implements OnInit {
             id: null,
             nome: ["", Validators.required],
             detalhe: [""],
-            imagem: [""],
+            image: [undefined, [FileValidator.maxContentSize(this.imageMaxSize)]],
+            medida: ["", Validators.required],
             ativo: [true, Validators.required],
             precoCusto: ["", [Validators.required]],
             precoVenda: ["", [Validators.required]],
@@ -105,37 +113,143 @@ export class ProdutoCadEditComponent implements OnInit {
 
     }
 
+    transform(value: number): any {
+        let formatedValue: string;
+
+        if (!value) {
+            return formatedValue;
+        }
+
+        if (typeof value === 'string') {
+            value = Number.parseFloat(value);
+        }
+
+        formatedValue = value.toFixed(2).replace('.', ',');
+
+        formatedValue = formatedValue.replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
+
+        return formatedValue;
+    }
+    upload(event) {
+        const file = event.target.files[0];
+        // this.produtoService.uploadImage(file).subscribe();
+        this.produtoService.uploadImage(file).subscribe();
 
 
+    }
+
+    onFileChange(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            //  this.formCadastro.get('image').setValue(file);
+            this.imgFile = this.imageToBase64(file.name);
+        } else {
+            this.imgFile = null;
+        }
+
+        // const promise = getBase64(my_pdf_file);
+        // promise.then(function (result) {
+        //     // console.log(result);
+        //     var test_variable = result;
+        //     console.log(test_variable);
+        // });
+    }
+
+    // BEGIN from:  https://stackoverflow.com/a/47245396/1063287
+    getBase64(file) {
+        // return new Promise(function (resolve, reject) {
+        //     var reader = new FileReader();
+        //     reader.onload = function () { resolve(reader.result); 
+        //     reader.onerror = reject;
+        //     reader.readAsDataURL(file);
+        // })));
+    }
+
+    async getBase64OLd(file) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            console.log(reader.result);
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+        reader.readAsDataURL(file);
+
+        // for (var i = 0; i < file.length; i++) {
+        //     var file=file[i];    
+        //     reader = new FileReader();
+        //     reader.onload = function(){
+        //         alert(file.name);
+        //         alert(this.result);
+        //     };
+        // reader.readAsText(file);
+
+    }
+
+    async onChangeSelectFile(event) {
+        // let retorno: any;
+        // let file = event.target.files[0];
+        // if (file) {
+        //     const promise = this.getBase64(file);
+        //     await promise.then(function (result) {
+        //         retorno = result;
+        //     });
+        // }
+        // this.imgFile = retorno;
+    }
+
+    imageToBase64(img) {
+        var canvas, ctx, dataURL, base64;
+        canvas = document.createElement("canvas");
+        ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        dataURL = canvas.toDataURL("image/png");
+        base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+        return base64;
+    }
+
+    receivedChildMessage: string;
+    getUploadedFile (message: string) {
+        console.log('path '+JSON.stringify(message));
+        this.receivedChildMessage = message;
+    }
 
 
     salvar() {
-        debugger;
-
         const {
             id,
             nome,
-            valorCusto,
-            valorVenda,
+            medida,
+            precoCusto,
+            precoVenda,
             ativo,
             detalhe,
-            imagem
+            image
 
         } = this.formCadastro.value;
 
-        const Produto = {
+        const produto = {
             id,
             nome,
-            valorCusto,
-            valorVenda,
+            medida,
+            precoCusto,
+            precoVenda,
             ativo,
             detalhe,
-            imagem
+            image
         } as Produto;
 
-        
+        produto.image = this.imgFile;
 
-        if (this.produto && this.produto.id) {
+        let vlr1 = Number(produto.precoCusto);
+        var vlr2 = 15.45;
+
+        const v = vlr1.toFixed(2);
+
+
+        if (produto && produto.id) {
             this.produtoService.atualizar(this.produto).subscribe(
                 (itemAtualizado) => {
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
@@ -152,7 +266,7 @@ export class ProdutoCadEditComponent implements OnInit {
                 }
             );
         } else {
-            this.produtoService.cadastrar(this.formCadastro.value).subscribe(
+            this.produtoService.cadastrar(produto).subscribe(
                 (itemCadastrado) => {
                     this.matSnackBar.open("Cadastrado com sucesso!", null, {
                         duration: 5000,
