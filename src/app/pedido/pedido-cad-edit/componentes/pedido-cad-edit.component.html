@@ -1,58 +1,84 @@
-<div class="title-group">
-  <h1 class="mat-h1">{{labelForm}} Pedido</h1>
-  <mat-divider fxFlex="1 0"></mat-divider>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <h1 class="mat-h2">{{labelForm}} Pedido</h1>
 </div>
-<form fxLayout="column" [formGroup]="formCadastro">
-  <mat-card>
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
-      <mat-form-field fxFlex="25">
-        <mat-label>Cliente</mat-label>
-        <mat-select formControlName="cliente" required>
-          <mat-option *ngFor="let cliente of clientes" [value]="cliente.cli_id">
-            {{cliente.nome}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <br>
-    <br>
 
-    <mat-card formGroupName="item">
-      <mat-card-header>
-        <mat-card-title>Item</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+<div>
+  <form fxLayout="column" [formGroup]="formCadastro">
+    <mat-card class="top-card">
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex="20" appearance="outline">
+          <mat-label>Nº Pedido</mat-label>
+          <input matInput type="text" placeholder="numero" formControlName="numero">
+        </mat-form-field>
+        <mat-form-field fxFlex="20" appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option *ngFor="let status of statusList" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="40" appearance="outline">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="cliente" required>
+            <mat-option *ngFor="let cliente of clientes" [value]="cliente.cli_id">
+              {{cliente.nome}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="50px" fxLayoutGap.lt-md="0px">
-          <mat-form-field fxFlex="25">
-            <mat-label>Produto</mat-label>
-            <mat-select formControlName="produto" #product (selectionChange)='onChangeProduto(product)' required>
-              <mat-option *ngFor="let produto of produtos" [value]="produto">
-                {{produto.nome}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <p> Medida: {{formCadastro.get('item').value | json}} </p>
-
-          <mat-form-field fxFlex="10">
-            <input matInput type="text" placeholder="quantidade" formControlName="quantidade" required>
-          </mat-form-field>
-
-          <mat-form-field fxFlex="25">
-            <input matInput type="text" placeholder="subtotal" formControlName="subtotal" readonly>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
-
-
-      <button mat-stroked-button color="primary" (click)="onAddItem()">
-        <mat-icon>add_circle</mat-icon>
-        Adicionar
-      </button>
-      <br>
-      <br>
+      </div>
     </mat-card>
-  </mat-card>
-  <app-item-table [form]="formCadastro"></app-item-table>
-</form>
-<!-- <app-debug [form]="form"></app-debug>   -->
+
+    <br>
+    <br>
+
+    <mat-card formGroupName="item" class="top-card">
+      <mat-card-header>
+        <mat-card-title>Produto</mat-card-title>
+      </mat-card-header>
+
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="30px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex="20" appearance="outline">
+          <mat-label>Produto</mat-label>
+          <mat-select formControlName="produto" #product (selectionChange)='onChangeProduto(product)' required>
+            <mat-option *ngFor="let produto of produtos" [value]="produto.id">
+              {{produto.id}}-{{produto.nome}}
+            </mat-option>
+          </mat-select>
+          <div class="right-card" fxLayout="row" fxLayoutAlign="start end" >   
+            <h1>SUBTOTAL</h1>
+          </div>
+        </mat-form-field>
+        <!-- <p> Medida: {{formCadastro.get('item').value | json}} </p> -->
+
+        <mat-form-field fxFlex="10" appearance="outline">
+          <mat-label>Quantidade</mat-label>
+          <input matInput placeholder="quantidade" id="myInput" formControlName="quantidade" required>
+        </mat-form-field>
+        <span>X</span>
+
+        <mat-form-field fxFlex="10" appearance="outline">
+          <mat-label>Preço</mat-label>
+          <input matInput type="text" placeholder="preço" formControlName="preco" readonly>
+        </mat-form-field>
+        <mat-form-field fxFlex="10" appearance="outline">
+          <input matInput placeholder="subtotal" formControlName="subtotal" readonly>
+        </mat-form-field>
+        <button mat-stroked-button color="primary" (click)="onAddItem()">
+          <mat-icon>add_circle</mat-icon>
+          Adicionar
+        </button>
+      </div>
+    </mat-card>
+    <!-- <app-item-table [form]="formCadastro"></app-item-table> -->
+  </form>
+  <!-- <app-debug [form]="form"></app-debug>   -->
+</div>
+
+
+
+
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxFlex="50%">TITULO 1</div>
+</div>

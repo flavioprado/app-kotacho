@@ -10,6 +10,7 @@ import { Endereco } from 'src/app/interfaces/endereco.model';
 import * as _ from 'lodash';
 import { CpfCnpjValidator } from 'src/app/_validators/cpf-cnpj.validator';
 import { CepService } from '../../../../cep/cep.service';
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -59,6 +60,24 @@ export class ClienteCadEditComponent implements OnInit {
             this.cliente = cliente;
             this.loadObjectInForm(cliente);
         })
+    }
+
+
+    download() {
+        this.clienteService.download()
+            .subscribe(data => {
+                let blob = new Blob([data], { type: "application/pdf;charset=utf-8" });
+                saveAs(blob, data);
+            },
+                // error => {
+                //     this.componentUtils.exibirMensagem(
+                //         this.msgs,
+                //         "Ocorreu um erro ao abrir o arquivo.",
+                //         "error",
+                //         error
+                //     );
+                // }
+            );
     }
 
     ngAfterViewInit() {

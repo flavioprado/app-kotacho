@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {DataSource} from '@angular/cdk/table';
-import {Observable} from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { DataSource } from '@angular/cdk/table';
+import { Observable } from 'rxjs';
 
 
-import {FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { PedidoService } from '../pedido/pedido.service';
 import { Item } from '../model/item';
 
@@ -13,41 +13,52 @@ import { Item } from '../model/item';
   styleUrls: ['./item-table.component.css']
 })
 export class ItemTableComponent implements OnInit {
-
-  displayedColumns: string[] = ['produto', 'qtde', 'subtotal', 'actions'];
-  dataSource = new ItemDataSource(this.pedidoService);
-
-  @Input() form: FormGroup;
-
-  constructor(private pedidoService: PedidoService) {
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
 
-  ngOnInit() {
+//   @Input() form: FormGroup;
+//   id: string;
 
-  }
 
-  onDeleteItem(item: Item) {
-    this.pedidoService.removeItem(item);
-  }
+//   displayedColumns: string[] = ['produto', 'qtde', 'subtotal', 'actions'];
 
-  onEditItem(item: Item) {
-  //  this.pedidoService.removeItem(item);
-    this.form.get('item').patchValue(item);
-  }
-}
 
-export class ItemDataSource extends DataSource<any> {
 
-  constructor(private pedidoService: PedidoService) {
-    super();
-  }
+//   constructor(private pedidoService: PedidoService) {
 
-  connect(): Observable<Item[] | readonly Item[]> {
-    return this.pedidoService.loadItemes();
-  }
 
-  disconnect() {
-    this.pedidoService.OnDestroy();
-  }
+//   }
+
+//   ngOnInit() {
+//     this.id = this.form.get('id').value;
+//     new ItemDataSource(this.pedidoService, this.id);
+//   }
+
+//   onDeleteItem(item: Item) {
+//     this.pedidoService.removeItem(item);
+//   }
+
+//   onEditItem(item: Item) {
+//     //  this.pedidoService.removeItem(item);
+//     this.form.get('item').patchValue(item);
+//   }
+// }
+
+// export class ItemDataSource extends DataSource<any> {
+
+//   constructor(
+//     private pedidoService: PedidoService,
+//     private id: string) {
+//     super();
+//   }
+
+//   connect(): Observable<Item[] | readonly Item[]> {
+//     return this.pedidoService.loadItens(this.id);
+//   }
+
+//   disconnect() {
+//     this.pedidoService.OnDestroy();
+//   }
 
 }

@@ -13,9 +13,9 @@ import { Item } from '../model/item';
 })
 export class PedidoService {
     private baseURL = environment.api.appBackend;
-    
+
     private subject = new Subject<Item[]>();
-    private itemes = Array<Item>();
+    private itens = Array<Item>();
     private endpoint = 'pedidos'
 
     constructor(private httpClient: HttpClient) { }
@@ -27,7 +27,6 @@ export class PedidoService {
             .pipe(
                 map(response => <Page<Pedido>>Page.fromResponse(response))
             );
-
     }
 
     cadastrar(Pedido: Pedido): Observable<Pedido> {
@@ -45,20 +44,18 @@ export class PedidoService {
     deletar(pedido: Pedido): Observable<{}> {
         return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${pedido.id}`);
     }
-    
 
-    
     addItem(item: Item) {
-        this.itemes.push(item);
-        this.subject.next(this.itemes);
+        this.itens.push(item);
+        this.subject.next(this.itens);
     }
 
     removeItem(item) {
-        this.itemes = this.itemes.filter(elem => elem !== item);
-        this.subject.next(this.itemes);
+        this.itens = this.itens.filter(elem => elem !== item);
+        this.subject.next(this.itens);
     }
 
-    loadItemes(): Observable<Item[]> {
+    loadItens(id: string): Observable<Item[]> {
         return this.subject;
     }
 
@@ -66,11 +63,11 @@ export class PedidoService {
         this.subject.unsubscribe();
     }
 
-    itemesIsEmpty(): boolean {
-        return this.itemes.length === 0;
+    itensIsEmpty(): boolean {
+        return this.itens.length === 0;
     }
 
-       
-  
+
+
 }
 

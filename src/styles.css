@@ -106,7 +106,7 @@ table {
 }
 
 .inner-wrapper {
-  padding: 15px 0 130px;
+  padding: 15px 0 30px;
   width: 100%;
 }
 
@@ -114,7 +114,7 @@ table {
   display: inline-block;
   margin: 0 6% 0 0;
   vertical-align: top;
-  width: 40%;
+  width: 50%;
 }
 
 .full-wrapper {

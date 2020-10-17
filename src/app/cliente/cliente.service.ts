@@ -30,6 +30,13 @@ export class ClienteService {
 
     }
 
+    download(): Observable<any> {
+        const urlGet = `${this.baseURL}/${this.endpoint}/download`;
+
+        return this.httpClient.get(urlGet, { responseType: 'blob' });
+    }
+
+
     cadastrar(Cliente: Cliente): Observable<Cliente> {
         return this.httpClient.post<Cliente>(`${this.baseURL}/${this.endpoint}`, Cliente);
     }

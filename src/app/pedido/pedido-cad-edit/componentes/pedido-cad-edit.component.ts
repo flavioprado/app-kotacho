@@ -13,6 +13,7 @@ import { Cliente } from 'src/app/cliente/cliente.model';
 import { ClienteService } from 'src/app/cliente/cliente.service';
 import { Produto } from 'src/app/interfaces/produto.model';
 import { ProdutoService } from 'src/app/produto/produto.service';
+import { Renderer2 } from '@angular/core';
 
 
 @Component({
@@ -29,14 +30,15 @@ export class PedidoCadEditComponent implements OnInit {
     pedido: Pedido;
     endereco: Endereco;
     labelForm: string;
-    produto : Produto;
-
+    produto: Produto;
 
     clientes = Array<Cliente>();
     produtos = Array<Produto>();
-
+    itens = Array<Item>();
+    statusList = [];
 
     constructor(
+        private renderer: Renderer2,
         private fb: FormBuilder,
         private pedidoService: PedidoService,
         private produtoService: ProdutoService,
@@ -45,7 +47,12 @@ export class PedidoCadEditComponent implements OnInit {
         private route: ActivatedRoute,
         public matDialog: MatDialog,
         public matSnackBar: MatSnackBar
-    ) { }
+    ) {
+        this.itens = [];
+        this.statusList.push('ABERTO');
+        this.statusList.push('FINALIZADO');
+
+    }
 
     ngOnInit() {
 
@@ -58,10 +65,12 @@ export class PedidoCadEditComponent implements OnInit {
         }
 
         this.buildForm();
+      //  this.renderer.selectRootElement('#myInput').focus();
         this.loadClientes();
         this.loadProdutos();
 
     }
+    
     // editName(): void {
     //     this.nameField.nativeElement.focus();
     //   }
@@ -72,9 +81,7 @@ export class PedidoCadEditComponent implements OnInit {
             this.loadObjectInForm(pedido);
         })
     }
-    onChangeProduto(event){
-        console.log('escolheu prod'+JSON.stringify(event))
-        this.formCadastro.get('item.medida').setValue('KG');
+    onChangeProduto(event) {
     }
 
     ngAfterViewInit() {
@@ -92,16 +99,18 @@ export class PedidoCadEditComponent implements OnInit {
     buildForm() {
         this.formCadastro = this.fb.group({
             id: null,
+            numero:[],
             cliente: ["", Validators.required],
-            status: ["Pendente", Validators.required],
+            status: [this.statusList[0], Validators.required],
             desconto: ["0.00"],
             total: ["0.00", Validators.required],
             obs: [""],
 
             item: this.fb.group({
                 produto: [null],
+                preco:["1230,00"],
                 quantidade: [null],
-                medida:[""],
+                medida: [""],
                 subtotal: [null],
             })
         });
@@ -112,9 +121,9 @@ export class PedidoCadEditComponent implements OnInit {
         this.clienteService.getClientes().subscribe(clientes => this.clientes = clientes);
     }
 
-  async loadProdutos() {
-      await  this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
-     
+    async loadProdutos() {
+        await this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
+
     }
 
     getErrorEmail() {
@@ -141,21 +150,15 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
     onAddItem() {
-        // const valueSubmit = Object.assign({}, this.form.value);
-        // this.personService.addAddress(Object.assign({}, valueSubmit.address));
+        const valueSubmit = this.formCadastro.value;
+        this.pedidoService.addItem(valueSubmit.item);
         // this.reset();
     }
 
     deleteItem(item: Item) {
         // this.personService.removeAddress(address);
     }
-
-    loadCepInForm(result) {
-        this.formCadastro.get('endereco.logradouro').setValue(result.logradouro);
-        this.formCadastro.get('endereco.bairro').setValue(result.bairro);
-        this.formCadastro.get('endereco.cidade').setValue(result.localidade);
-        this.formCadastro.get('endereco.uf').setValue(result.uf);
-    }
+   
 
     salvar() {
         const {
@@ -168,7 +171,7 @@ export class PedidoCadEditComponent implements OnInit {
         const pedido = {
             numero,
             status
-            
+
 
         } as Pedido;
 
