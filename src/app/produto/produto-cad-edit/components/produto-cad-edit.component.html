@@ -3,7 +3,7 @@
     <h1 class="mat-h1">{{labelForm}} Produto</h1>
     <mat-divider fxFlex="1 0"></mat-divider>
 </div> 
-{{imgFile|json}}
+
 <!-- Form -->
 <div class="inner-wrapper">
     <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" >

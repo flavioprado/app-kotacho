@@ -89,18 +89,19 @@ export class ClienteCadEditComponent implements OnInit {
         }
     }
     private loadObjectInForm(cliente: Cliente) {
-        this.setValueOnForm(this.formCadastro, 'id', cliente.cli_id);
-        this.setValueOnForm(this.formCadastro, 'nome', cliente.nome);
-        this.setValueOnForm(this.formCadastro, 'email', cliente.email);
-        this.setValueOnForm(this.formCadastro, 'telefone', cliente.telefone);
-        this.setValueOnForm(this.formCadastro, 'cnpj', cliente.cnpj);
-        this.setValueOnForm(this.formCadastro, 'senha', cliente.senha);
-        this.setValueOnForm(this.formCadastro, 'endereco.logradouro', cliente.endereco.logradouro);
-        this.setValueOnForm(this.formCadastro, 'endereco.cep', cliente.endereco.cep);
-        this.setValueOnForm(this.formCadastro, 'endereco.numero', cliente.endereco.numero);
-        this.setValueOnForm(this.formCadastro, 'endereco.cidade', cliente.endereco.cidade);
-        this.setValueOnForm(this.formCadastro, 'endereco.uf', cliente.endereco.uf);
-        this.setValueOnForm(this.formCadastro, 'endereco.bairro', cliente.endereco.bairro);
+        // this.setValueOnForm(this.formCadastro, 'id', cliente.cli_id);
+        // this.setValueOnForm(this.formCadastro, 'nome', cliente.nome);
+        // this.setValueOnForm(this.formCadastro, 'email', cliente.email);
+        // this.setValueOnForm(this.formCadastro, 'telefone', cliente.telefone);
+        // this.setValueOnForm(this.formCadastro, 'cnpj', cliente.cnpj);
+        // this.setValueOnForm(this.formCadastro, 'senha', cliente.senha);
+        // this.setValueOnForm(this.formCadastro, 'endereco.logradouro', cliente.endereco.logradouro);
+        // this.setValueOnForm(this.formCadastro, 'endereco.cep', cliente.endereco.cep);
+        // this.setValueOnForm(this.formCadastro, 'endereco.numero', cliente.endereco.numero);
+        // this.setValueOnForm(this.formCadastro, 'endereco.cidade', cliente.endereco.cidade);
+        // this.setValueOnForm(this.formCadastro, 'endereco.uf', cliente.endereco.uf);
+        // this.setValueOnForm(this.formCadastro, 'endereco.bairro', cliente.endereco.bairro);
+        this.formCadastro.patchValue(cliente);
     }
 
     buildForm() {

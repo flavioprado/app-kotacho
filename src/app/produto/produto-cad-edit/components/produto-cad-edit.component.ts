@@ -38,16 +38,16 @@ export class ProdutoCadEditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-
+        
         let id = this.route.snapshot.paramMap.get('id');
-
+        
         this.labelForm = id ? 'Editar' : 'Cadastrar';
-
+        
         if (id) {
             this.loadProduto(id);
         }
-
         this.buildForm();
+
         let toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 
 
@@ -60,7 +60,10 @@ export class ProdutoCadEditComponent implements OnInit {
     loadProduto(id) {
         this.produtoService.pesquisarPorId(id).subscribe((produto) => {
             this.produto = produto;
-            this.loadObjectInForm(produto);
+            // this.loadObjectInForm(produto);
+            this.formCadastro.patchValue(produto);
+
+           // this.setValueOnForm(this.formCadastro, 'nome', produto.nome);
         })
     }
 
@@ -73,14 +76,15 @@ export class ProdutoCadEditComponent implements OnInit {
         }
     }
     private loadObjectInForm(produto: Produto) {
-        this.formCadastro.patchValue(produto);
+        this.formCadastro.get('nome').setValue(produto.nome);
+        //this.formCadastro.patchValue(produto);
     }
 
     buildForm() {
         let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         this.formCadastro = this.fb.group({
             id: null,
-            nome: ["", Validators.required],
+            nome: [null, Validators.required],
             detalhe: [""],
             image: [undefined, [FileValidator.maxContentSize(this.imageMaxSize)]],
             medida: ["", Validators.required],
