@@ -298,18 +298,19 @@ class ClienteCadEditComponent {
         }
     }
     loadObjectInForm(cliente) {
-        this.setValueOnForm(this.formCadastro, 'id', cliente.cli_id);
-        this.setValueOnForm(this.formCadastro, 'nome', cliente.nome);
-        this.setValueOnForm(this.formCadastro, 'email', cliente.email);
-        this.setValueOnForm(this.formCadastro, 'telefone', cliente.telefone);
-        this.setValueOnForm(this.formCadastro, 'cnpj', cliente.cnpj);
-        this.setValueOnForm(this.formCadastro, 'senha', cliente.senha);
-        this.setValueOnForm(this.formCadastro, 'endereco.logradouro', cliente.endereco.logradouro);
-        this.setValueOnForm(this.formCadastro, 'endereco.cep', cliente.endereco.cep);
-        this.setValueOnForm(this.formCadastro, 'endereco.numero', cliente.endereco.numero);
-        this.setValueOnForm(this.formCadastro, 'endereco.cidade', cliente.endereco.cidade);
-        this.setValueOnForm(this.formCadastro, 'endereco.uf', cliente.endereco.uf);
-        this.setValueOnForm(this.formCadastro, 'endereco.bairro', cliente.endereco.bairro);
+        // this.setValueOnForm(this.formCadastro, 'id', cliente.cli_id);
+        // this.setValueOnForm(this.formCadastro, 'nome', cliente.nome);
+        // this.setValueOnForm(this.formCadastro, 'email', cliente.email);
+        // this.setValueOnForm(this.formCadastro, 'telefone', cliente.telefone);
+        // this.setValueOnForm(this.formCadastro, 'cnpj', cliente.cnpj);
+        // this.setValueOnForm(this.formCadastro, 'senha', cliente.senha);
+        // this.setValueOnForm(this.formCadastro, 'endereco.logradouro', cliente.endereco.logradouro);
+        // this.setValueOnForm(this.formCadastro, 'endereco.cep', cliente.endereco.cep);
+        // this.setValueOnForm(this.formCadastro, 'endereco.numero', cliente.endereco.numero);
+        // this.setValueOnForm(this.formCadastro, 'endereco.cidade', cliente.endereco.cidade);
+        // this.setValueOnForm(this.formCadastro, 'endereco.uf', cliente.endereco.uf);
+        // this.setValueOnForm(this.formCadastro, 'endereco.bairro', cliente.endereco.bairro);
+        this.formCadastro.patchValue(cliente);
     }
     buildForm() {
         let emailregex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -605,4 +606,4 @@ ClienteCadEditComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
 /***/ })
 
 }]);
-//# sourceMappingURL=1.fdf7497c2e5182dd3342.js.map
+//# sourceMappingURL=1.e95d70c1ca6481e2786c.js.map
