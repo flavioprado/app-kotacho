@@ -15,11 +15,13 @@
                     <input matInput placeholder="Nome" formControlName="nome" required #name>
                     <mat-error>Nome é obrigatório</mat-error>
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <section class="example-section">
                     <mat-label>Ativo</mat-label>
-                    <input matInput placeholder="Ativo" formControlName="ativo" autocomplete="off">
-                    <mat-error>Campo é obrigatório</mat-error>
-                </mat-form-field>
+                    <mat-checkbox id="ativo" class="ativo" color="primary" formControlName="ativo">
+                    </mat-checkbox>
+                    <mat-error>
+                    </mat-error>
+                </section>
             </div>
         </mat-card>
 

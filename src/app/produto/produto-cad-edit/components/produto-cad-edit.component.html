@@ -22,6 +22,14 @@
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field>
+                    <mat-label>Categoria</mat-label>
+                    <mat-select formControlName="categoria" required>
+                        <mat-option *ngFor="let categoria of categorias" [value]="categoria">
+                            {{categoria.nome}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
                     <mat-label>Medida</mat-label>
                     <mat-select formControlName="medida" required>
                         <mat-option *ngFor="let medida of medidas" [value]="medida">

@@ -30,7 +30,6 @@ export class CategoriaCadEditComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private categoriaService: CategoriaService,
-        private cepService: CepService,
         private router: Router,
         private route: ActivatedRoute,
         public matDialog: MatDialog,
@@ -75,67 +74,30 @@ export class CategoriaCadEditComponent implements OnInit {
 
     buildForm() {
         this.formCadastro = this.fb.group({
-            id: null,
-            nome: ["", Validators.required],            
-            categoria: ["", [Validators.required]],          
+            id: [null],
+            nome: ["", Validators.required],
+            ativo: [true, [Validators.required]],
         });
     }
 
-    getErrorEmail() {
-        return this.formCadastro.get('email').hasError('required') ? 'Email é obrigatório' :
-            this.formCadastro.get('email').hasError('pattern') ? 'Email inválido' :
-                this.formCadastro.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
-    }
-
-    getErrorCnpj() {
-        const valida = this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
-            this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' :
-                this.formCadastro.get('cnpj').hasError('digit') ? 'CNPJ inválido' : '';
-
-        return valida;
-
-    }
-
-    getErrorCep() {
-        const cep = this.formCadastro.get('endereco.cep').value;
-        const retorno = this.formCadastro.get('endereco.cep').hasError('required') ? 'CEP é obrigatório' :
-            this.formCadastro.get('endereco.cep').hasError('pattern') ? 'CEP inválido' : '';
-        return retorno;
-
-    }
-
-    pesquisarCep(cep: string) {
-        cep = cep.replace(/\D/g, '');
-
-        if (cep) {
-            this.cepService.pesquisar(cep).subscribe(dados => {
-                this.loadCepInForm(dados);
-                console.log(dados);
-            })
-        }
-    }
-
-    loadCepInForm(result) {
-        this.formCadastro.get('endereco.logradouro').setValue(result.logradouro);
-        this.formCadastro.get('endereco.bairro').setValue(result.bairro);
-        this.formCadastro.get('endereco.cidade').setValue(result.localidade);
-        this.formCadastro.get('endereco.uf').setValue(result.uf);
-    }
 
     salvar() {
         const {
+            id,
             nome,
             ativo
         } = this.formCadastro.value;
 
         const categoria = {
+            id,
             nome,
             ativo,
         } as Categoria;
 
 
+        debugger;
 
-        if (this.categoria && this.categoria.id) {
+        if (categoria && categoria.id) {
             this.categoriaService.atualizar(categoria).subscribe(
                 (itemAtualizado) => {
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
@@ -152,7 +114,7 @@ export class CategoriaCadEditComponent implements OnInit {
                 }
             );
         } else {
-            this.categoriaService.cadastrar(this.formCadastro.value).subscribe(
+            this.categoriaService.cadastrar(categoria).subscribe(
                 (itemCadastrado) => {
                     this.matSnackBar.open("Cadastrado com sucesso!", null, {
                         duration: 5000,

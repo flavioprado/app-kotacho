@@ -18,17 +18,21 @@ export class CategoriaService {
     constructor(private httpClient: HttpClient) { }
 
     listar(queryBuilder: QueryBuilder): Observable<Page<Categoria>> {
-
         return this.httpClient
             .get<Categoria[]>(`${this.baseURL}/${this.endpoint}?${queryBuilder.buildQueryString()}`, { observe: 'response' })
             .pipe(
                 map(response => <Page<Categoria>>Page.fromResponse(response))
             );
-
     }
 
-    cadastrar(Categoria: Categoria): Observable<Categoria> {
-        return this.httpClient.post<Categoria>(`${this.baseURL}/${this.endpoint}`, Categoria);
+    list(): Observable<Categoria[]> {
+        return this.httpClient
+            .get<Categoria[]>(`${this.baseURL}/${this.endpoint}`);
+    }
+
+    cadastrar(categoria: Categoria): Observable<Categoria> {
+        debugger;
+        return this.httpClient.post<Categoria>(`${this.baseURL}/${this.endpoint}`, categoria);
     }
 
     pesquisarPorId(id: string): Observable<Categoria> {
@@ -36,7 +40,7 @@ export class CategoriaService {
     }
 
     atualizar(categoria: Categoria): Observable<Categoria> {
-        return this.httpClient.put<Categoria>(`${this.baseURL}/${this.endpoint}/${categoria.id}`, categoria);
+        return this.httpClient.post<Categoria>(`${this.baseURL}/${this.endpoint}`, categoria);
     }
 
     deletar(categoria: Categoria): Observable<{}> {

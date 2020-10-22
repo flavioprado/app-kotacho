@@ -9,6 +9,8 @@ import * as _ from 'lodash';
 import { ProdutoService } from '../../produto.service';
 import { Produto } from 'src/app/interfaces/produto.model';
 import { FileValidator } from 'ngx-material-file-input';
+import { Categoria } from 'src/app/categoria/categoria.model';
+import { CategoriaService } from 'src/app/categoria/categoria.service';
 
 
 @Component({
@@ -24,13 +26,15 @@ export class ProdutoCadEditComponent implements OnInit {
     formCadastro: FormGroup;
     produto: Produto;
     labelForm: string;
-    medidas: string[] = ['Unidade', 'Kg', 'Caixa'];
+    medidas: string[] = ['UNIDADE', 'KG', 'CX'];
+    categorias:Categoria[];
     readonly imageMaxSize = 2097152;
 
 
     constructor(
         private fb: FormBuilder,
         private produtoService: ProdutoService,
+        private categoriaService: CategoriaService,
         private router: Router,
         private route: ActivatedRoute,
         public matDialog: MatDialog,
@@ -38,21 +42,18 @@ export class ProdutoCadEditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        
+
         let id = this.route.snapshot.paramMap.get('id');
-        
+
         this.labelForm = id ? 'Editar' : 'Cadastrar';
-        
+
         if (id) {
             this.loadProduto(id);
         }
+        this.loadCategorias();
         this.buildForm();
 
-        let toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-
-
-
-    }
+   }
     // editName(): void {
     //     this.nameField.nativeElement.focus();
     //   }
@@ -63,7 +64,13 @@ export class ProdutoCadEditComponent implements OnInit {
             // this.loadObjectInForm(produto);
             this.formCadastro.patchValue(produto);
 
-           // this.setValueOnForm(this.formCadastro, 'nome', produto.nome);
+            // this.setValueOnForm(this.formCadastro, 'nome', produto.nome);
+        })
+    }
+
+    loadCategorias(){
+        this.categoriaService.list().subscribe((dados) => {
+            this.categorias = dados;           
         })
     }
 
@@ -87,6 +94,7 @@ export class ProdutoCadEditComponent implements OnInit {
             nome: [null, Validators.required],
             detalhe: [""],
             image: [undefined, [FileValidator.maxContentSize(this.imageMaxSize)]],
+            categoria: ["", Validators.required],
             medida: ["", Validators.required],
             ativo: [true, Validators.required],
             precoCusto: ["", [Validators.required]],
@@ -215,8 +223,8 @@ export class ProdutoCadEditComponent implements OnInit {
     }
 
     receivedChildMessage: string;
-    getUploadedFile (message: string) {
-        console.log('path '+JSON.stringify(message));
+    getUploadedFile(message: string) {
+        console.log('path ' + JSON.stringify(message));
         this.receivedChildMessage = message;
     }
 
@@ -225,6 +233,7 @@ export class ProdutoCadEditComponent implements OnInit {
         const {
             id,
             nome,
+            categoria,
             medida,
             precoCusto,
             precoVenda,
@@ -237,6 +246,7 @@ export class ProdutoCadEditComponent implements OnInit {
         const produto = {
             id,
             nome,
+            categoria,
             medida,
             precoCusto,
             precoVenda,
