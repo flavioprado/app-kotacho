@@ -218,7 +218,7 @@ export class PedidoCadEditComponent implements OnInit {
 
         dialogoReferencia.afterClosed().subscribe((valorResposta) => {
             if (valorResposta) {
-                this.pedidoService.deletar(this.pedido).subscribe(
+                this.pedidoService.deletar(this.pedido.id).subscribe(
                     (response) => {
                         this.matSnackBar.open("Item deletado com sucesso!", null, {
                             duration: 5000,

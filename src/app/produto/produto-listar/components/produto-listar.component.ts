@@ -21,7 +21,7 @@ import { DialogService } from 'src/app/_shared/dialog.service';
 })
 export class ProdutoListarComponent implements OnInit {
 
-    colunasTabela = ["nome", "detalhe", "medida", "ativo", "action"];
+    colunasTabela = ["nome", "detalhe", "medida", "ativo","precoCusto" ,"precoVenda","action"];
 
     page: Page<Produto> = new Page([], 0);
     pageEvent: PageEvent;
@@ -35,7 +35,9 @@ export class ProdutoListarComponent implements OnInit {
         private router: Router,
         public matDialog: MatDialog,
         private matSnackBar: MatSnackBar,
-        private dialogService: DialogService) { }
+        private dialogService: DialogService
+
+    ) { }
 
     ngOnInit() {
         this.listarItens();
@@ -76,21 +78,17 @@ export class ProdutoListarComponent implements OnInit {
     }
 
     onEdit(row) {
-        // this.service.populateForm(row);
-        //  const dialogConfig = new MatDialogConfig();
-        // dialogConfig.disableClose = true;
-        // dialogConfig.autoFocus = true;
-        // dialogConfig.width = "60%";
-        // this.dialog.open(EmployeeComponent,dialogConfig);
+        this.router.navigateByUrl(`produtos/editar/${row.id}`);     
     }
 
     onDelete($key) {
         debugger;
-        this.dialogService.openConfirmDialog('Tem Certeza que deseja excluir esse produto?')
+        this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
             .afterClosed().subscribe(res => {
-                if (res) {
-                    this.produtoService.deletar($key).subscribe(() => {                    
-                        this.listarItens();                      
+                debugger;
+                if (res ==="true") {
+                    this.produtoService.deletar($key).subscribe(() => {
+                        this.listarItens();
                         this.matSnackBar.open("Excluído com sucesso!", null, {
                             duration: 5000,
                             panelClass: "green-snackbar",
@@ -100,8 +98,6 @@ export class ProdutoListarComponent implements OnInit {
                 }
             });
     }
-
-
 }
 
 

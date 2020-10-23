@@ -10,7 +10,7 @@ export class DialogService {
   constructor(private dialog: MatDialog) { }
 
   openConfirmDialog(msg){
-   return this.dialog.open(MatConfirmDialogComponent,{
+   const result = this.dialog.open(MatConfirmDialogComponent,{
       width: '390px',
       panelClass: 'confirm-dialog-container',
       disableClose: true,
@@ -19,5 +19,8 @@ export class DialogService {
         message : msg
       }
     });
+    console.log('O RETORNO DE RESUILT '+result);
+    debugger;
+    return result;
   }
 }

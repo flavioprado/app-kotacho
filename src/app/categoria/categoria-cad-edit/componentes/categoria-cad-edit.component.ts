@@ -138,13 +138,13 @@ export class CategoriaCadEditComponent implements OnInit {
 
         dialogoReferencia.afterClosed().subscribe((valorResposta) => {
             if (valorResposta) {
-                this.categoriaService.deletar(this.categoria).subscribe(
+                this.categoriaService.deletar(this.categoria.id).subscribe(
                     (response) => {
                         this.matSnackBar.open("Item deletado com sucesso!", null, {
                             duration: 5000,
                             panelClass: "green-snackbar",
                         });
-                        this.router.navigateByUrl("/itens");
+                        this.router.navigateByUrl("/categorias");
                     },
                     (error) => {
                         this.matSnackBar.open("Erro ao deletar", null, {

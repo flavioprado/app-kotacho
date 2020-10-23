@@ -8,6 +8,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Cliente } from '../../cliente.model';
 import { ClienteService } from '../../cliente.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogService } from 'src/app/_shared/dialog.service';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { Router } from '@angular/router';
 })
 export class ClienteListarComponent implements OnInit {
 
-    colunasTabela = ["cli_id", "nome", "cnpj","action"];
+    colunasTabela = ["cli_id", "nome", "cnpj", "ativo", "action"];
 
     page: Page<Cliente> = new Page([], 0);
     pageEvent: PageEvent;
@@ -25,9 +27,11 @@ export class ClienteListarComponent implements OnInit {
 
     carregando = false;
 
-    constructor(private clienteService: ClienteService, 
+    constructor(private clienteService: ClienteService,
         private router: Router,
-        private matSnackBar: MatSnackBar) { }
+        public matDialog: MatDialog,
+        private matSnackBar: MatSnackBar,
+        private dialogService: DialogService) { }
 
     ngOnInit() {
         this.listarItens();
@@ -67,7 +71,29 @@ export class ClienteListarComponent implements OnInit {
             );
     }
 
+    onEdit(row) {
+        this.router.navigateByUrl(`/clientes/editar/${row.cli_id}`);
+    }
+
+    onDelete($key) {
+        this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
+            .afterClosed().subscribe(res => {
+                debugger;
+                if (res === "true") {
+                    debugger;
+                    this.clienteService.deletar($key).subscribe(() => {
+                        this.listarItens();
+                        this.matSnackBar.open("Excluído com sucesso!", null, {
+                            duration: 5000,
+                            panelClass: "green-snackbar",
+                        });
+                    });
+                    // this.notificationService.warn('Excluído com Sucesso');
+                }
+            });
+    }
+
     cadastrarCliente() {
-            
+
     }
 }

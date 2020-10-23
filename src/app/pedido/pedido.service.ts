@@ -41,9 +41,7 @@ export class PedidoService {
         return this.httpClient.put<Pedido>(`${this.baseURL}/${this.endpoint}/${pedido.id}`, pedido);
     }
 
-    deletar(pedido: Pedido): Observable<{}> {
-        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${pedido.id}`);
-    }
+    
 
     addItem(item: Item) {
         this.itens.push(item);
@@ -67,7 +65,9 @@ export class PedidoService {
         return this.itens.length === 0;
     }
 
-
+    deletar(_id:string): Observable<{}> {
+        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
+    }
 
 }
 

@@ -49,8 +49,8 @@ export class ClienteService {
         return this.httpClient.put<Cliente>(`${this.baseURL}/${this.endpoint}/${cliente.cli_id}`, cliente);
     }
 
-    deletar(cliente: Cliente): Observable<{}> {
-        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${cliente.cli_id}`);
+    deletar(_id: number): Observable<{}> {
+        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
     getClientes(): Observable<Cliente[]> {
         return this.httpClient.get<Cliente[]>(`${this.baseURL}/${this.endpoint}`).pipe(

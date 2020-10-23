@@ -238,7 +238,7 @@ export class ClienteCadEditComponent implements OnInit {
 
         dialogoReferencia.afterClosed().subscribe((valorResposta) => {
             if (valorResposta) {
-                this.clienteService.deletar(this.cliente).subscribe(
+                this.clienteService.deletar(this.cliente.cli_id).subscribe(
                     (response) => {
                         this.matSnackBar.open("Item deletado com sucesso!", null, {
                             duration: 5000,

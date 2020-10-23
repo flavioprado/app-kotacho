@@ -8,10 +8,15 @@ import { ProdutoCadEditComponent } from './components/produto-cad-edit.component
 import { ProdutoCadEditRoutingModule } from './produto-cad-edit-routing.module';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { UploadModule } from 'src/app/upload/upload.module';
+import { NgxCurrencyModule } from "ngx-currency";
+
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
+
+
+
 
 
 @NgModule({
@@ -23,8 +28,11 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule,
     CommonModule,
     ProdutoCadEditRoutingModule,
-    MaterialFileInputModule,   
-  ],  
+    MaterialFileInputModule,
+    NgxCurrencyModule,
+    
+  ],
   
+
 })
 export class ProdutoCadEditModule { }

@@ -44,7 +44,7 @@ export class CategoriaService {
         return result;
     }
 
-    deletar(categoria: Categoria): Observable<{}> {
-        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${categoria.id}`);
+    deletar(_id:string): Observable<{}> {
+        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
 }

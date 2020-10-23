@@ -8,6 +8,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Categoria } from '../../categoria.model';
 import { CategoriaService } from '../../categoria.service';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/_shared/dialog.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class CategoriaListarComponent implements OnInit {
     carregando = false;
 
     constructor(private categoriaService: CategoriaService, 
+        private dialogService: DialogService,
         private router: Router,
         private matSnackBar: MatSnackBar) { }
 
@@ -67,7 +69,25 @@ export class CategoriaListarComponent implements OnInit {
             );
     }
 
-    cadastrarCategoria() {
-            
+    onEdit(row) {
+        this.router.navigateByUrl(`categorias/editar/${row.id}`);     
+    }
+
+    onDelete($key) {
+        debugger;
+        this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
+            .afterClosed().subscribe(res => {
+                debugger;
+                if (res ==="true") {
+                    this.categoriaService.deletar($key).subscribe(() => {
+                        this.listarItens();
+                        this.matSnackBar.open("Excluído com sucesso!", null, {
+                            duration: 5000,
+                            panelClass: "green-snackbar",
+                        });
+                    });
+                    // this.notificationService.warn('Excluído com Sucesso');
+                }
+            });
     }
 }

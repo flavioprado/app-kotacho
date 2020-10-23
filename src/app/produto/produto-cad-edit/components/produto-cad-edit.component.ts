@@ -284,27 +284,5 @@ export class ProdutoCadEditComponent implements OnInit {
         }
     }
 
-    deletar() {
-        const dialogoReferencia = this.matDialog.open(DialogoConfirmacaoComponent);
-        
-        dialogoReferencia.afterClosed().subscribe((valorResposta) => {
-            if (valorResposta) {
-                this.produtoService.deletar(this.produto.id).subscribe(
-                    (response) => {
-                        this.matSnackBar.open("Item deletado com sucesso!", null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
-                        this.router.navigateByUrl("/produtos");
-                    },
-                    (error) => {
-                        this.matSnackBar.open("Erro ao deletar", null, {
-                            duration: 5000,
-                            panelClass: "red-snackbar",
-                        });
-                    }
-                );
-            }
-        });
-    }
+   
 }
