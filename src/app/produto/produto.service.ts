@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, EMPTY } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { QueryBuilder, Page } from '../_util/Pagination';
@@ -14,7 +14,8 @@ import { Produto } from '../interfaces/produto.model';
 export class ProdutoService {
     private baseURL = environment.api.appBackend;
 
-    private endpoint = 'produtos'
+    private endpoint = 'produtos';
+
 
     constructor(private snackBar: MatSnackBar,
         private httpClient: HttpClient) { }
@@ -38,11 +39,13 @@ export class ProdutoService {
     }
 
     atualizar(produto: Produto): Observable<Produto> {
-        return this.httpClient.put<Produto>(`${this.baseURL}/${this.endpoint}/${produto.id}`, produto);
+        const result = this.httpClient.post<Produto>(`${this.baseURL}/${this.endpoint}`, produto);
+        debugger;
+        return result;
     }
-
-    deletar(produto: Produto): Observable<{}> {
-        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${produto.id}`);
+    
+    deletar(_id:string): Observable<{}> {
+        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
     uploadImage(file:any): Observable<any> {
         return this.httpClient.post<any>(`${this.baseURL}/${this.endpoint}/upload`, file);

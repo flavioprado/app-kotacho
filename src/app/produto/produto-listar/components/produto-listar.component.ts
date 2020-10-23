@@ -8,6 +8,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from '@angular/router';
 import { Produto } from 'src/app/interfaces/produto.model';
 import { ProdutoService } from '../../produto.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogService } from 'src/app/_shared/dialog.service';
+
+
 
 
 @Component({
@@ -24,10 +28,14 @@ export class ProdutoListarComponent implements OnInit {
     sortEvent: Sort;
 
     carregando = false;
+    service: any;
+    notificationService: any;
 
     constructor(private produtoService: ProdutoService,
         private router: Router,
-        private matSnackBar: MatSnackBar) { }
+        public matDialog: MatDialog,
+        private matSnackBar: MatSnackBar,
+        private dialogService: DialogService) { }
 
     ngOnInit() {
         this.listarItens();
@@ -67,5 +75,34 @@ export class ProdutoListarComponent implements OnInit {
             );
     }
 
+    onEdit(row) {
+        // this.service.populateForm(row);
+        //  const dialogConfig = new MatDialogConfig();
+        // dialogConfig.disableClose = true;
+        // dialogConfig.autoFocus = true;
+        // dialogConfig.width = "60%";
+        // this.dialog.open(EmployeeComponent,dialogConfig);
+    }
+
+    onDelete($key) {
+        debugger;
+        this.dialogService.openConfirmDialog('Tem Certeza que deseja excluir esse produto?')
+            .afterClosed().subscribe(res => {
+                if (res) {
+                    this.produtoService.deletar($key).subscribe(() => {                    
+                        this.listarItens();                      
+                        this.matSnackBar.open("Excluído com sucesso!", null, {
+                            duration: 5000,
+                            panelClass: "green-snackbar",
+                        });
+                    });
+                    // this.notificationService.warn('Excluído com Sucesso');
+                }
+            });
+    }
+
 
 }
+
+
+

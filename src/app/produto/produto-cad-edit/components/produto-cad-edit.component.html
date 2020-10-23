@@ -2,11 +2,12 @@
 <div class="title-group">
     <h1 class="mat-h1">{{labelForm}} Produto</h1>
     <mat-divider fxFlex="1 0"></mat-divider>
-</div> 
+</div>  
 
 <!-- Form -->
 <div class="inner-wrapper">
-    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" >
+    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" #resetFormCadastro="ngForm" novalidate>
+
         <!-- Left block -->
         <mat-card>
             <div class="controlers-wrapper">
@@ -24,7 +25,7 @@
                 <mat-form-field>
                     <mat-label>Categoria</mat-label>
                     <mat-select formControlName="categoria" required>
-                        <mat-option *ngFor="let categoria of categorias" [value]="categoria">
+                        <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
                             {{categoria.nome}}
                         </mat-option>
                     </mat-select>
@@ -64,7 +65,7 @@
 
         <mat-card-actions>
             <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
-            <button type="button" mat-raised-button routerLink="/produtos">Cancelar</button>
+            <button type="button" mat-raised-button (click)="onClickVoltar()">Cancelar</button>
         </mat-card-actions>
 
 

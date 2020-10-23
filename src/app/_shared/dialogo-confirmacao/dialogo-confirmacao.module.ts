@@ -10,9 +10,10 @@ import { MaterialModule } from 'src/app/material-module';
     imports: [
         MaterialModule,
         CommonModule,
-        MatDialogModule,
-        MatButtonModule
+        
     ],
-    entryComponents: [DialogoConfirmacaoComponent]
+    entryComponents: [],
+    exports:[DialogoConfirmacaoComponent]
+
 })
 export class DialogoConfirmacaoModule { }

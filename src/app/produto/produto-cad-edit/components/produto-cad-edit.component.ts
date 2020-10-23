@@ -27,9 +27,9 @@ export class ProdutoCadEditComponent implements OnInit {
     produto: Produto;
     labelForm: string;
     medidas: string[] = ['UNIDADE', 'KG', 'CX'];
-    categorias:Categoria[];
+    categorias: Categoria[];
     readonly imageMaxSize = 2097152;
-
+    categoria: any;
 
     constructor(
         private fb: FormBuilder,
@@ -39,7 +39,9 @@ export class ProdutoCadEditComponent implements OnInit {
         private route: ActivatedRoute,
         public matDialog: MatDialog,
         public matSnackBar: MatSnackBar
-    ) { }
+    ) {
+
+    }
 
     ngOnInit() {
 
@@ -50,10 +52,10 @@ export class ProdutoCadEditComponent implements OnInit {
         if (id) {
             this.loadProduto(id);
         }
-        this.loadCategorias();
         this.buildForm();
+        this.loadCategorias();
 
-   }
+    }
     // editName(): void {
     //     this.nameField.nativeElement.focus();
     //   }
@@ -61,16 +63,17 @@ export class ProdutoCadEditComponent implements OnInit {
     loadProduto(id) {
         this.produtoService.pesquisarPorId(id).subscribe((produto) => {
             this.produto = produto;
-            // this.loadObjectInForm(produto);
             this.formCadastro.patchValue(produto);
+            this.formCadastro.patchValue({
+                categoria: produto.categoria.id
+            });
 
-            // this.setValueOnForm(this.formCadastro, 'nome', produto.nome);
         })
     }
 
-    loadCategorias(){
+    loadCategorias() {
         this.categoriaService.list().subscribe((dados) => {
-            this.categorias = dados;           
+            this.categorias = dados;
         })
     }
 
@@ -83,8 +86,17 @@ export class ProdutoCadEditComponent implements OnInit {
         }
     }
     private loadObjectInForm(produto: Produto) {
-        this.formCadastro.get('nome').setValue(produto.nome);
+        //this.formCadastro.get('nome').setValue(produto.nome);
+        //  this.formCadastro.get('categoria').setValue(produto.categoria.id);
         //this.formCadastro.patchValue(produto);
+        //this.formCadastro.patchValue({
+        this.categoria = produto.categoria;
+        // });
+
+    }
+
+    onClickVoltar(){
+        this.router.navigateByUrl('/produtos');
     }
 
     buildForm() {
@@ -94,7 +106,7 @@ export class ProdutoCadEditComponent implements OnInit {
             nome: [null, Validators.required],
             detalhe: [""],
             image: [undefined, [FileValidator.maxContentSize(this.imageMaxSize)]],
-            categoria: ["", Validators.required],
+            categoria: [null, Validators.required],
             medida: ["", Validators.required],
             ativo: [true, Validators.required],
             precoCusto: ["", [Validators.required]],
@@ -102,28 +114,6 @@ export class ProdutoCadEditComponent implements OnInit {
         });
     }
 
-    getErrorEmail() {
-        return this.formCadastro.get('email').hasError('required') ? 'Email é obrigatório' :
-            this.formCadastro.get('email').hasError('pattern') ? 'Email inválido' :
-                this.formCadastro.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
-    }
-
-    getErrorCnpj() {
-        const valida = this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
-            this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' :
-                this.formCadastro.get('cnpj').hasError('digit') ? 'CNPJ inválido' : '';
-
-        return valida;
-
-    }
-
-    getErrorCep() {
-        const cep = this.formCadastro.get('endereco.cep').value;
-        const retorno = this.formCadastro.get('endereco.cep').hasError('required') ? 'CEP é obrigatório' :
-            this.formCadastro.get('endereco.cep').hasError('pattern') ? 'CEP inválido' : '';
-        return retorno;
-
-    }
 
     transform(value: number): any {
         let formatedValue: string;
@@ -257,22 +247,18 @@ export class ProdutoCadEditComponent implements OnInit {
 
         produto.image = this.imgFile;
 
-        let vlr1 = Number(produto.precoCusto);
-        var vlr2 = 15.45;
-
-        const v = vlr1.toFixed(2);
-
-
         if (produto && produto.id) {
-            this.produtoService.atualizar(this.produto).subscribe(
+            this.produtoService.atualizar(produto).subscribe(
                 (itemAtualizado) => {
+                    debugger;
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
                         panelClass: "green-snackbar",
                     });
-                    this.router.navigateByUrl("/Produtos");
+                    this.router.navigateByUrl("/produtos");
                 },
                 (error) => {
+                    debugger;
                     this.matSnackBar.open("Erro ao atualizar", null, {
                         duration: 5000,
                         panelClass: "red-snackbar",
@@ -286,7 +272,7 @@ export class ProdutoCadEditComponent implements OnInit {
                         duration: 5000,
                         panelClass: "green-snackbar",
                     });
-                    this.router.navigateByUrl("/Produtos");
+                    this.router.navigateByUrl("/produtos");
                 },
                 (error) => {
                     this.matSnackBar.open("Erro ao cadastrar", null, {
@@ -300,16 +286,16 @@ export class ProdutoCadEditComponent implements OnInit {
 
     deletar() {
         const dialogoReferencia = this.matDialog.open(DialogoConfirmacaoComponent);
-
+        
         dialogoReferencia.afterClosed().subscribe((valorResposta) => {
             if (valorResposta) {
-                this.produtoService.deletar(this.produto).subscribe(
+                this.produtoService.deletar(this.produto.id).subscribe(
                     (response) => {
                         this.matSnackBar.open("Item deletado com sucesso!", null, {
                             duration: 5000,
                             panelClass: "green-snackbar",
                         });
-                        this.router.navigateByUrl("/itens");
+                        this.router.navigateByUrl("/produtos");
                     },
                     (error) => {
                         this.matSnackBar.open("Erro ao deletar", null, {

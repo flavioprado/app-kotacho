@@ -31,7 +31,6 @@ export class CategoriaService {
     }
 
     cadastrar(categoria: Categoria): Observable<Categoria> {
-        debugger;
         return this.httpClient.post<Categoria>(`${this.baseURL}/${this.endpoint}`, categoria);
     }
 
@@ -40,7 +39,9 @@ export class CategoriaService {
     }
 
     atualizar(categoria: Categoria): Observable<Categoria> {
-        return this.httpClient.post<Categoria>(`${this.baseURL}/${this.endpoint}`, categoria);
+        const result = this.httpClient.post<Categoria>(`${this.baseURL}/${this.endpoint}`, categoria);
+         console.log(JSON.stringify(result));
+        return result;
     }
 
     deletar(categoria: Categoria): Observable<{}> {
