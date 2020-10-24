@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { ItemTableComponent } from 'src/app/item-table/item-table.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -23,7 +24,8 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule,
     CommonModule,
     PedidoCadEditRoutingModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxCurrencyModule
   ]
 })
 export class PedidoCadEditModule { }

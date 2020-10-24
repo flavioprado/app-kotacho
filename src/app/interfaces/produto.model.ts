@@ -7,6 +7,6 @@ export interface Produto {
     image: any,
     categoria: any,
     medida: string,
-    precoCusto: string,
-    precoVenda: string,
+    precoCusto: number,
+    precoVenda: number,
 }

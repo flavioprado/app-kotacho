@@ -27,6 +27,7 @@ export class PedidoCadEditComponent implements OnInit {
 
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
+    item: Item;
     pedido: Pedido;
     endereco: Endereco;
     labelForm: string;
@@ -62,15 +63,17 @@ export class PedidoCadEditComponent implements OnInit {
 
         if (id) {
             this.loadPedido(id);
+        } else {
+            this.initPedido();
         }
 
         this.buildForm();
-      //  this.renderer.selectRootElement('#myInput').focus();
+        //  this.renderer.selectRootElement('#myInput').focus();
         this.loadClientes();
         this.loadProdutos();
 
     }
-    
+
     // editName(): void {
     //     this.nameField.nativeElement.focus();
     //   }
@@ -78,10 +81,15 @@ export class PedidoCadEditComponent implements OnInit {
     loadPedido(id) {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
             this.pedido = pedido;
-            this.loadObjectInForm(pedido);
+            this.populateForm(pedido);
         })
     }
-    onChangeProduto(event) {
+    onChangeProduto(event: { value: Produto; }) {
+        this.produto = event.value;
+        this.formCadastro.get('item').patchValue(this.produto);
+        this.formCadastro.get('item').patchValue({
+            precoEstimado: this.produto.precoVenda
+        });
     }
 
     ngAfterViewInit() {
@@ -92,26 +100,34 @@ export class PedidoCadEditComponent implements OnInit {
             form.get(pathOnForm).setValue(value);
         }
     }
-    private loadObjectInForm(pedido: Pedido) {
+    private populateForm(pedido: Pedido) {
         this.formCadastro.patchValue(pedido);
+        // this.formCadastro.get('item').patchValue(pedido.itens);
+    }
+
+    onKey($event) {
+        const qtde = this.formCadastro.get('item.quantidade').value;
+        const preco = this.formCadastro.get('item.precoEstimado').value;
+        const subTotal = (qtde * preco);
+        this.formCadastro.get('item.subTotal').setValue(subTotal);
     }
 
     buildForm() {
         this.formCadastro = this.fb.group({
             id: null,
-            numero:[],
+            numero: [],
             cliente: ["", Validators.required],
             status: [this.statusList[0], Validators.required],
-            desconto: ["0.00"],
-            total: ["0.00", Validators.required],
+            desconto: [],
+            total: [null, Validators.required],
             obs: [""],
 
             item: this.fb.group({
                 produto: [null],
-                preco:["1230,00"],
+                precoEstimado: [null],
                 quantidade: [null],
-                medida: [""],
-                subtotal: [null],
+                medida: [null],
+                subTotal: [null],
             })
         });
     }
@@ -126,39 +142,48 @@ export class PedidoCadEditComponent implements OnInit {
 
     }
 
-    getErrorEmail() {
-        return this.formCadastro.get('email').hasError('required') ? 'Email é obrigatório' :
-            this.formCadastro.get('email').hasError('pattern') ? 'Email inválido' :
-                this.formCadastro.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
-    }
-
-    getErrorCnpj() {
-        const valida = this.formCadastro.get('cnpj').hasError('required') ? 'CNPJ é obrigatório' :
-            this.formCadastro.get('cnpj').hasError('pattern') ? 'CNPJ inválido' :
-                this.formCadastro.get('cnpj').hasError('digit') ? 'CNPJ inválido' : '';
-
-        return valida;
-
-    }
-
-    getErrorCep() {
-        const cep = this.formCadastro.get('endereco.cep').value;
-        const retorno = this.formCadastro.get('endereco.cep').hasError('required') ? 'CEP é obrigatório' :
-            this.formCadastro.get('endereco.cep').hasError('pattern') ? 'CEP inválido' : '';
-        return retorno;
-
-    }
 
     onAddItem() {
-        const valueSubmit = this.formCadastro.value;
-        this.pedidoService.addItem(valueSubmit.item);
-        // this.reset();
+        const item = this.createItem();
+        if (!this.pedido.itens) {
+            this.pedido.itens = [];
+        }
+        this.pedido.itens.push(item);
+    }
+
+    initPedido() {
+        this.pedido = {
+            numero: null,
+            itens: [],
+            status: 'ABERTO',
+            desconto: null,
+            valorTotal: null
+        }
+
+    }
+
+    createItem() {
+        const {
+            prdId,
+            quantidade,
+            precoEstimado,
+            subTotal
+        } = this.formCadastro.get('item').value;
+
+        const item = {
+            prdId,
+            quantidade,
+            precoEstimado,
+            subTotal
+        } as Item;
+
+        return item;
     }
 
     deleteItem(item: Item) {
         // this.personService.removeAddress(address);
     }
-   
+
 
     salvar() {
         const {

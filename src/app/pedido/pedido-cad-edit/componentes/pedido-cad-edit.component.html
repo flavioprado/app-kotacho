@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="center center">
   <h1 class="mat-h2">{{labelForm}} Pedido</h1>
 </div>
-
+{{formCadastro.value|json}}
 <div>
   <form fxLayout="column" [formGroup]="formCadastro">
     <mat-card class="top-card">
@@ -41,39 +41,39 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="30px" fxLayoutGap.lt-md="0px">
         <mat-form-field fxFlex="20" appearance="outline">
           <mat-label>Produto</mat-label>
-          <mat-select formControlName="produto" #product (selectionChange)='onChangeProduto(product)' required>
-            <mat-option *ngFor="let produto of produtos" [value]="produto.id">
-              {{produto.id}}-{{produto.nome}}
+          <mat-select formControlName="produto" #product (selectionChange)='onChangeProduto($event)' required>
+            <mat-option *ngFor="let produto of produtos" [value]="produto">
+              {{produto.nome}} - ({{produto.medida}})
             </mat-option>
-          </mat-select>
-          <div class="right-card" fxLayout="row" fxLayoutAlign="start end" >   
-            <h1>SUBTOTAL</h1>
-          </div>
+          </mat-select>          
         </mat-form-field>
-        <!-- <p> Medida: {{formCadastro.get('item').value | json}} </p> -->
 
         <mat-form-field fxFlex="10" appearance="outline">
           <mat-label>Quantidade</mat-label>
-          <input matInput placeholder="quantidade" id="myInput" formControlName="quantidade" required>
+          <input matInput placeholder="quantidade" (keyup)="onKey($event)" id="myInput" formControlName="quantidade"
+            required>
         </mat-form-field>
         <span>X</span>
 
         <mat-form-field fxFlex="10" appearance="outline">
-          <mat-label>Preço</mat-label>
-          <input matInput type="text" placeholder="preço" formControlName="preco" readonly>
+          <mat-label>Preço Venda Estimado</mat-label>
+          <input matInput currencyMask placeholder="Preço Venda Estimado" formControlName="precoEstimado"
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly>
         </mat-form-field>
         <mat-form-field fxFlex="10" appearance="outline">
-          <input matInput placeholder="subtotal" formControlName="subtotal" readonly>
+          <mat-label>SubTotal</mat-label>
+          <input matInput currencyMask placeholder="SubTotal" formControlName="subTotal"
+          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly>
         </mat-form-field>
         <button mat-stroked-button color="primary" (click)="onAddItem()">
           <mat-icon>add_circle</mat-icon>
-          Adicionar
+          Adicionar Item
         </button>
       </div>
+       <p>TOTAL: </p>
     </mat-card>
-    <!-- <app-item-table [form]="formCadastro"></app-item-table> -->
+    <app-item-table [form]="formCadastro"></app-item-table>
   </form>
-  <!-- <app-debug [form]="form"></app-debug>   -->
 </div>
 
 
