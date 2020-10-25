@@ -3,7 +3,7 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs';
 
 
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ɵInternalFormsSharedModule } from '@angular/forms';
 import { PedidoService } from '../pedido/pedido.service';
 import { Item } from '../model/item';
 
@@ -17,13 +17,11 @@ export class ItemTableComponent implements OnInit {
   //   throw new Error('Method not implemented.');
   // }
 
-  @Input() form: FormGroup;
-  id: string;
+  @Input() itens: Item[] = [];
 
+  displayedColumns: string[] = ['produto', 'preco','qtde', 'subtotal', 'actions'];
 
-  displayedColumns: string[] = ['produto', 'qtde', 'subtotal', 'actions'];
-
-
+  dataSource: Array<Item> = this.itens;
 
   constructor(private pedidoService: PedidoService) {
 
@@ -31,8 +29,9 @@ export class ItemTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = this.form.get('id').value;
-    new ItemDataSource(this.pedidoService, this.id);
+    console.log('itens '+JSON.stringify(this.itens));
+    // this.id = this.form.get('id').value;
+    // new ItemDataSource(this.pedidoService, this.id);
   }
 
   onDeleteItem(item: Item) {
@@ -41,7 +40,7 @@ export class ItemTableComponent implements OnInit {
 
   onEditItem(item: Item) {
     //  this.pedidoService.removeItem(item);
-    this.form.get('item').patchValue(item);
+   // this.form.get('item').patchValue(item);
   }
 }
 

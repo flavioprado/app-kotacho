@@ -14,6 +14,7 @@ import { ClienteService } from 'src/app/cliente/cliente.service';
 import { Produto } from 'src/app/interfaces/produto.model';
 import { ProdutoService } from 'src/app/produto/produto.service';
 import { Renderer2 } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -24,6 +25,11 @@ import { Renderer2 } from '@angular/core';
 export class PedidoCadEditComponent implements OnInit {
     @ViewChild("name") nameField: ElementRef;
 
+    itens: Item[] = [];
+    dataSource = new MatTableDataSource(this.itens);
+
+
+    displayedColumns: string[] = ['produto', 'precoEstimado', 'preco', 'qtde', 'subTotal', 'actions'];
 
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
@@ -35,7 +41,6 @@ export class PedidoCadEditComponent implements OnInit {
 
     clientes = Array<Cliente>();
     produtos = Array<Produto>();
-    itens = Array<Item>();
     statusList = [];
 
     constructor(
@@ -92,6 +97,10 @@ export class PedidoCadEditComponent implements OnInit {
         });
     }
 
+    getTotal() {
+        return this.itens.map(t => t.subTotal).reduce((acc, value) => acc + value, 0);
+    }
+
     ngAfterViewInit() {
         // this.nameField.nativeElement.focus();
     }
@@ -110,6 +119,13 @@ export class PedidoCadEditComponent implements OnInit {
         const preco = this.formCadastro.get('item.precoEstimado').value;
         const subTotal = (qtde * preco);
         this.formCadastro.get('item.subTotal').setValue(subTotal);
+    }
+
+    onEdit(value) {
+
+    }
+    onRemove(value) {
+
     }
 
     buildForm() {
@@ -143,12 +159,11 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
 
-    onAddItem() {
+    addItem() {
+        debugger;
         const item = this.createItem();
-        if (!this.pedido.itens) {
-            this.pedido.itens = [];
-        }
-        this.pedido.itens.push(item);
+        this.itens.push(item);
+        this.dataSource = new MatTableDataSource(this.itens);
     }
 
     initPedido() {
@@ -164,14 +179,14 @@ export class PedidoCadEditComponent implements OnInit {
 
     createItem() {
         const {
-            prdId,
+            produto,
             quantidade,
             precoEstimado,
             subTotal
         } = this.formCadastro.get('item').value;
 
         const item = {
-            prdId,
+            produto,
             quantidade,
             precoEstimado,
             subTotal
