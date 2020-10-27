@@ -40,7 +40,6 @@ export class ProdutoService {
 
     atualizar(produto: Produto): Observable<Produto> {
         const result = this.httpClient.post<Produto>(`${this.baseURL}/${this.endpoint}`, produto);
-        debugger;
         return result;
     }
     

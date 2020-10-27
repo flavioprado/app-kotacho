@@ -20,7 +20,6 @@ export class DialogService {
       }
     });
     console.log('O RETORNO DE RESUILT '+result);
-    debugger;
     return result;
   }
 }

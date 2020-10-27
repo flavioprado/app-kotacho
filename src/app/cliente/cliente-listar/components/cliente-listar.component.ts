@@ -78,9 +78,7 @@ export class ClienteListarComponent implements OnInit {
     onDelete($key) {
         this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
             .afterClosed().subscribe(res => {
-                debugger;
                 if (res === "true") {
-                    debugger;
                     this.clienteService.deletar($key).subscribe(() => {
                         this.listarItens();
                         this.matSnackBar.open("Excluído com sucesso!", null, {

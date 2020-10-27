@@ -160,7 +160,6 @@ export class PedidoCadEditComponent implements OnInit {
 
 
     addItem() {
-        debugger;
         const item = this.createItem();
         this.itens.push(item);
         this.dataSource = new MatTableDataSource(this.itens);

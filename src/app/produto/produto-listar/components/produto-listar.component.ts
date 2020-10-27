@@ -82,10 +82,8 @@ export class ProdutoListarComponent implements OnInit {
     }
 
     onDelete($key) {
-        debugger;
         this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
             .afterClosed().subscribe(res => {
-                debugger;
                 if (res ==="true") {
                     this.produtoService.deletar($key).subscribe(() => {
                         this.listarItens();

@@ -99,7 +99,6 @@ export class CategoriaCadEditComponent implements OnInit {
         if (categoria && categoria.id) {
             this.categoriaService.atualizar(categoria).subscribe(
                 (itemAtualizado) => {
-                    debugger;
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
                         panelClass: "green-snackbar",
@@ -107,7 +106,6 @@ export class CategoriaCadEditComponent implements OnInit {
                     this.router.navigateByUrl("/categorias");
                 },
                 (error) => {
-                    debugger;
                     this.matSnackBar.open("Erro ao atualizar", null, {
                         duration: 5000,
                         panelClass: "red-snackbar",

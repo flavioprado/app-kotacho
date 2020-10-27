@@ -250,7 +250,6 @@ export class ProdutoCadEditComponent implements OnInit {
         if (produto && produto.id) {
             this.produtoService.atualizar(produto).subscribe(
                 (itemAtualizado) => {
-                    debugger;
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
                         panelClass: "green-snackbar",
@@ -258,7 +257,6 @@ export class ProdutoCadEditComponent implements OnInit {
                     this.router.navigateByUrl("/produtos");
                 },
                 (error) => {
-                    debugger;
                     this.matSnackBar.open("Erro ao atualizar", null, {
                         duration: 5000,
                         panelClass: "red-snackbar",
