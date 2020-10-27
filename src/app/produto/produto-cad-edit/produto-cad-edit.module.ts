@@ -22,7 +22,7 @@ const maskConfig: Partial<IConfig> = {
 @NgModule({
   declarations: [ProdutoCadEditComponent],
   imports: [
-    NgxMaskModule.forRoot(maskConfig),
+    // NgxMaskModule.forRoot(maskConfig),
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
