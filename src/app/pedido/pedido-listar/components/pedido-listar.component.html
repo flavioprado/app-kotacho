@@ -1,9 +1,14 @@
-<div class="mat-elevation-z4">
-
-  <button button="submit" mat-raised-button class="btn-success" routerLink="/pedidos/cadastrar">
-    <mat-icon>add</mat-icon> Novo Pedido
+<div class="example-button-row right">
+  <button mat-fab color="success" routerLink="/pedidos/cadastrar">
+    <mat-icon>add</mat-icon>
   </button>
+</div>
+<div class="title-group">
+  <h1 class="mat-h1">Listagem de Pedidos</h1>
+  <mat-divider fxFlex="1 0"></mat-divider>
+</div>
 
+<div class="mat-elevation-z4">
   <table mat-table [dataSource]="page.content" matSort (matSortChange)="sortEvent = $event; listarItens();">
     <!-- Id Column -->
     <ng-container matColumnDef="numero">

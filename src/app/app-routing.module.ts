@@ -35,17 +35,23 @@ const routes: Routes = [
   },
   //produtos
   {
-    path: "produtos",
-    loadChildren: () => import('./produto/produto-listar/produto-listar.module').then(modulo => modulo.ProdutoListarModule)
+    path: 'produtos',
+    loadChildren: () => import('./produto/produto.module').then(m => m.ProdutoModule),
   },
-  {
-    path: "produtos/cadastrar",
-    loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
-  },
-  {
-    path: "produtos/editar/:id",
-    loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
-  },
+
+ 
+  // {
+  //   path: "produtos",
+  //   loadChildren: () => import('./produto/produto-listar/produto-listar.module').then(modulo => modulo.ProdutoListarModule)
+  // },
+  // {
+  //   path: "produtos/cadastrar",
+  //   loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
+  // },
+  // {
+  //   path: "produtos/editar/:id",
+  //   loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
+  // },
 
    //pedidos
    {

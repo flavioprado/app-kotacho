@@ -96,6 +96,9 @@ export class ProdutoListarComponent implements OnInit {
                 }
             });
     }
+    goToAdd(){
+        this.router.navigateByUrl('/produtos/cadastrar');
+    }
 }
 
 
