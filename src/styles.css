@@ -12,6 +12,9 @@ body {
   justify-content: space-between;
 }
 .title-group{
+  margin: 0;
+
+  padding-top: 5px;
   text-align: center !important;
 
 }
@@ -178,6 +181,8 @@ body .push-right {
 }
 
 .right {
+  padding-top: 20px;
+
   text-align: right !important;
 }
 
