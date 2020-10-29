@@ -12,8 +12,11 @@ const routes: Routes = [
   {
     path: "cadastrar",
     loadChildren: () => import('./produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
+  },
 
-
+   {
+    path: "editar/:id",
+    loadChildren: () => import('./produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
   },
 
   // {

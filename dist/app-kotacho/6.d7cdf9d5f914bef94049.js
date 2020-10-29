@@ -357,7 +357,7 @@ ProdutoCadEditComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵ
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](48, "button", 18);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function ProdutoCadEditComponent_Template_button_click_48_listener() { return ctx.onClickVoltar(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](49, "Cancelar");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](49, "Voltar");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
@@ -1390,6 +1390,10 @@ const routes = [
         path: "cadastrar",
         loadChildren: () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./produto-cad-edit/produto-cad-edit.module */ "YNYz")).then(modulo => modulo.ProdutoCadEditModule)
     },
+    {
+        path: "editar/:id",
+        loadChildren: () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./produto-cad-edit/produto-cad-edit.module */ "YNYz")).then(modulo => modulo.ProdutoCadEditModule)
+    },
 ];
 class ProdutoRoutingModule {
 }
@@ -1408,4 +1412,4 @@ ProdutoRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
 /***/ })
 
 }]);
-//# sourceMappingURL=6.d8a2b7294ce0ab91aaba.js.map
+//# sourceMappingURL=6.d7cdf9d5f914bef94049.js.map

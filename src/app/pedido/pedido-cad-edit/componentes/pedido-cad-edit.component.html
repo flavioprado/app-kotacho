@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <h1 class="mat-h2">{{labelForm}} Pedido teste</h1>
+  <h1 class="mat-h2">{{labelForm}} Pedido</h1>
 </div>
 <div>
   <form fxLayout="column" [formGroup]="formCadastro">
@@ -35,10 +35,7 @@
       <h1 class="mat-h2">Item</h1>
     </div>
     <mat-card formGroupName="item" class="top-card">
-      <!-- <mat-card-header>
-        <mat-card-title>Item</mat-card-title>
-      </mat-card-header> -->
-
+      
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="30px" fxLayoutGap.lt-md="0px">
         <mat-form-field fxFlex="20" appearance="outline">
           <mat-label>Produto</mat-label>
@@ -50,8 +47,8 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="10" appearance="outline">
-          <mat-label>Preço Venda Estimado</mat-label>
-          <input matInput currencyMask placeholder="Preço Venda Estimado" formControlName="precoEstimado"
+          <mat-label>Preço</mat-label>
+          <input matInput currencyMask placeholder="Preço" formControlName="precoEstimado"
             [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly>
         </mat-form-field>
 
@@ -62,13 +59,13 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="10" appearance="outline">
-          <mat-label>SubTotal</mat-label>
-          <input matInput currencyMask placeholder="SubTotal" formControlName="subTotal"
+          <mat-label>Total</mat-label>
+          <input matInput currencyMask placeholder="Total" formControlName="subTotal"
             [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly>
         </mat-form-field>
-        <button mat-stroked-button color="primary" (click)="addItem()">
+        <button mat-stroked-button color="primary" (click)="addItem()" [disabled]="!formCadastro.valid">
           <mat-icon>add_circle</mat-icon>
-          Adicionar Item
+          Adicionar
         </button>
       </div>
     </mat-card>
@@ -78,8 +75,11 @@
 <div fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex="50%">CARRINHO DE COMPRAS</div>
 </div>
-<p>p>{{dataSource}}</p> 
 <table mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="#">
+    <th mat-header-cell *matHeaderCellDef>#</th>
+    <td mat-cell *matCellDef="let item">{{item.numero}}</td>    
+  </ng-container>
 
   <!-- Name Column -->
   <ng-container matColumnDef="produto">
@@ -104,7 +104,7 @@
   </ng-container>
   
   <ng-container matColumnDef="subTotal">
-    <th mat-header-cell *matHeaderCellDef>SubTotal</th>
+    <th mat-header-cell *matHeaderCellDef>Total</th>
     <td mat-cell *matCellDef="let item">{{item.subTotal}}</td>
     <!-- <td mat-footer-cell *matFooterCellDef> {{getTotal() | currency}} </td>
     <td mat-footer-cell *matFooterCellDef> Total </td> -->

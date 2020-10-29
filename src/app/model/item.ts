@@ -4,6 +4,7 @@ import { State } from './state';
 
 export interface Item {  
   id?:string;
+  numero:number;
   pedId?:string;
   produto: Produto;  
   quantidade: string;

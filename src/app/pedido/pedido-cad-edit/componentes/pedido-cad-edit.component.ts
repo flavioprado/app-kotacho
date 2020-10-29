@@ -29,7 +29,7 @@ export class PedidoCadEditComponent implements OnInit {
     dataSource = new MatTableDataSource(this.itens);
 
 
-    displayedColumns: string[] = ['produto', 'precoEstimado', 'preco', 'qtde', 'subTotal', 'actions'];
+    displayedColumns: string[] = ['#', 'produto',  'preco', 'qtde', 'subTotal', 'actions'];
 
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
@@ -101,6 +101,10 @@ export class PedidoCadEditComponent implements OnInit {
         return this.itens.map(t => t.subTotal).reduce((acc, value) => acc + value, 0);
     }
 
+    createNumber() {
+        return this.itens.map(t => t.numero).reduce((value) => value + 1, 1);
+    }
+
     ngAfterViewInit() {
         // this.nameField.nativeElement.focus();
     }
@@ -135,7 +139,7 @@ export class PedidoCadEditComponent implements OnInit {
             cliente: ["", Validators.required],
             status: [this.statusList[0], Validators.required],
             desconto: [],
-            total: [null, Validators.required],
+            total: [""],
             obs: [""],
 
             item: this.fb.group({
@@ -160,7 +164,9 @@ export class PedidoCadEditComponent implements OnInit {
 
 
     addItem() {
+        debugger;
         const item = this.createItem();
+        item.numero = this.createNumber();
         this.itens.push(item);
         this.dataSource = new MatTableDataSource(this.itens);
     }
@@ -190,6 +196,8 @@ export class PedidoCadEditComponent implements OnInit {
             precoEstimado,
             subTotal
         } as Item;
+
+
 
         return item;
     }
