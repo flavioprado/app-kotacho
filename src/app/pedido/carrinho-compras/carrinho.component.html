@@ -1,0 +1,68 @@
+<!-- <mat-toolbar color="primary">
+ 	 <button mat-button (click)="sidenav.toggle()"><mat-icon>settings</mat-icon></button> 
+</mat-toolbar> -->
+
+<mat-sidenav-container>
+	<mat-sidenav #sidenav position="end" mode="over">
+		<h3>test side-nav</h3>
+		<p>1234</p>
+	</mat-sidenav>
+
+	<mat-sidenav-content>
+		<mat-card>
+			<mat-card-header>
+				<mat-card-title> Carrinho </mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+
+				<mat-table [dataSource]="dataSource" #matTable>
+					<!-- Item Column -->
+					<ng-container matColumnDef="#">
+						<mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.numero}} </mat-cell>
+					</ng-container>
+
+					<!-- Item Column -->
+					<ng-container matColumnDef="produto">
+						<mat-header-cell *matHeaderCellDef>Produto</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.produto.nome}}-({{item.produto.medida}})</mat-cell>
+					</ng-container>
+
+					<!-- Item Column -->
+					<ng-container matColumnDef="quantidade">
+						<mat-header-cell *matHeaderCellDef>Qtde</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.quantidade}} </mat-cell>
+					</ng-container>
+
+					<!-- Item Column -->
+					<ng-container matColumnDef="preco">
+						<mat-header-cell *matHeaderCellDef>Preço</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.produto.precoVenda}} </mat-cell>
+					</ng-container>
+
+					<!-- Item Column -->
+					<ng-container matColumnDef="total">
+						<mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.total}} </mat-cell>
+					</ng-container>
+
+					<!-- Cost Column -->
+					<!-- <ng-container matColumnDef="total">
+						<mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+						<mat-cell *matCellDef="let transaction"> {{transaction.cost | currency}} </mat-cell>
+						<mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </mat-footer-cell>
+					</ng-container> -->
+
+					<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+					<!-- <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row> -->
+				</mat-table>
+
+				<mat-paginator #paginator [pageSize]="12" [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+			</mat-card-content>
+
+			<mat-card-footer></mat-card-footer>
+
+		</mat-card>
+	</mat-sidenav-content>
+</mat-sidenav-container>

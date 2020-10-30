@@ -6,7 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProdutoCadEditComponent } from './components/produto-cad-edit.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { NgxCurrencyModule } from "ngx-currency";
-import { ProdutoCadEditRoutingModule } from './pedido-cad-edit-routing.module';
+import { ProdutoCadEditRoutingModule } from './produto-cad-edit-routing.module';
+import { AddProdutoModule } from 'src/app/pedido/add-produto-form/add-produto.module';
 
 
 
@@ -19,7 +20,8 @@ import { ProdutoCadEditRoutingModule } from './pedido-cad-edit-routing.module';
     CommonModule,
     MaterialFileInputModule,
     NgxCurrencyModule,
-    ProdutoCadEditRoutingModule
+    ProdutoCadEditRoutingModule,
+    
   ],
 
 })

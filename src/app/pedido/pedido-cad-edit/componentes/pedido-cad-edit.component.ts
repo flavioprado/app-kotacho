@@ -15,6 +15,7 @@ import { Produto } from 'src/app/interfaces/produto.model';
 import { ProdutoService } from 'src/app/produto/produto.service';
 import { Renderer2 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { CarrinhoComponent } from '../../carrinho-compras/carrinho.component';
 
 
 @Component({
@@ -24,12 +25,12 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PedidoCadEditComponent implements OnInit {
     @ViewChild("name") nameField: ElementRef;
+    @ViewChild(CarrinhoComponent)
+    private carrinho: CarrinhoComponent;
 
     itens: Item[] = [];
-    dataSource = new MatTableDataSource(this.itens);
 
 
-    displayedColumns: string[] = ['#', 'produto',  'preco', 'qtde', 'subTotal', 'actions'];
 
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
@@ -52,9 +53,8 @@ export class PedidoCadEditComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         public matDialog: MatDialog,
-        public matSnackBar: MatSnackBar
-    ) {
-        this.itens = [];
+        public matSnackBar: MatSnackBar,
+        ) {
         this.statusList.push('ABERTO');
         this.statusList.push('FINALIZADO');
 
@@ -78,10 +78,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.loadProdutos();
 
     }
-
-    // editName(): void {
-    //     this.nameField.nativeElement.focus();
-    //   }
+   
 
     loadPedido(id) {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
@@ -89,16 +86,10 @@ export class PedidoCadEditComponent implements OnInit {
             this.populateForm(pedido);
         })
     }
-    onChangeProduto(event: { value: Produto; }) {
-        this.produto = event.value;
-        this.formCadastro.get('item').patchValue(this.produto);
-        this.formCadastro.get('item').patchValue({
-            precoEstimado: this.produto.precoVenda
-        });
-    }
+    
 
     getTotal() {
-        return this.itens.map(t => t.subTotal).reduce((acc, value) => acc + value, 0);
+        return this.itens.map(t => t.total).reduce((acc, value) => acc + value, 0);
     }
 
     createNumber() {
@@ -117,13 +108,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro.patchValue(pedido);
         // this.formCadastro.get('item').patchValue(pedido.itens);
     }
-
-    onKey($event) {
-        const qtde = this.formCadastro.get('item.quantidade').value;
-        const preco = this.formCadastro.get('item.precoEstimado').value;
-        const subTotal = (qtde * preco);
-        this.formCadastro.get('item.subTotal').setValue(subTotal);
-    }
+   
 
     onEdit(value) {
 
@@ -157,19 +142,18 @@ export class PedidoCadEditComponent implements OnInit {
         this.clienteService.getClientes().subscribe(clientes => this.clientes = clientes);
     }
 
-    async loadProdutos() {
-        await this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
+     loadProdutos() {
+         this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
 
     }
 
 
-    addItem() {
-        debugger;
-        const item = this.createItem();
-        item.numero = this.createNumber();
-        this.itens.push(item);
-        this.dataSource = new MatTableDataSource(this.itens);
-    }
+    // addItem() {
+    //     const item = this.createItem();
+    //     item.numero = this.createNumber();
+    //     this.itens.push(item);
+    //     this.dataSource = new MatTableDataSource(this.itens);
+    // }
 
     initPedido() {
         this.pedido = {
@@ -182,25 +166,7 @@ export class PedidoCadEditComponent implements OnInit {
 
     }
 
-    createItem() {
-        const {
-            produto,
-            quantidade,
-            precoEstimado,
-            subTotal
-        } = this.formCadastro.get('item').value;
-
-        const item = {
-            produto,
-            quantidade,
-            precoEstimado,
-            subTotal
-        } as Item;
-
-
-
-        return item;
-    }
+  
 
     deleteItem(item: Item) {
         // this.personService.removeAddress(address);
@@ -258,6 +224,18 @@ export class PedidoCadEditComponent implements OnInit {
                 }
             );
         }
+    }
+    onAdicionarProduto(item: Item) {
+        item.numero = this.createNumber();
+        this.itens.push(item);
+        this.carrinho.refresh();
+    }
+
+    onAlterarProduto() {
+
+    }
+    onRemoverProduto() {
+
     }
 
     deletar() {

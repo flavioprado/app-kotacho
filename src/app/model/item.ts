@@ -9,5 +9,5 @@ export interface Item {
   produto: Produto;  
   quantidade: string;
   precoEstimado:string;
-  subTotal: number; 
+  total: number; 
 }
