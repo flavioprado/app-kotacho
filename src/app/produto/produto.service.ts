@@ -30,9 +30,26 @@ export class ProdutoService {
 
     }
 
-    cadastrar(produto: Produto): Observable<Produto> {
-        return this.httpClient.post<Produto>(`${this.baseURL}/${this.endpoint}`, produto);
+    cadastrar(produto: Produto): Observable<HttpResponse<Produto>> {
+        return this.httpClient.post<Produto>(`${this.baseURL}/${this.endpoint}`, produto, {
+            observe: 'response'
+        });
     }
+
+    // save(documentoAmbiental: DocumentoAmbientalResource): Observable<EntityResponseType> {
+    //     return this.http.post<DocumentoAmbientalResource>(this.resourceUrl, documentoAmbiental, {
+    //       observe: 'response'
+    //     });
+    //   }
+
+    //   delete(documentoAmbiental: DocumentoAmbientalResource): Observable<EntityResponseType> {
+    //     return this.http.delete<DocumentoAmbientalResource>(
+    //       this.resourceUrl + '/' + documentoAmbiental.id,
+    //       {
+    //         observe: 'response'
+    //       }
+    //     );
+    //   }
 
     pesquisarPorId(id: string): Observable<Produto> {
         return this.httpClient.get<Produto>(`${this.baseURL}/${this.endpoint}/${id}`);
@@ -42,11 +59,11 @@ export class ProdutoService {
         const result = this.httpClient.post<Produto>(`${this.baseURL}/${this.endpoint}`, produto);
         return result;
     }
-    
-    deletar(_id:string): Observable<{}> {
+
+    deletar(_id: string): Observable<{}> {
         return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
-    uploadImage(file:any): Observable<any> {
+    uploadImage(file: any): Observable<any> {
         return this.httpClient.post<any>(`${this.baseURL}/${this.endpoint}/upload`, file);
     }
     getProdutos(): Observable<Produto[]> {

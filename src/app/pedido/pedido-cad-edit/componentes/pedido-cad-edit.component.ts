@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DialogoConfirmacaoComponent } from 'src/app/_shared/dialogo-confirmacao/dialogo-confirmacao.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Pedido } from '../../pedido.model';
 import { PedidoService } from '../../pedido.service';
@@ -54,7 +53,7 @@ export class PedidoCadEditComponent implements OnInit {
         private route: ActivatedRoute,
         public matDialog: MatDialog,
         public matSnackBar: MatSnackBar,
-        ) {
+    ) {
         this.statusList.push('ABERTO');
         this.statusList.push('FINALIZADO');
 
@@ -78,7 +77,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.loadProdutos();
 
     }
-   
+
 
     loadPedido(id) {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
@@ -86,7 +85,7 @@ export class PedidoCadEditComponent implements OnInit {
             this.populateForm(pedido);
         })
     }
-    
+
 
     getTotal() {
         return this.itens.map(t => t.total).reduce((acc, value) => acc + value, 0);
@@ -108,7 +107,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro.patchValue(pedido);
         // this.formCadastro.get('item').patchValue(pedido.itens);
     }
-   
+
 
     onEdit(value) {
 
@@ -142,8 +141,8 @@ export class PedidoCadEditComponent implements OnInit {
         this.clienteService.getClientes().subscribe(clientes => this.clientes = clientes);
     }
 
-     loadProdutos() {
-         this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
+    loadProdutos() {
+        this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
 
     }
 
@@ -159,6 +158,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedido = {
             numero: null,
             itens: [],
+            ativo: true,
             status: 'ABERTO',
             desconto: null,
             valorTotal: null
@@ -166,7 +166,7 @@ export class PedidoCadEditComponent implements OnInit {
 
     }
 
-  
+
 
     deleteItem(item: Item) {
         // this.personService.removeAddress(address);
@@ -174,22 +174,20 @@ export class PedidoCadEditComponent implements OnInit {
 
 
     salvar() {
+        debugger;
         const {
             numero,
             status,
-            item
-
         } = this.formCadastro.value;
 
         const pedido = {
             numero,
             status
-
-
         } as Pedido;
 
         pedido.id = this.formCadastro.get('id').value;
-
+        pedido.itens = this.itens;
+        pedido.ativo = true;
 
         if (this.pedido && this.pedido.id) {
             this.pedidoService.atualizar(pedido).subscribe(
@@ -208,7 +206,7 @@ export class PedidoCadEditComponent implements OnInit {
                 }
             );
         } else {
-            this.pedidoService.cadastrar(this.formCadastro.value).subscribe(
+            this.pedidoService.cadastrar(pedido).subscribe(
                 (itemCadastrado) => {
                     this.matSnackBar.open("Cadastrado com sucesso!", null, {
                         duration: 5000,
@@ -226,7 +224,9 @@ export class PedidoCadEditComponent implements OnInit {
         }
     }
     onAdicionarProduto(item: Item) {
+        debugger;
         item.numero = this.createNumber();
+        item.ativo = true;
         this.itens.push(item);
         this.carrinho.refresh();
     }
@@ -238,27 +238,5 @@ export class PedidoCadEditComponent implements OnInit {
 
     }
 
-    deletar() {
-        const dialogoReferencia = this.matDialog.open(DialogoConfirmacaoComponent);
-
-        dialogoReferencia.afterClosed().subscribe((valorResposta) => {
-            if (valorResposta) {
-                this.pedidoService.deletar(this.pedido.id).subscribe(
-                    (response) => {
-                        this.matSnackBar.open("Item deletado com sucesso!", null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
-                        this.router.navigateByUrl("/itens");
-                    },
-                    (error) => {
-                        this.matSnackBar.open("Erro ao deletar", null, {
-                            duration: 5000,
-                            panelClass: "red-snackbar",
-                        });
-                    }
-                );
-            }
-        });
-    }
+   
 }

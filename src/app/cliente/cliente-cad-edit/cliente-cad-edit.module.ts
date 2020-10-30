@@ -6,6 +6,7 @@ import { ClienteCadEditComponent } from './componentes/cliente-cad-edit.componen
 import { MaterialModule } from 'src/app/material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { TextMaskModule } from 'angular2-text-mask';
  
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -17,6 +18,7 @@ const maskConfig: Partial<IConfig> = {
   imports: [
     NgxMaskModule.forRoot(maskConfig),
     MaterialModule,
+    TextMaskModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,

@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DialogoConfirmacaoComponent } from 'src/app/_shared/dialogo-confirmacao/dialogo-confirmacao.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Categoria } from '../../categoria.model';
 import { CategoriaService } from '../../categoria.service';
@@ -131,27 +130,5 @@ export class CategoriaCadEditComponent implements OnInit {
         }
     }
 
-    deletar() {
-        const dialogoReferencia = this.matDialog.open(DialogoConfirmacaoComponent);
-
-        dialogoReferencia.afterClosed().subscribe((valorResposta) => {
-            if (valorResposta) {
-                this.categoriaService.deletar(this.categoria.id).subscribe(
-                    (response) => {
-                        this.matSnackBar.open("Item deletado com sucesso!", null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
-                        this.router.navigateByUrl("/categorias");
-                    },
-                    (error) => {
-                        this.matSnackBar.open("Erro ao deletar", null, {
-                            duration: 5000,
-                            panelClass: "red-snackbar",
-                        });
-                    }
-                );
-            }
-        });
-    }
+  
 }

@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DialogoConfirmacaoComponent } from 'src/app/_shared/dialogo-confirmacao/dialogo-confirmacao.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Cliente } from '../../cliente.model';
 import { ClienteService } from '../../cliente.service';
@@ -20,7 +19,7 @@ import { saveAs } from 'file-saver';
 })
 export class ClienteCadEditComponent implements OnInit {
     @ViewChild("name") nameField: ElementRef;
-
+    numeromask = [/[0-1000]$/g];
 
     emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
@@ -108,6 +107,7 @@ export class ClienteCadEditComponent implements OnInit {
         let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         this.formCadastro = this.fb.group({
             id: null,
+            numero: [null, Validators.required],
             nome: ["", Validators.required],
             cnpj: ["", [
                 Validators.required,
@@ -195,10 +195,10 @@ export class ClienteCadEditComponent implements OnInit {
             endereco
         } as Cliente;
 
-        cliente.cli_id = this.formCadastro.get('id').value;
+        cliente.id = this.formCadastro.get('id').value;
 
 
-        if (this.cliente && this.cliente.cli_id) {
+        if (this.cliente && this.cliente.id) {
             this.clienteService.atualizar(cliente).subscribe(
                 (itemAtualizado) => {
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
@@ -233,27 +233,5 @@ export class ClienteCadEditComponent implements OnInit {
         }
     }
 
-    deletar() {
-        const dialogoReferencia = this.matDialog.open(DialogoConfirmacaoComponent);
-
-        dialogoReferencia.afterClosed().subscribe((valorResposta) => {
-            if (valorResposta) {
-                this.clienteService.deletar(this.cliente.cli_id).subscribe(
-                    (response) => {
-                        this.matSnackBar.open("Item deletado com sucesso!", null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
-                        this.router.navigateByUrl("/itens");
-                    },
-                    (error) => {
-                        this.matSnackBar.open("Erro ao deletar", null, {
-                            duration: 5000,
-                            panelClass: "red-snackbar",
-                        });
-                    }
-                );
-            }
-        });
-    }
+  
 }

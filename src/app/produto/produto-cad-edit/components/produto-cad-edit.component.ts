@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DialogoConfirmacaoComponent } from 'src/app/_shared/dialogo-confirmacao/dialogo-confirmacao.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +10,7 @@ import { Produto } from 'src/app/interfaces/produto.model';
 import { FileValidator } from 'ngx-material-file-input';
 import { Categoria } from 'src/app/categoria/categoria.model';
 import { CategoriaService } from 'src/app/categoria/categoria.service';
+import { DialogService } from 'src/app/_shared/dialog.service';
 
 
 @Component({
@@ -32,6 +32,8 @@ export class ProdutoCadEditComponent implements OnInit {
     categoria: any;
 
     constructor(
+        public dialog: MatDialog,
+        private dialogService: DialogService,
         private fb: FormBuilder,
         private produtoService: ProdutoService,
         private categoriaService: CategoriaService,
@@ -95,7 +97,7 @@ export class ProdutoCadEditComponent implements OnInit {
 
     }
 
-    onClickVoltar(){
+    onClickVoltar() {
         this.router.navigateByUrl('/produtos');
     }
 
@@ -103,6 +105,7 @@ export class ProdutoCadEditComponent implements OnInit {
         let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         this.formCadastro = this.fb.group({
             id: null,
+            numero: [null, Validators.required],
             nome: [null, Validators.required],
             detalhe: [""],
             image: [undefined, [FileValidator.maxContentSize(this.imageMaxSize)]],
@@ -218,10 +221,24 @@ export class ProdutoCadEditComponent implements OnInit {
         this.receivedChildMessage = message;
     }
 
+    private handleErrorResponse(errorResponse) {
+        debugger;
+        switch (errorResponse.status) {
+            case 400:
+            case 500:
+            default:
+                this.matSnackBar.open(errorResponse.error.message, null, {
+                    duration: 5000,
+                    panelClass: "red-snackbar",
+                });
+        }
+    }
+
 
     salvar() {
         const {
             id,
+            numero,
             nome,
             categoria,
             medida,
@@ -235,6 +252,7 @@ export class ProdutoCadEditComponent implements OnInit {
 
         const produto = {
             id,
+            numero,
             nome,
             categoria,
             medida,
@@ -272,13 +290,17 @@ export class ProdutoCadEditComponent implements OnInit {
                     });
                     this.router.navigateByUrl("/produtos");
                 },
-                (error) => {
-                    this.matSnackBar.open("Erro ao cadastrar", null, {
-                        duration: 5000,
-                        panelClass: "red-snackbar",
-                    });
-                }
+
+                error => this.handleErrorResponse(error)
+                // (error) => {
+                //     this.matSnackBar.open("Erro ao cadastrar", null, {
+                //         duration: 5000,
+                //         panelClass: "red-snackbar",
+                //     });
+                // }
             );
+
+
         }
-    }   
+    }
 }

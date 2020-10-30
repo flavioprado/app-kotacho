@@ -69,6 +69,7 @@ export class AddProdutoComponent implements OnInit {
             id: null,
             numero: null,
             produto: this.produto,
+            ativo: true,
             quantidade: null,
             precoEstimado: null,
             total: null,
@@ -77,6 +78,7 @@ export class AddProdutoComponent implements OnInit {
 
     initProduto() {
         this.produto = {
+            numero: null,
             nome: "",
             detalhe: "",
             image: "",
@@ -101,7 +103,7 @@ export class AddProdutoComponent implements OnInit {
     addProdutoToCart() {
         this.initItem();
         this.item.quantidade = this.qtde;
-        this.item.precoEstimado= this.preco;        
+        this.item.precoEstimado = this.preco;
         this.item.total = this.total;
         this.adicionarProduto.emit(this.item);
     }

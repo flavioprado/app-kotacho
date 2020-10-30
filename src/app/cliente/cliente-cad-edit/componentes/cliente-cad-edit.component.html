@@ -113,7 +113,17 @@
     <form fxLayout="column" [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()"
         #resetFormCadastro="ngForm" novalidate>
         <!-- Left block -->
+
+
+
         <mat-card>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="80px" fxLayoutGap.lt-md="0px">
+                <mat-form-field flex fxFlex>
+                    <mat-label>Número do Cliente</mat-label>
+                    <input matInput pattern="[0-9]+$"   formControlName="numero" placeholder="99999" required>
+                    <mat-error>Número do Cliente inválido ou vazio</mat-error>
+                </mat-form-field>
+            </div>
             <mat-card-header>
                 <mat-card-title>Dados Pessoais</mat-card-title>
             </mat-card-header>

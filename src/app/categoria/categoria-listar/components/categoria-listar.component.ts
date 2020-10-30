@@ -9,6 +9,8 @@ import { Categoria } from '../../categoria.model';
 import { CategoriaService } from '../../categoria.service';
 import { Router } from '@angular/router';
 import { DialogService } from 'src/app/_shared/dialog.service';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -27,7 +29,7 @@ export class CategoriaListarComponent implements OnInit {
     carregando = false;
 
     constructor(private categoriaService: CategoriaService, 
-        private dialogService: DialogService,
+        public dialog: MatDialog,
         private router: Router,
         private matSnackBar: MatSnackBar) { }
 
@@ -74,18 +76,26 @@ export class CategoriaListarComponent implements OnInit {
     }
 
     onDelete($key) {
-        this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
-            .afterClosed().subscribe(res => {
-                if (res ==="true") {
-                    this.categoriaService.deletar($key).subscribe(() => {
-                        this.listarItens();
-                        this.matSnackBar.open("Excluído com sucesso!", null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
+        const message = `Tem certeza que deseja excluir esse registro?`;
+        const dialogData = new ConfirmDialogModel("Confirma ?", message);
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            maxWidth: "400px",
+            data: dialogData
+        });
+
+        dialogRef.afterClosed().subscribe(res => {
+            if (res) {
+                debugger;
+                this.categoriaService.deletar($key).subscribe(() => {
+                    this.listarItens();
+                    this.matSnackBar.open("Excluído com sucesso!", null, {
+                        duration: 5000,
+                        panelClass: "green-snackbar",
                     });
-                    // this.notificationService.warn('Excluído com Sucesso');
-                }
-            });
+                });
+            }
+        });
+
     }
 }

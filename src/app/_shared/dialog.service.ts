@@ -19,7 +19,6 @@ export class DialogService {
         message : msg
       }
     });
-    console.log('O RETORNO DE RESUILT '+JSON.stringify(result));
     return result;
   }
 }

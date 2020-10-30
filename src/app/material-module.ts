@@ -42,6 +42,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
+import { TextMaskModule } from 'angular2-text-mask';
 
 
 @NgModule({
@@ -90,7 +91,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
     OverlayModule,
     PortalModule,
     ScrollingModule,
-  
+    TextMaskModule   
   ]
 })
 export class MaterialModule {}

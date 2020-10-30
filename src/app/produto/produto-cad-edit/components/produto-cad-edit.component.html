@@ -5,8 +5,14 @@
 </div>
 <!-- Form -->
 <div class="inner-wrapper">
-    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()"  novalidate>
-
+    <form [formGroup]="formCadastro" (ngSubmit)="formCadastro.valid && salvar()" novalidate>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="80px" fxLayoutGap.lt-md="0px">
+            <mat-form-field flex fxFlex>
+                <mat-label>Número do Produto</mat-label>
+                <input matInput pattern="[0-9]+$" formControlName="numero" placeholder="99999" required>
+                <mat-error>Número do Produto inválido ou vazio</mat-error>
+            </mat-form-field>
+        </div>
         <!-- Left block -->
         <mat-card>
             <div class="controlers-wrapper">
@@ -39,17 +45,15 @@
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                     <mat-label>Preço Custo</mat-label>
-                    <input matInput  currencyMask  placeholder="Preço de Custo" formControlName="precoCusto"
-                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required
-                       >
+                    <input matInput currencyMask placeholder="Preço de Custo" formControlName="precoCusto"
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required>
                     <mat-error>
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                     <mat-label>Preço Venda</mat-label>
-                    <input matInput  currencyMask  placeholder="Preço de Venda" formControlName="precoVenda"
-                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required
-                       >
+                    <input matInput currencyMask placeholder="Preço de Venda" formControlName="precoVenda"
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required>
                     <mat-error>
                     </mat-error>
                 </mat-form-field>
@@ -65,6 +69,6 @@
         <mat-card-actions>
             <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
             <button type="button" mat-raised-button (click)="onClickVoltar()">Voltar</button>
-        </mat-card-actions>       
+        </mat-card-actions>
     </form>
 </div>

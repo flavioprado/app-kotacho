@@ -1,5 +1,12 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-    <app-add-produto (adicionarProduto)='onAdicionarProduto($event)'></app-add-produto>
-    <app-carrinho [itens]='itens' (removerProduto)='onRemoverProduto()' (alterarProduto)='onAlterarProduto'>
-    </app-carrinho>
-</div>
+<form [formGroup]="formCadastro" (ngSubmit)="salvar()">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <app-add-produto (adicionarProduto)='onAdicionarProduto($event)'></app-add-produto>
+        <app-carrinho [itens]='itens' (removerProduto)='onRemoverProduto()' (alterarProduto)='onAlterarProduto'>
+        </app-carrinho>
+    </div>
+
+    <mat-card-actions>
+        <button mat-raised-button color="primary">Salvar</button>
+        <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
+    </mat-card-actions>
+</form>

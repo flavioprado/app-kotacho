@@ -46,10 +46,10 @@ export class ClienteService {
     }
 
     atualizar(cliente: Cliente): Observable<Cliente> {
-        return this.httpClient.put<Cliente>(`${this.baseURL}/${this.endpoint}/${cliente.cli_id}`, cliente);
+        return this.httpClient.put<Cliente>(`${this.baseURL}/${this.endpoint}/${cliente.id}`, cliente);
     }
 
-    deletar(_id: number): Observable<{}> {
+    deletar(_id: string): Observable<{}> {
         return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
     getClientes(): Observable<Cliente[]> {

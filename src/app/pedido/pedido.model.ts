@@ -4,7 +4,8 @@ import { Item } from '../model/item';
 export interface Pedido {
     id?: string,
     numero: string,
-    itens: Item[];
+    ativo:boolean,
+    itens: any[];
     status: string,
     desconto: number,
     valorTotal: number

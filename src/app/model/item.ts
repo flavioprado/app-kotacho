@@ -7,6 +7,7 @@ export interface Item {
   numero:number;
   pedId?:string;
   produto: Produto;  
+  ativo:boolean;
   quantidade: string;
   precoEstimado:string;
   total: number; 
