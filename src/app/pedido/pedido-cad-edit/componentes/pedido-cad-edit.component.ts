@@ -174,7 +174,6 @@ export class PedidoCadEditComponent implements OnInit {
 
 
     salvar() {
-        debugger;
         const {
             numero,
             status,
@@ -224,7 +223,6 @@ export class PedidoCadEditComponent implements OnInit {
         }
     }
     onAdicionarProduto(item: Item) {
-        debugger;
         item.numero = this.createNumber();
         item.ativo = true;
         this.itens.push(item);

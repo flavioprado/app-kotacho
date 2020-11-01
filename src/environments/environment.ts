@@ -18,7 +18,7 @@ export const environment: Environment = {
   baseHref: '',
   debug: false,
   api: {
-    appBackend: 'http://localhost:3000',
+    apiUrl: 'http://localhost:3000',
     // borgBackend: 'http://irara.sanepar.com.br:9301/api',
     // bopeBackend: 'http://irara.sanepar.com.br:9293/api',
   },

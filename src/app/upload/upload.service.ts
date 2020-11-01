@@ -11,7 +11,8 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class UploadService {
-    private baseURL = environment.api.appBackend;
+    
+    private baseURL = environment.api.apiUrl;
 
     private endpoint = 'produtos'
 

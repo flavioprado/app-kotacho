@@ -12,7 +12,8 @@ import { Item } from '../model/item';
     providedIn: 'root'
 })
 export class PedidoService {
-    private baseURL = environment.api.appBackend;
+    
+    private baseURL = environment.api.apiUrl;
 
     private subject = new Subject<Item[]>();
     private itens = Array<Item>();

@@ -18,6 +18,6 @@ export const environment: Environment = {
   baseHref: '',
   debug: false,
   api: {
-    appBackend: 'http://api-kotachocomercio-com-br.umbler.net'
+    apiUrl: 'http://api-kotachocomercio-com-br.umbler.net'
   }
 };

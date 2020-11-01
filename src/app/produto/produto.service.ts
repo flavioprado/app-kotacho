@@ -12,7 +12,7 @@ import { Produto } from '../interfaces/produto.model';
     providedIn: 'root'
 })
 export class ProdutoService {
-    private baseURL = environment.api.appBackend;
+    private baseURL = environment.api.apiUrl;
 
     private endpoint = 'produtos';
 

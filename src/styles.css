@@ -1,13 +1,18 @@
-html,
-body {
-  height: 100%;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button:focus {
+    outline: none;
 }
 
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
+a:hover {
+    text-decoration: none;
 }
 
+.spacer {
+    flex: 1 1 auto;
+}
 .header {
   justify-content: space-between;
 }

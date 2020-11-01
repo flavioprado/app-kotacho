@@ -86,7 +86,6 @@ export class CategoriaListarComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(res => {
             if (res) {
-                debugger;
                 this.categoriaService.deletar($key).subscribe(() => {
                     this.listarItens();
                     this.matSnackBar.open("Excluído com sucesso!", null, {

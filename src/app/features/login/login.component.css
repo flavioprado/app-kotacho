@@ -1,0 +1,14 @@
+.example-card {
+    width: 400px;
+    margin: 10% auto;
+  }
+  .mat-card-title{
+    font-size: 16px;
+  }
+
+  .bgimg {
+    display:block;
+    width:100%;
+    height:100%;
+    background: url('/assets/images/hortifruti.jpg') no-repeat center center fixed;
+  }

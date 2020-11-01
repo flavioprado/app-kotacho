@@ -13,7 +13,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
     providedIn: 'root'
 })
 export class ClienteService {
-    private baseURL = environment.api.appBackend;
+    private baseURL = environment.api.apiUrl;
 
     private endpoint = 'clientes'
 

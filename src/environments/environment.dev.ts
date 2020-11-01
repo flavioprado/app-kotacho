@@ -18,9 +18,7 @@ export const environment: Environment = {
   baseHref: '/',
   debug: false,
   api: {
-    appBackend: 'http://api-kotachocomercio-com-br.umbler.net',
-    bopeBackend: 'http://irara.sanepar.com.br:9293/api',
-    borgBackend: 'http://irara.sanepar.com.br:9301/api'
+    apiUrl: 'http://api-kotachocomercio-com-br.umbler.net',    
   },
   arquis: {
     baseUrl: '',
