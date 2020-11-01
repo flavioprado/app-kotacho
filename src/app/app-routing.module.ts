@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
+import { LoginComponent } from './features/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 
 
@@ -9,15 +10,9 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
   { path: "", redirectTo: "home", pathMatch: "full" },
-  {
-    path: "",
-    loadChildren: () => import('./features/login/login.module').then(modulo => modulo.LoginModule)
-  },
-  // {
-  //   path: "**",
-  //   component: PagenotfoundComponent
-  // },
-  // { path: "404", component: PagenotfoundComponent },
+  { path: "login", component: LoginComponent },  
+  
+  // { path: "**", component: PagenotfoundComponent },
   // { path: "**", redirectTo: "404" },
 
   { path: 'home', component: HomeComponent },
@@ -87,6 +82,8 @@ const routes: Routes = [
     path: "pedidos/editar/:id",
     loadChildren: () => import('./pedido/pedido-cad-edit/pedido-cad-edit.module').then(modulo => modulo.PedidoCadEditModule)
   },
+  { path: "404", component: PagenotfoundComponent },
+  { path: "**", redirectTo: "404" }
 
 ];
 
