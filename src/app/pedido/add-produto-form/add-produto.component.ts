@@ -53,8 +53,6 @@ export class AddProdutoComponent implements OnInit {
         this.initProduto();
         this.initItem();
         this.loadProdutos();
-        this.qtdeField.nativeElement.focus();
-
     }
     onItemLoaded() {
         //populateForm
