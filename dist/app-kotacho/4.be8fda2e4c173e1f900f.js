@@ -963,7 +963,6 @@ class AddProdutoComponent {
         this.initProduto();
         this.initItem();
         this.loadProdutos();
-        this.qtdeField.nativeElement.focus();
     }
     onItemLoaded() {
         //populateForm
@@ -1214,4 +1213,4 @@ PedidoCadEditModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
 /***/ })
 
 }]);
-//# sourceMappingURL=4.f50140517b22f88348d0.js.map
+//# sourceMappingURL=4.be8fda2e4c173e1f900f.js.map
