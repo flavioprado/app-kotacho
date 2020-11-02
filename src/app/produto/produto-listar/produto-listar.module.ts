@@ -6,9 +6,8 @@ import { ProdutoListarComponent } from './components/produto-listar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-import { ProdutoRoutingModule } from '../produto-routing.module';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { ProdutoListarRoutingModule } from './components/produto-listar-routing.module';
+
 
 
 @NgModule({
@@ -18,9 +17,11 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    ProdutoListarRoutingModule,
     MaterialFileInputModule,
     NgxCurrencyModule,
   ],
+  exports:[ProdutoListarComponent]
 
 })
 export class ProdutoListarModule { }

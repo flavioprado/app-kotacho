@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/app/cliente/cliente.service';
@@ -18,6 +19,11 @@ import { PedidoService } from '../pedido.service';
 })
 export class AddProdutoComponent implements OnInit {
     @Output() adicionarProduto = new EventEmitter();
+    @ViewChild("qtde") qtdeField: ElementRef;
+    @ViewChild("produto") produtoField: ElementRef;
+    @ViewChild('produto') produtoRef: MatSelect;
+
+
 
     formCadastro: FormGroup;
     produto: Produto;
@@ -47,9 +53,26 @@ export class AddProdutoComponent implements OnInit {
         this.initProduto();
         this.initItem();
         this.loadProdutos();
+        this.qtdeField.nativeElement.focus();
+
     }
     onItemLoaded() {
         //populateForm
+    }
+    setFocusQtde() {
+        setTimeout(() => {
+            if (this.qtdeField.nativeElement) {
+                this.qtdeField.nativeElement.focus();
+            }
+        })
+    }
+
+    setFocusProduto() {
+        setTimeout(() => {
+            if (this.produtoRef) {
+                this.produtoRef.focus();
+            }
+        })
     }
 
 
@@ -97,7 +120,7 @@ export class AddProdutoComponent implements OnInit {
     onSelectProduto(event: { value: Produto; }) {
         this.produto = event.value;
         this.item.produto = this.produto;
-        console.log(this.item);
+        this.setFocusQtde();
     }
 
     addProdutoToCart() {

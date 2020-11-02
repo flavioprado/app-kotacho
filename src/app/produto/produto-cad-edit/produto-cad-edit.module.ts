@@ -19,10 +19,10 @@ import { AddProdutoModule } from 'src/app/pedido/add-produto-form/add-produto.mo
     ReactiveFormsModule,
     CommonModule,
     MaterialFileInputModule,
-    NgxCurrencyModule,
-    ProdutoCadEditRoutingModule,
-    
+    NgxCurrencyModule,   
+    ProdutoCadEditRoutingModule, 
   ],
+  exports:[ProdutoCadEditComponent]
 
 })
 export class ProdutoCadEditModule { }

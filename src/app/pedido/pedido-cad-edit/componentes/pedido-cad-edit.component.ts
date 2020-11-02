@@ -15,6 +15,8 @@ import { ProdutoService } from 'src/app/produto/produto.service';
 import { Renderer2 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CarrinhoComponent } from '../../carrinho-compras/carrinho.component';
+import { MatSelect } from '@angular/material/select';
+import { AddProdutoComponent } from '../../add-produto-form/add-produto.component';
 
 
 @Component({
@@ -23,9 +25,13 @@ import { CarrinhoComponent } from '../../carrinho-compras/carrinho.component';
     styleUrls: ['./pedido-cad-edit.component.css']
 })
 export class PedidoCadEditComponent implements OnInit {
-    @ViewChild("name") nameField: ElementRef;
+    @ViewChild('someRef') someRef: MatSelect;
+    @ViewChild("cliente") clienteField: ElementRef;
     @ViewChild(CarrinhoComponent)
     private carrinho: CarrinhoComponent;
+    @ViewChild(AddProdutoComponent)
+    private addProduto: AddProdutoComponent;
+    // @ViewChild("name") nameField: ElementRef;
 
     itens: Item[] = [];
 
@@ -61,6 +67,7 @@ export class PedidoCadEditComponent implements OnInit {
 
     ngOnInit() {
 
+
         let id = this.route.snapshot.paramMap.get('id');
 
         this.labelForm = id ? 'Editar' : 'Cadastrar';
@@ -95,9 +102,21 @@ export class PedidoCadEditComponent implements OnInit {
         return this.itens.map(t => t.numero).reduce((value) => value + 1, 1);
     }
 
+
     ngAfterViewInit() {
-        // this.nameField.nativeElement.focus();
+
+        setTimeout(() => {
+            // if (this.someRef) {
+            //     this.someRef.focus();
+            // }
+
+            // if (this.clienteField.nativeElement) {
+            //     this.clienteField.nativeElement.focus();
+            // }
+        })
     }
+
+
     private setValueOnForm(form: FormGroup, pathOnForm: string, value: any) {
         if (value) {
             form.get(pathOnForm).setValue(value);
@@ -106,6 +125,11 @@ export class PedidoCadEditComponent implements OnInit {
     private populateForm(pedido: Pedido) {
         this.formCadastro.patchValue(pedido);
         // this.formCadastro.get('item').patchValue(pedido.itens);
+    }
+
+    onSelectCliente(){
+        console.log('clie slected')
+        this.addProduto.setFocusProduto();
     }
 
 
@@ -236,5 +260,5 @@ export class PedidoCadEditComponent implements OnInit {
 
     }
 
-   
+
 }

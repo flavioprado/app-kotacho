@@ -10,6 +10,7 @@ import { ClienteService } from '../../cliente.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from 'src/app/_shared/dialog.service';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { DialogService } from 'src/app/_shared/dialog.service';
 })
 export class ClienteListarComponent implements OnInit {
 
-    colunasTabela = ["cli_id", "nome", "cnpj", "ativo", "action"];
+    colunasTabela = ["numero", "nome", "cnpj", "ativo", "action"];
 
     page: Page<Cliente> = new Page([], 0);
     pageEvent: PageEvent;
@@ -29,7 +30,7 @@ export class ClienteListarComponent implements OnInit {
 
     constructor(private clienteService: ClienteService,
         private router: Router,
-        public matDialog: MatDialog,
+        public dialog: MatDialog,
         private matSnackBar: MatSnackBar,
         private dialogService: DialogService) { }
 
@@ -76,19 +77,26 @@ export class ClienteListarComponent implements OnInit {
     }
 
     onDelete($key) {
-        this.dialogService.openConfirmDialog('Tem certeza que deseja excluir esse registro?')
-            .afterClosed().subscribe(res => {
-                if (res === "true") {
-                    this.clienteService.deletar($key).subscribe(() => {
-                        this.listarItens();
-                        this.matSnackBar.open("Excluído com sucesso!", null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
+        const message = `Tem certeza que deseja excluir esse registro?`;
+        const dialogData = new ConfirmDialogModel("Confirma ?", message);
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            maxWidth: "400px",
+            data: dialogData
+        });
+
+        dialogRef.afterClosed().subscribe(res => {
+            if (res) {
+                this.clienteService.deletar($key).subscribe(() => {
+                    this.listarItens();
+                    this.matSnackBar.open("Excluído com sucesso!", null, {
+                        duration: 5000,
+                        panelClass: "green-snackbar",
                     });
-                    // this.notificationService.warn('Excluído com Sucesso');
-                }
-            });
+                });
+            }
+        });
+
     }
 
     cadastrarCliente() {

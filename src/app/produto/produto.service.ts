@@ -54,6 +54,9 @@ export class ProdutoService {
     pesquisarPorId(id: string): Observable<Produto> {
         return this.httpClient.get<Produto>(`${this.baseURL}/${this.endpoint}/${id}`);
     }
+    pesquisarPorCod(cod: number): Observable<Produto> {
+        return this.httpClient.get<Produto>(`${this.baseURL}/${this.endpoint}/${cod}/cod`);
+    }
 
     atualizar(produto: Produto): Observable<Produto> {
         const result = this.httpClient.post<Produto>(`${this.baseURL}/${this.endpoint}`, produto);

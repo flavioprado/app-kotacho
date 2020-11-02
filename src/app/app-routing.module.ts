@@ -49,25 +49,22 @@ const routes: Routes = [
     loadChildren: () => import('./categoria/categoria-cad-edit/categoria-cad-edit.module').then(modulo => modulo.CategoriaCadEditModule)
   },
   //produtos
+  
   {
-    path: 'produtos',
+    path: "produtos",
     canActivate: [AuthGuard],
-    loadChildren: () => import('./produto/produto.module').then(m => m.ProdutoModule),
+    loadChildren: () => import('./produto/produto-listar/produto-listar.module').then(modulo => modulo.ProdutoListarModule)
   },
-
-
-  // {
-  //   path: "produtos",
-  //   loadChildren: () => import('./produto/produto-listar/produto-listar.module').then(modulo => modulo.ProdutoListarModule)
-  // },
-  // {
-  //   path: "produtos/cadastrar",
-  //   loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
-  // },
-  // {
-  //   path: "produtos/editar/:id",
-  //   loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
-  // },
+  {
+    path: "produtos/cadastrar",
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
+  },
+  {
+    path: "produtos/editar/:id",
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./produto/produto-cad-edit/produto-cad-edit.module').then(modulo => modulo.ProdutoCadEditModule)
+  },
 
   //pedidos
   {

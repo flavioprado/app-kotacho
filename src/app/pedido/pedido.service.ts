@@ -37,6 +37,9 @@ export class PedidoService {
     pesquisarPorId(id: string): Observable<Pedido> {
         return this.httpClient.get<Pedido>(`${this.baseURL}/${this.endpoint}/${id}`);
     }
+    pesquisarPorCod(cod: number): Observable<Pedido> {
+        return this.httpClient.get<Pedido>(`${this.baseURL}/${this.endpoint}/${cod}`);
+    }
 
     atualizar(pedido: Pedido): Observable<Pedido> {
         return this.httpClient.put<Pedido>(`${this.baseURL}/${this.endpoint}/${pedido.id}`, pedido);
