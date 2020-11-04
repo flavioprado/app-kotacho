@@ -16,7 +16,8 @@ import { Renderer2 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CarrinhoComponent } from '../../carrinho-compras/carrinho.component';
 import { MatSelect } from '@angular/material/select';
-import { AddProdutoComponent } from '../../add-produto-form/add-produto.component';
+import { AddItemComponent } from '../../add-item-form/add-item.component';
+import { CarrinhoService } from '../../carrinho-compras/carrinho.service';
 
 
 @Component({
@@ -27,13 +28,12 @@ import { AddProdutoComponent } from '../../add-produto-form/add-produto.componen
 export class PedidoCadEditComponent implements OnInit {
     @ViewChild('someRef') someRef: MatSelect;
     @ViewChild("cliente") clienteField: ElementRef;
-    @ViewChild(CarrinhoComponent)
-    private carrinho: CarrinhoComponent;
-    @ViewChild(AddProdutoComponent)
-    private addProduto: AddProdutoComponent;
-    // @ViewChild("name") nameField: ElementRef;
+    @ViewChild(CarrinhoComponent) private carrinho: CarrinhoComponent;
+    @ViewChild(AddItemComponent) private addItem: AddItemComponent;
 
     itens: Item[] = [];
+
+
 
 
 
@@ -52,6 +52,7 @@ export class PedidoCadEditComponent implements OnInit {
     constructor(
         private renderer: Renderer2,
         private fb: FormBuilder,
+        private carrinhoSvc: CarrinhoService,
         private pedidoService: PedidoService,
         private produtoService: ProdutoService,
         private clienteService: ClienteService,
@@ -70,7 +71,7 @@ export class PedidoCadEditComponent implements OnInit {
 
         let id = this.route.snapshot.paramMap.get('id');
 
-        this.labelForm = id ? 'Editar' : 'Cadastrar';
+        this.labelForm = id ? 'Editar' : 'Novo';
 
         if (id) {
             this.loadPedido(id);
@@ -90,6 +91,13 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
             this.pedido = pedido;
             this.populateForm(pedido);
+            if (this.pedido.itens) {
+                // this.carrinhoSvc.setItens(this.pedido.itens);
+                this.itens = this.pedido.itens;
+                this.carrinhoSvc.setItens(this.pedido.itens);
+
+                this.carrinho.refresh();
+            }
         })
     }
 
@@ -104,6 +112,7 @@ export class PedidoCadEditComponent implements OnInit {
 
 
     ngAfterViewInit() {
+        //   this.carrinho.refresh();
 
         setTimeout(() => {
             // if (this.someRef) {
@@ -124,12 +133,15 @@ export class PedidoCadEditComponent implements OnInit {
     }
     private populateForm(pedido: Pedido) {
         this.formCadastro.patchValue(pedido);
-        // this.formCadastro.get('item').patchValue(pedido.itens);
+        this.formCadastro.patchValue({
+            cliente: pedido.cliente.id,
+            status:  pedido.status
+        });
     }
 
-    onSelectCliente(){
+    onSelectCliente() {
         console.log('clie slected')
-        this.addProduto.setFocusProduto();
+        this.addItem.setFocusProduto();
     }
 
 
@@ -144,8 +156,8 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro = this.fb.group({
             id: null,
             numero: [],
-            cliente: ["", Validators.required],
-            status: [this.statusList[0], Validators.required],
+            cliente: [null, Validators.required],
+            status: ['ABERTO', Validators.required],
             desconto: [],
             total: [""],
             obs: [""],
@@ -181,6 +193,7 @@ export class PedidoCadEditComponent implements OnInit {
     initPedido() {
         this.pedido = {
             numero: null,
+            cliente: null,
             itens: [],
             ativo: true,
             status: 'ABERTO',
@@ -201,16 +214,20 @@ export class PedidoCadEditComponent implements OnInit {
         const {
             numero,
             status,
+            cliente,
+
         } = this.formCadastro.value;
 
         const pedido = {
             numero,
-            status
+            status,
+            cliente
+
         } as Pedido;
 
-        pedido.id = this.formCadastro.get('id').value;
         pedido.itens = this.itens;
         pedido.ativo = true;
+        
 
         if (this.pedido && this.pedido.id) {
             this.pedidoService.atualizar(pedido).subscribe(
@@ -246,12 +263,12 @@ export class PedidoCadEditComponent implements OnInit {
             );
         }
     }
-    onAdicionarProduto(item: Item) {
-        item.numero = this.createNumber();
-        item.ativo = true;
-        this.itens.push(item);
-        this.carrinho.refresh();
-    }
+    // onAdicionarProduto(item: Item) {
+    //     item.numero = this.createNumber();
+    //     item.ativo = true;
+    //     this.itens.push(item);
+    //     this.carrinho.refresh();
+    // }
 
     onAlterarProduto() {
 

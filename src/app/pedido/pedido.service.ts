@@ -30,8 +30,8 @@ export class PedidoService {
             );
     }
 
-    cadastrar(Pedido: Pedido): Observable<Pedido> {
-        return this.httpClient.post<Pedido>(`${this.baseURL}/${this.endpoint}`, Pedido);
+    cadastrar(pedido: Pedido): Observable<Pedido> {
+        return this.httpClient.post<Pedido>(`${this.baseURL}/${this.endpoint}`, pedido);
     }
 
     pesquisarPorId(id: string): Observable<Pedido> {
@@ -42,7 +42,7 @@ export class PedidoService {
     }
 
     atualizar(pedido: Pedido): Observable<Pedido> {
-        return this.httpClient.put<Pedido>(`${this.baseURL}/${this.endpoint}/${pedido.id}`, pedido);
+        return this.httpClient.post<Pedido>(`${this.baseURL}/${this.endpoint}`, pedido);
     }
 
     

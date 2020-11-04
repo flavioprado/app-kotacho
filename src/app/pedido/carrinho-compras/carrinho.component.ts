@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { Item } from 'src/app/model/item';
+import { CarrinhoService } from './carrinho.service';
 
 
 
@@ -12,23 +13,30 @@ import { Item } from 'src/app/model/item';
     styleUrls: ['./carrinho.component.css']
 })
 export class CarrinhoComponent implements OnInit {
-    @Output() produtoRemovido = new EventEmitter();
-    @Input() itens: Item[];
+    @ViewChild(MatTable) dataTable: MatTable<any>;
 
-    constructor() {
-        // this.dataSource = new DataSource(this.listElementsChild);
+    @Output() produtoRemovido = new EventEmitter();
+    itens: Item[] = [];
+
+
+    constructor(private carrinhoSvc: CarrinhoService) {
+
     }
-    ngOnInit(): void {
-        //  throw new Error('Method not implemented.');
+
+    ngOnInit() {
+        this.carrinhoSvc.onNewItem.subscribe((p) => {
+            this.itens = this.carrinhoSvc.getItens();
+            this.dataTable.renderRows();
+        });
     }
-    dataSource = new MatTableDataSource<Item>([]);
-    displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total'];
+    displayedColumns: string[] = ['#','produto','quantidade','preco','total'];
 
     getTotalCost() {
 
     }
 
     refresh() {
-        this.dataSource = new MatTableDataSource<Item>(this.itens);
+        this.itens = this.carrinhoSvc.getItens();
+        this.dataTable.renderRows();
     }
 }

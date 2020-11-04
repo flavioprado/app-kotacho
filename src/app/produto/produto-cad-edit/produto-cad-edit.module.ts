@@ -7,8 +7,6 @@ import { ProdutoCadEditComponent } from './components/produto-cad-edit.component
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { NgxCurrencyModule } from "ngx-currency";
 import { ProdutoCadEditRoutingModule } from './produto-cad-edit-routing.module';
-import { AddProdutoModule } from 'src/app/pedido/add-produto-form/add-produto.module';
-
 
 
 @NgModule({

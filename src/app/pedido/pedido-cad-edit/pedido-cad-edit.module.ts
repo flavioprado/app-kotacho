@@ -6,12 +6,11 @@ import { PedidoCadEditComponent } from './componentes/pedido-cad-edit.component'
 import { MaterialModule } from 'src/app/material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
-import { ItemTableComponent } from 'src/app/item-table/item-table.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxCurrencyModule } from 'ngx-currency';
-import { AddProdutoModule } from '../add-produto-form/add-produto.module';
 import { CarrinhoModule } from '../carrinho-compras/carrinho.module';
-import { AddProdutoComponent } from '../add-produto-form/add-produto.component';
+import { AddItemModule } from '../add-item-form/add-item.module';
+import { CarrinhoComponent } from '../carrinho-compras/carrinho.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -19,18 +18,19 @@ const maskConfig: Partial<IConfig> = {
 
 
 @NgModule({
-  declarations: [PedidoCadEditComponent, ItemTableComponent],
+  declarations: [PedidoCadEditComponent],
   imports: [
     NgxMaskModule.forRoot(maskConfig),
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    AddProdutoModule,
     CarrinhoModule,
+    AddItemModule,
     PedidoCadEditRoutingModule,
     FlexLayoutModule,
     NgxCurrencyModule
-  ]
+  ],
+  exports:[CarrinhoComponent]
 })
 export class PedidoCadEditModule { }

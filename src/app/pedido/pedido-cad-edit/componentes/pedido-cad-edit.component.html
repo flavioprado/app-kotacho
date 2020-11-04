@@ -1,43 +1,44 @@
 <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <h1 class="mat-h2">{{labelForm}} Pedido</h1>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <h1 class="mat-h2">{{labelForm}} Pedido</h1>
+  </div>
+
+
+  <mat-card class="top-card">
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="0px">
+      <!-- <mat-form-field fxFlex="20" appearance="outline">
+        <mat-label>Nº Pedido</mat-label>
+        <p>{{pedido?.numero}}</p>
+      </mat-form-field> -->
+      <mat-form-field fxFlex="20" appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statusList" [value]="status">
+            {{status}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="40" appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="cliente"  required>
+          <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+            {{cliente.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <h1 class="mat-h2">Pedido Número: {{pedido?.numero}}</h1>
     </div>
+  </mat-card>
 
 
-    <mat-card class="top-card">
-        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="0px">
-          <mat-form-field fxFlex="20" appearance="outline">
-            <mat-label>Nº Pedido</mat-label>
-            <input matInput type="text" placeholder="numero"    formControlName="numero">
-          </mat-form-field>
-          <mat-form-field fxFlex="20" appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status"  required>
-              <mat-option *ngFor="let status of statusList" [value]="status">
-                {{status}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field fxFlex="40" appearance="outline">
-            <mat-label>Cliente</mat-label>
-            <mat-select formControlName="cliente" #someRef (selectionChange)='onSelectCliente()' required>
-              <mat-option *ngFor="let cliente of clientes"  [value]="cliente.id">
-                {{cliente.nome}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-    </mat-card>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <app-add-item></app-add-item>
+    <app-carrinho (removerProduto)='onRemoverProduto()' (alterarProduto)='onAlterarProduto'>
+    </app-carrinho>
+  </div>
 
-  
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <app-add-produto (adicionarProduto)='onAdicionarProduto($event)'></app-add-produto>
-        <app-carrinho [itens]='itens' (removerProduto)='onRemoverProduto()' (alterarProduto)='onAlterarProduto'>
-        </app-carrinho>
-    </div>
-
-    <mat-card-actions>
-        <button mat-raised-button color="primary">Salvar</button>
-        <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
-    </mat-card-actions>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">Salvar</button>
+    <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
+  </mat-card-actions>
 </form>

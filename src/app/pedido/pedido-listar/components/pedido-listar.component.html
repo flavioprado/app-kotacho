@@ -30,7 +30,12 @@
 
     <ng-container matColumnDef="datapedido">
       <th mat-header-cell *matHeaderCellDef>Data Pedido</th>
-      <td mat-cell *matCellDef="let row">{{row.dataPedido}}</td>
+      <td mat-cell *matCellDef="let row">{{row.dataInclusao|date:'dd/MM/yyyy'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataAtualizacao">
+      <th mat-header-cell *matHeaderCellDef>Atualizado em</th>
+      <td mat-cell *matCellDef="let row">{{row.dataAtualizacao | date:'dd/MM/yyyy'}}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">

@@ -17,7 +17,7 @@ import { PedidoService } from '../../pedido.service';
 })
 export class PedidoListarComponent implements OnInit {
 
-    colunasTabela = ["numero", "desconto","total","datapedido","status","action"];
+    colunasTabela = ["numero", "desconto","total","datapedido","dataAtualizacao","status","action"];
 
     page: Page<Pedido> = new Page([], 0);
     pageEvent: PageEvent;
