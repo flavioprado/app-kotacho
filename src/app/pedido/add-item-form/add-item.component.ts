@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -79,9 +79,9 @@ export class AddItemComponent implements OnInit {
 
     initForm() {
         this.formCadastro = this.fb.group({
-            produto: [null],
+            produto: [null, Validators.required],
             precoEstimado: [null],
-            quantidade: [null],
+            quantidade: [null, Validators.required],
             medida: [null],
             subTotal: [null],
         })
@@ -127,21 +127,26 @@ export class AddItemComponent implements OnInit {
 
     addItemToCart() {
         if (this.formCadastro.valid) {
+            debugger;
             this.item.id = uuidv4();
+            const prod = this.formCadastro.get('produto').value;
+            this.item.produto = prod;
             this.item.quantidade = this.formCadastro.get('quantidade').value;
             this.item.total = this.total;
             this.carrinhoSvc.addItem(this.item);
+            this.initItem();
+            this.initProduto();
             this.formCadastro.reset();
         } else {
             return;
         }
     }
 
-    onKey($event) {
-        const qtde = this.formCadastro.get('quantidade').value;
+    onKey(evento: any) {
+        console.log(evento);
+        this.qtde = evento.key;
         this.preco = this.produto.precoVenda;
-        const total = (qtde * this.preco);
-        this.qtde = qtde;
+        const total = (this.qtde * this.preco);
         this.total = total;
     }
 

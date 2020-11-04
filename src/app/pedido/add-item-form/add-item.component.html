@@ -7,8 +7,9 @@
       <mat-card-content>
         <mat-form-field appearance="outline">
           <mat-label>Produto</mat-label>
-          <mat-select #produto formControlname="produto" 
-          (selectionChange)='onSelectProduto($event)' (keydown.enter)="setFocusQtde()" required>
+          <mat-select formControlName="produto" 
+          (selectionChange)='onSelectProduto($event)'
+           (keydown.enter)="setFocusQtde()" required>
             <mat-option *ngFor="let produto of produtos" [value]="produto">
               {{produto.nome}} - ({{produto.medida}})
             </mat-option>
@@ -21,7 +22,7 @@
            (keydown.enter)="setFocusProduto()" (keyup)="onKey($event)" id="qtde" formControlName="quantidade">
         </mat-form-field>
         <br />
-        <p>Preço Estimado: {{preco}} </p>
+        <p>Preço: {{preco}} </p>
         <br />
         <p>Total: {{total}}</p>
       </mat-card-content>

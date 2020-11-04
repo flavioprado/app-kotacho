@@ -156,7 +156,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro = this.fb.group({
             id: null,
             numero: [],
-            cliente: [null, Validators.required],
+            cliente: ["", Validators.required],
             status: ['ABERTO', Validators.required],
             desconto: [],
             total: [""],

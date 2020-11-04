@@ -21,7 +21,9 @@ export class CarrinhoService {
 
     onNewItem: EventEmitter<Item> = new EventEmitter<Item>();
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        this.itens = [];
+    }
 
     getItens() {
         return this.itens;
