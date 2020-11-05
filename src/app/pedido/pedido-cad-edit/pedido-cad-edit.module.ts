@@ -9,8 +9,9 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { CarrinhoModule } from '../carrinho-compras/carrinho.module';
-import { AddItemModule } from '../add-item-form/add-item.module';
 import { CarrinhoComponent } from '../carrinho-compras/carrinho.component';
+import { AddItemFormModule } from '../item/add-item-form/add-item-form.module';
+import { EditItemFormModule } from '../item/edit-item-form/edit-item-form.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -26,7 +27,8 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule,
     CommonModule,
     CarrinhoModule,
-    AddItemModule,
+    AddItemFormModule,
+    EditItemFormModule,
     PedidoCadEditRoutingModule,
     FlexLayoutModule,
     NgxCurrencyModule

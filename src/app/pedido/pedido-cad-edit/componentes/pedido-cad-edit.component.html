@@ -6,10 +6,6 @@
 
   <mat-card class="top-card">
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="0px">
-      <!-- <mat-form-field fxFlex="20" appearance="outline">
-        <mat-label>Nº Pedido</mat-label>
-        <p>{{pedido?.numero}}</p>
-      </mat-form-field> -->
       <mat-form-field fxFlex="20" appearance="outline">
         <mat-label>Status</mat-label>
         <mat-select formControlName="status" required>
@@ -20,7 +16,7 @@
       </mat-form-field>
       <mat-form-field fxFlex="40" appearance="outline">
         <mat-label>Cliente</mat-label>
-        <mat-select formControlName="cliente"  required>
+        <mat-select formControlName="cliente" required>
           <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
             {{cliente.nome}}
           </mat-option>
@@ -30,15 +26,14 @@
     </div>
   </mat-card>
 
-
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <app-add-item></app-add-item>
-    <app-carrinho (removerProduto)='onRemoverProduto()' (alterarProduto)='onAlterarProduto'>
-    </app-carrinho>
-  </div>
-
   <mat-card-actions>
     <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
     <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
   </mat-card-actions>
 </form>
+
+<div fxLayout="row" fxLayoutAlign="center center">
+  <app-add-item-form></app-add-item-form>
+  <app-carrinho>
+  </app-carrinho>
+</div>

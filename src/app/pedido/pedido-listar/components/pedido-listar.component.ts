@@ -8,6 +8,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Pedido } from '../../pedido.model';
 import { Router } from '@angular/router';
 import { PedidoService } from '../../pedido.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -26,6 +28,8 @@ export class PedidoListarComponent implements OnInit {
     carregando = false;
 
     constructor(private pedidoService: PedidoService, 
+        public dialog: MatDialog,
+
         private router: Router,
         private matSnackBar: MatSnackBar) { }
 
@@ -67,7 +71,27 @@ export class PedidoListarComponent implements OnInit {
             );
     }
 
-    cadastrarPedido() {
-            
+    onDelete($key) {
+        const message = `Tem certeza que deseja excluir esse registro?`;
+        const dialogData = new ConfirmDialogModel("Confirma ?", message);
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            maxWidth: "400px",
+            data: dialogData
+        });
+
+        dialogRef.afterClosed().subscribe(res => {
+            if (res) {
+                this.pedidoService.deletar($key).subscribe(() => {
+                    this.listarItens();
+                    this.matSnackBar.open("Excluído com sucesso!", null, {
+                        duration: 5000,
+                        panelClass: "green-snackbar",
+                    });
+                });
+            }
+        });
+
     }
+
 }

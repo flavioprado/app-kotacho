@@ -10,22 +10,20 @@ import { Item } from 'src/app/model/item';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ProdutoService } from 'src/app/produto/produto.service';
-import { CarrinhoService } from '../carrinho-compras/carrinho.service';
-import { PedidoService } from '../pedido.service';
+import { CarrinhoService } from '../../carrinho-compras/carrinho.service';
+
 
 
 @Component({
-    selector: 'app-add-item',
-    templateUrl: './add-item.component.html',
-    styleUrls: ['./add-item.component.css']
+    selector: 'app-edit-item-form',
+    templateUrl: './edit-item-form.component.html',
+    styleUrls: ['./edit-item-form.component.css']
 })
-export class AddItemComponent implements OnInit {
+export class EditItemFormComponent implements OnInit {
     @Output() adicionarProduto = new EventEmitter();
     @ViewChild("qtde") qtdeField: ElementRef;
     @ViewChild("produto") produtoField: ElementRef;
     @ViewChild('produto') produtoRef: MatSelect;
-
-
 
     formCadastro: FormGroup;
     produto: Produto;
@@ -35,15 +33,11 @@ export class AddItemComponent implements OnInit {
     preco: any;
     total: any;
 
+
     constructor(
         private carrinhoSvc: CarrinhoService,
-        private renderer: Renderer2,
         private fb: FormBuilder,
-        private pedidoService: PedidoService,
         private produtoService: ProdutoService,
-        private clienteService: ClienteService,
-        private router: Router,
-        private route: ActivatedRoute,
         public matDialog: MatDialog,
         public matSnackBar: MatSnackBar
     ) {
@@ -56,10 +50,18 @@ export class AddItemComponent implements OnInit {
         this.initProduto();
         this.initItem();
         this.loadProdutos();
+        this.carrinhoSvc.onEditItem.subscribe((item: Item) => {
+            this.populateForm(item);
+        });
     }
-    onItemLoaded() {
-        //populateForm
+
+    populateForm(item: Item) {
+        this.formCadastro.patchValue(item);
+        // this.formCadastro.patchValue({
+        //     produto: item.produto,
+        // });
     }
+
     setFocusQtde() {
         setTimeout(() => {
             if (this.qtdeField.nativeElement) {
@@ -118,7 +120,13 @@ export class AddItemComponent implements OnInit {
         this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
     }
 
+    public objectComparisonFunction = function (option, value): boolean {
+        return option.id === value.id;
+    }
+
     onSelectProduto(event: { value: Produto; }) {
+        debugger;
+        
         this.produto = event.value;
         this.item.produto = this.produto;
         this.item.precoEstimado = this.produto.precoVenda;
@@ -127,7 +135,6 @@ export class AddItemComponent implements OnInit {
 
     addItemToCart() {
         if (this.formCadastro.valid) {
-            debugger;
             this.item.id = uuidv4();
             const prod = this.formCadastro.get('produto').value;
             this.item.produto = prod;
@@ -140,6 +147,10 @@ export class AddItemComponent implements OnInit {
         } else {
             return;
         }
+    }
+
+    salvar(){
+        console.log('item Alterado com Sucesso');
     }
 
     onKey(evento: any) {

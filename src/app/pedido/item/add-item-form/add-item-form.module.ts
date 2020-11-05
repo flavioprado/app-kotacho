@@ -4,14 +4,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { MaterialModule } from 'src/app/material-module';
-import { SampleDialogComponent } from '../dialog/sample-dialog.component';
-import { PedidoCadEditRoutingModule } from '../pedido-cad-edit/pedido-cad-edit-routing.module';
-import { CarrinhoComponent } from './carrinho.component';
+import { PedidoCadEditRoutingModule } from '../../pedido-cad-edit/pedido-cad-edit-routing.module';
+import { AddItemFormComponent } from './add-item-form.component';
 
 
 
 @NgModule({
-  declarations: [CarrinhoComponent, SampleDialogComponent],
+  declarations: [AddItemFormComponent],
   imports: [
     MaterialModule,
     FormsModule,
@@ -21,9 +20,6 @@ import { CarrinhoComponent } from './carrinho.component';
     FlexLayoutModule,
     NgxCurrencyModule
   ],
-  providers:[],
-  exports:[
-    CarrinhoComponent
-  ]
+  exports:[AddItemFormComponent]
 })
-export class CarrinhoModule { }
+export class AddItemFormModule { }

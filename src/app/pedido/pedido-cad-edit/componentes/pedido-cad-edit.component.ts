@@ -16,8 +16,8 @@ import { Renderer2 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CarrinhoComponent } from '../../carrinho-compras/carrinho.component';
 import { MatSelect } from '@angular/material/select';
-import { AddItemComponent } from '../../add-item-form/add-item.component';
 import { CarrinhoService } from '../../carrinho-compras/carrinho.service';
+import { AddItemFormComponent } from '../../item/add-item-form/add-item-form.component';
 
 
 @Component({
@@ -29,15 +29,10 @@ export class PedidoCadEditComponent implements OnInit {
     @ViewChild('someRef') someRef: MatSelect;
     @ViewChild("cliente") clienteField: ElementRef;
     @ViewChild(CarrinhoComponent) private carrinho: CarrinhoComponent;
-    @ViewChild(AddItemComponent) private addItem: AddItemComponent;
+    @ViewChild(AddItemFormComponent) private addItem: AddItemFormComponent;
 
     itens: Item[] = [];
 
-
-
-
-
-    emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     formCadastro: FormGroup;
     item: Item;
     pedido: Pedido;
@@ -67,8 +62,6 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
     ngOnInit() {
-
-
         let id = this.route.snapshot.paramMap.get('id');
 
         this.labelForm = id ? 'Editar' : 'Novo';
@@ -80,10 +73,8 @@ export class PedidoCadEditComponent implements OnInit {
         }
 
         this.buildForm();
-        //  this.renderer.selectRootElement('#myInput').focus();
         this.loadClientes();
         this.loadProdutos();
-
     }
 
 
@@ -95,7 +86,6 @@ export class PedidoCadEditComponent implements OnInit {
                 // this.carrinhoSvc.setItens(this.pedido.itens);
                 this.itens = this.pedido.itens;
                 this.carrinhoSvc.setItens(this.pedido.itens);
-
                 this.carrinho.refresh();
             }
         })
@@ -135,7 +125,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro.patchValue(pedido);
         this.formCadastro.patchValue({
             cliente: pedido.cliente.id,
-            status:  pedido.status
+            status: pedido.status
         });
     }
 
@@ -201,17 +191,12 @@ export class PedidoCadEditComponent implements OnInit {
             valorTotal: null
         }
 
-    }
-
-
-
-    deleteItem(item: Item) {
-        // this.personService.removeAddress(address);
-    }
+    }   
 
 
     salvar() {
         const {
+            id,
             numero,
             status,
             cliente,
@@ -219,15 +204,16 @@ export class PedidoCadEditComponent implements OnInit {
         } = this.formCadastro.value;
 
         const pedido = {
+            id,
             numero,
             status,
             cliente
 
         } as Pedido;
 
-        pedido.itens = this.itens;
+        pedido.itens = this.carrinhoSvc.getItens();        
         pedido.ativo = true;
-        
+
 
         if (this.pedido && this.pedido.id) {
             this.pedidoService.atualizar(pedido).subscribe(
@@ -263,19 +249,4 @@ export class PedidoCadEditComponent implements OnInit {
             );
         }
     }
-    // onAdicionarProduto(item: Item) {
-    //     item.numero = this.createNumber();
-    //     item.ativo = true;
-    //     this.itens.push(item);
-    //     this.carrinho.refresh();
-    // }
-
-    onAlterarProduto() {
-
-    }
-    onRemoverProduto() {
-
-    }
-
-
 }

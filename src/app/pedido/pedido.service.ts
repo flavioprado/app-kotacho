@@ -22,7 +22,6 @@ export class PedidoService {
     constructor(private httpClient: HttpClient) { }
 
     listar(queryBuilder: QueryBuilder): Observable<Page<Pedido>> {
-
         return this.httpClient
             .get<Pedido[]>(`${this.baseURL}/${this.endpoint}?${queryBuilder.buildQueryString()}`, { observe: 'response' })
             .pipe(
@@ -43,6 +42,9 @@ export class PedidoService {
 
     atualizar(pedido: Pedido): Observable<Pedido> {
         return this.httpClient.post<Pedido>(`${this.baseURL}/${this.endpoint}`, pedido);
+    }
+    deletar(_id:string): Observable<{}> {
+        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
 
     
@@ -69,9 +71,7 @@ export class PedidoService {
         return this.itens.length === 0;
     }
 
-    deletar(_id:string): Observable<{}> {
-        return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
-    }
+    
 
 }
 

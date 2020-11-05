@@ -1,0 +1,17 @@
+<div class="basic-container">
+
+<mat-form-field>
+  <input matInput placeholder="Name" [(ngModel)]="data.name">
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput placeholder="Weight" [(ngModel)]="data.weight">
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput placeholder="Quantidade" [(ngModel)]="data.quantidade">
+</mat-form-field>
+<button mat-button (click)="closeDialog()">Salvar</button>
+
+<button mat-button (click)="closeDialog()">Fechar</button>
+</div>

@@ -8,6 +8,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Produto</mat-label>
           <mat-select formControlName="produto" 
+          [compareWith]="objectComparisonFunction"
           (selectionChange)='onSelectProduto($event)'
            (keydown.enter)="setFocusQtde()" required>
             <mat-option *ngFor="let produto of produtos" [value]="produto">
@@ -18,7 +19,7 @@
         <br />
         <mat-form-field appearance="outline">
           <mat-label>Quantidade</mat-label>
-          <input matInput placeholder="quantidade" #qtde required
+          <input matInput placeholder="quantidade" required
            (keydown.enter)="setFocusProduto()" (keyup)="onKey($event)" id="qtde" formControlName="quantidade">
         </mat-form-field>
         <br />

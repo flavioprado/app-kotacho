@@ -3,10 +3,10 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Item } from 'src/app/model/item';
 import { QueryBuilder, Page } from 'src/app/_util/Pagination';
 import { Pedido } from '../pedido.model';
 import { HttpClient } from '@angular/common/http';
+import { Item } from 'src/app/model/item';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +20,8 @@ export class CarrinhoService {
     private endpoint = 'pedidos'
 
     onNewItem: EventEmitter<Item> = new EventEmitter<Item>();
+    onEditItem: EventEmitter<Item> = new EventEmitter<Item>();
+
 
     constructor(private http: HttpClient) {
         this.itens = [];
@@ -35,6 +37,14 @@ export class CarrinhoService {
     addItem(item: Item) {
         this.itens.push(item);
         this.onNewItem.emit(item);
+    }
+
+    editItem(item: Item) {
+        this.onEditItem.emit(item);
+    }
+    
+    udpateItem(item: Item){
+
     }
 
     listar(queryBuilder: QueryBuilder): Observable<Page<Pedido>> {
@@ -61,12 +71,9 @@ export class CarrinhoService {
         return this.http.put<Pedido>(`${this.baseURL}/${this.endpoint}/${pedido.id}`, pedido);
     }
 
-
-
-
-    removeItem(item) {
-        this.itens = this.itens.filter(elem => elem !== item);
-        this.subject.next(this.itens);
+    removeItem(item: Item) {
+        const itens = this.itens.filter(elem => elem !== item);
+        this.setItens(itens);
     }
 
     loadItens(id: string): Observable<Item[]> {
