@@ -29,12 +29,13 @@
     <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
   </mat-card-actions>
 </form>
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <div>
+<div class="flex-container">
+  <div class=".flex-item:nth-child(1)">
     <app-add-item-form></app-add-item-form>
   </div>
-  <div class="basic-container">
+  <div class=".flex-item:nth-child(2)">
     <app-carrinho>
     </app-carrinho>
   </div>
+  
 </div>
