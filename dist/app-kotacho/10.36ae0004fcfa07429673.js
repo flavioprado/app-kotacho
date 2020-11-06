@@ -185,7 +185,7 @@ function PedidoListarComponent_td_21_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const row_r19 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, row_r19.dataInclusao, "dd/MM/yyyy"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, row_r19.dataInclusao, "dd/MM/yyyy hh:mm"));
 } }
 function PedidoListarComponent_th_23_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "th", 18);
@@ -200,7 +200,7 @@ function PedidoListarComponent_td_24_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const row_r20 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, row_r20.dataAtualizacao, "dd/MM/yyyy"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](2, 1, row_r20.dataAtualizacao, "dd/MM/yyyy hh:mm"));
 } }
 function PedidoListarComponent_th_26_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "th", 18);
@@ -422,4 +422,4 @@ PedidoListarModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefin
 /***/ })
 
 }]);
-//# sourceMappingURL=10.a9e50497f84937a40a9a.js.map
+//# sourceMappingURL=10.36ae0004fcfa07429673.js.map

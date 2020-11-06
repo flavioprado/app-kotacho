@@ -969,7 +969,8 @@ class PedidoCadEditComponent {
             ativo: true,
             status: 'ABERTO',
             desconto: null,
-            valorTotal: null
+            valorTotal: null,
+            dataAtualizacao: null
         };
     }
     salvar() {
@@ -982,6 +983,7 @@ class PedidoCadEditComponent {
         };
         pedido.itens = this.carrinhoSvc.getItens();
         pedido.ativo = true;
+        pedido.dataAtualizacao = new Date();
         if (this.pedido && this.pedido.id) {
             this.pedidoService.atualizar(pedido).subscribe((itemAtualizado) => {
                 this.matSnackBar.open("Atualizado com sucesso!", null, {
@@ -1896,4 +1898,4 @@ module.exports = v4;
 /***/ })
 
 }]);
-//# sourceMappingURL=4.afdae1c58a3638c9179e.js.map
+//# sourceMappingURL=4.ba7354bd5a2bf86ef797.js.map

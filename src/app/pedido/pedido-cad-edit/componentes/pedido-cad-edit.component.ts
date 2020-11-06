@@ -188,10 +188,11 @@ export class PedidoCadEditComponent implements OnInit {
             ativo: true,
             status: 'ABERTO',
             desconto: null,
-            valorTotal: null
+            valorTotal: null,
+            dataAtualizacao: null
         }
 
-    }   
+    }
 
 
     salvar() {
@@ -211,9 +212,10 @@ export class PedidoCadEditComponent implements OnInit {
 
         } as Pedido;
 
-        pedido.itens = this.carrinhoSvc.getItens();        
+        pedido.itens = this.carrinhoSvc.getItens();
         pedido.ativo = true;
 
+        pedido.dataAtualizacao = new Date();
 
         if (this.pedido && this.pedido.id) {
             this.pedidoService.atualizar(pedido).subscribe(

@@ -6,9 +6,10 @@ export interface Pedido {
     id?: string,
     numero: string,
     cliente: any,
-    ativo:boolean,
-    itens: any[];
+    ativo: boolean,
+    itens: any[],
     status: string,
     desconto: number,
-    valorTotal: number
+    valorTotal: number,
+    dataAtualizacao: any,
 }
