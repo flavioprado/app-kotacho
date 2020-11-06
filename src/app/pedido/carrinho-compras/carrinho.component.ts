@@ -22,6 +22,7 @@ export class CarrinhoComponent implements OnInit {
     @Output() produtoRemovido = new EventEmitter();
     itens: Item[] = [];
 
+    dataSource: MatTableDataSource<Item>;
 
     constructor(private carrinhoSvc: CarrinhoService,
         private _dialog: MatDialog,
@@ -32,14 +33,19 @@ export class CarrinhoComponent implements OnInit {
 
     ngOnInit() {
         this.carrinhoSvc.onNewItem.subscribe((p) => {
-            this.itens = this.carrinhoSvc.getItens();
-            this.dataTable.renderRows();
+           this.reloadCarrinho();
+            // this.dataTable.renderRows();
         });
     }
-    displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total', 'actions'];
+    displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total','actions'];
 
     getTotalCost() {
 
+    }
+
+    reloadCarrinho() {
+        this.itens = this.carrinhoSvc.getItens();
+        this.dataSource = new MatTableDataSource(this.itens);
     }
 
     onEdit(item: Item) {
@@ -52,8 +58,9 @@ export class CarrinhoComponent implements OnInit {
     }
 
     refresh() {
-        this.itens = this.carrinhoSvc.getItens();
-        this.dataTable.renderRows();
+        this.reloadCarrinho();
+        // this.itens = this.carrinhoSvc.getItens();
+        // this.dataTable.renderRows();
     }
 
     openDialog(item: Item) {

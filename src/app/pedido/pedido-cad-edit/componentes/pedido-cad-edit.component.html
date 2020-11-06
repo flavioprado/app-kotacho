@@ -2,8 +2,6 @@
   <div fxLayout="row" fxLayoutAlign="center center">
     <h1 class="mat-h2">{{labelForm}} Pedido</h1>
   </div>
-
-
   <mat-card class="top-card">
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="0px">
       <mat-form-field fxFlex="20" appearance="outline">
@@ -31,9 +29,12 @@
     <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
   </mat-card-actions>
 </form>
-
-<div fxLayout="row" fxLayoutAlign="center center">
-  <app-add-item-form></app-add-item-form>
-  <app-carrinho>
-  </app-carrinho>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div>
+    <app-add-item-form></app-add-item-form>
+  </div>
+  <div class="basic-container">
+    <app-carrinho>
+    </app-carrinho>
+  </div>
 </div>

@@ -28,7 +28,7 @@ import { AddItemFormComponent } from '../../item/add-item-form/add-item-form.com
 export class PedidoCadEditComponent implements OnInit {
     @ViewChild('someRef') someRef: MatSelect;
     @ViewChild("cliente") clienteField: ElementRef;
-    @ViewChild(CarrinhoComponent) private carrinho: CarrinhoComponent;
+    @ViewChild(CarrinhoComponent)  carrinho: CarrinhoComponent;
     @ViewChild(AddItemFormComponent) private addItem: AddItemFormComponent;
 
     itens: Item[] = [];
@@ -83,10 +83,11 @@ export class PedidoCadEditComponent implements OnInit {
             this.pedido = pedido;
             this.populateForm(pedido);
             if (this.pedido.itens) {
-                // this.carrinhoSvc.setItens(this.pedido.itens);
+                debugger;
                 this.itens = this.pedido.itens;
                 this.carrinhoSvc.setItens(this.pedido.itens);
                 this.carrinho.refresh();
+                console.log()
             }
         })
     }

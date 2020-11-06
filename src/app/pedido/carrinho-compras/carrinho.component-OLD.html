@@ -1,0 +1,75 @@
+<!-- <mat-toolbar color="primary">
+ 	 <button mat-button (click)="sidenav.toggle()"><mat-icon>settings</mat-icon></button> 
+</mat-toolbar> -->
+
+<mat-sidenav-container>
+	<mat-sidenav #sidenav position="end" mode="over">
+		<h3>test side-nav</h3>
+		<p>FFPPPPPPP</p>
+	</mat-sidenav>
+
+	<mat-sidenav-content>
+		<mat-card>
+			<mat-card-header>
+				<mat-card-title>Lista de Produtos</mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+
+				<mat-table [dataSource]="itens" #dataTable>
+					<ng-container matColumnDef="#">
+						<mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.numero}} </mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="produto">
+						<mat-header-cell *matHeaderCellDef>Produto</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.produto.nome}}-({{item.produto.medida}})</mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="quantidade">
+						<mat-header-cell *matHeaderCellDef>Qtde</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.quantidade}} </mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="preco">
+						<mat-header-cell *matHeaderCellDef>Preço</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.precoEstimado}} </mat-cell>
+					</ng-container>
+
+					<ng-container matColumnDef="total">
+						<mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+						<mat-cell *matCellDef="let item"> {{item.total}} </mat-cell>
+					</ng-container>
+
+					<!-- Action Column -->
+					<ng-container matColumnDef="actions">
+						<th mat-header-cell *matHeaderCellDef>Ações</th>
+						<td mat-cell *matCellDef="let row">
+							<button mat-icon-button color="warn" (click)="openDialog(row)">
+								<mat-icon>edit</mat-icon>
+							</button>
+							<button mat-icon-button color="warn" (click)="onDeleteItem(row)">
+								<mat-icon>delete_outline</mat-icon>
+							</button>
+						</td>
+					</ng-container>
+
+					<!-- <ng-container matColumnDef="total">
+						<mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+						<mat-cell *matCellDef="let transaction"> {{transaction.cost | currency}} </mat-cell>
+						<mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </mat-footer-cell>
+					</ng-container>  -->
+
+					<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+					<!-- <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row> -->
+				</mat-table>
+
+				<mat-paginator #paginator [pageSize]="12" [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+			</mat-card-content>
+
+			<mat-card-footer></mat-card-footer>
+
+		</mat-card>
+	</mat-sidenav-content>
+</mat-sidenav-container>
