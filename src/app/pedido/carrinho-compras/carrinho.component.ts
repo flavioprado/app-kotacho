@@ -57,12 +57,8 @@ export class CarrinhoComponent implements OnInit {
     }
 
     openDialog(item: Item) {
-        debugger;
-        console.log('Row clicked', item);
-
         const dialog = this._dialog.open(SampleDialogComponent, {
             width: '250px',
-            // Can be closed only by clicking the close button
             disableClose: true,
             data: item
         });

@@ -125,8 +125,6 @@ export class EditItemFormComponent implements OnInit {
     }
 
     onSelectProduto(event: { value: Produto; }) {
-        debugger;
-        
         this.produto = event.value;
         this.item.produto = this.produto;
         this.item.precoEstimado = this.produto.precoVenda;

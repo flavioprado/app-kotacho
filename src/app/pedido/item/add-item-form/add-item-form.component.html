@@ -4,13 +4,13 @@
       <mat-card-title>
         Produto
       </mat-card-title>
+      <!-- [compareWith]="objectComparisonFunction" -->
       <mat-card-content>
         <mat-form-field appearance="outline">
           <mat-label>Produto</mat-label>
-          <mat-select formControlName="produto" 
-          [compareWith]="objectComparisonFunction"
+          <mat-select formControlName="produto" #produto
           (selectionChange)='onSelectProduto($event)'
-           (keydown.enter)="setFocusQtde()" required>
+           (keydown.enter)="setFocusQtde()" >
             <mat-option *ngFor="let produto of produtos" [value]="produto">
               {{produto.nome}} - ({{produto.medida}})
             </mat-option>
@@ -19,8 +19,10 @@
         <br />
         <mat-form-field appearance="outline">
           <mat-label>Quantidade</mat-label>
-          <input matInput placeholder="quantidade" required
-           (keydown.enter)="setFocusProduto()" (keyup)="onKey($event)" id="qtde" formControlName="quantidade">
+          <input matInput placeholder="quantidade" 
+           (keydown.enter)="setFocusProduto()"
+            (keyup)="onKey($event)" id="qtde" #qtde
+            formControlName="quantidade">
         </mat-form-field>
         <br />
         <p>Preço: {{preco}} </p>

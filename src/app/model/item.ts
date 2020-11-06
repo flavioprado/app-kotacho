@@ -7,7 +7,7 @@ export interface Item {
   pedId?: string;
   produto: Produto;
   ativo: boolean;
-  quantidade: string;
+  quantidade: number;
   precoEstimado: number;
   total: number;
 }

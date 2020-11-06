@@ -29,17 +29,15 @@ export class AddItemFormComponent implements OnInit {
     produto: Produto;
     produtos = Array<Produto>();
     item: Item;
-    qtde: any;
-    preco: any;
-    total: any;
-
-
+    qtde: number = 0;
+    preco: number = 0;
+    total: number = 0;
+    formValido = false;
 
     constructor(
         private carrinhoSvc: CarrinhoService,
         private fb: FormBuilder,
         private produtoService: ProdutoService,
-        
         public matDialog: MatDialog,
         public matSnackBar: MatSnackBar
     ) {
@@ -84,16 +82,20 @@ export class AddItemFormComponent implements OnInit {
 
     initForm() {
         this.formCadastro = this.fb.group({
-            produto: [null, Validators.required],
+            produto: [null],
             precoEstimado: [null],
-            quantidade: [null, Validators.required],
+            quantidade: [null],
             medida: [null],
             subTotal: [null],
         })
-
     }
 
     initItem() {
+        this.preco = 0;
+        this.qtde = 0;
+        this.total = 0;
+        this.formCadastro.reset();
+
         this.item = {
             id: null,
             numero: null,
@@ -128,8 +130,6 @@ export class AddItemFormComponent implements OnInit {
     }
 
     onSelectProduto(event: { value: Produto; }) {
-        debugger;
-        
         this.produto = event.value;
         this.item.produto = this.produto;
         this.item.precoEstimado = this.produto.precoVenda;
@@ -137,27 +137,33 @@ export class AddItemFormComponent implements OnInit {
     }
 
     addItemToCart() {
-        if (this.formCadastro.valid) {
+        if (this.formValido) {
             this.item.id = uuidv4();
             const prod = this.formCadastro.get('produto').value;
             this.item.produto = prod;
-            this.item.quantidade = this.formCadastro.get('quantidade').value;
+            this.item.quantidade = this.qtde;
             this.item.total = this.total;
             this.carrinhoSvc.addItem(this.item);
             this.initItem();
             this.initProduto();
             this.formCadastro.reset();
+            this.formValido = false;
+            this.setFocusProduto();
         } else {
             return;
         }
     }
 
     onKey(evento: any) {
-        console.log(evento);
-        this.qtde = evento.key;
+        this.qtde = this.formCadastro.get('quantidade').value;
         this.preco = this.produto.precoVenda;
-        const total = (this.qtde * this.preco);
-        this.total = total;
+        if (this.qtde && this.qtde > 0 && this.preco > 0) {
+            this.total = this.qtde * this.preco;
+            console.log('this total ' + this.total)
+            this.formValido = true;
+        } else {
+            this.initItem();
+        }
     }
 
 }
