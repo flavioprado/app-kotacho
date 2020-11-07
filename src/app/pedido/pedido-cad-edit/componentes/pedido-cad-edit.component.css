@@ -8,8 +8,17 @@
   height: 100%;
 }
 
+p {
+  font-family: Lato;
+}
+
+
 .card {
   margin: 20px;
+  height: 70px;
+  justify-content: center;
+  background-color: rgb(60, 247, 60);
+  align-items: center;
 }
 
 

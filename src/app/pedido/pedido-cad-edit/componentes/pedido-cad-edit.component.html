@@ -1,43 +1,38 @@
-<div fxLayout="row" fxLayout.gt-sm="row" fxLayoutAlign="center center" style="background-color: #80ff80">
+<!-- <div fxLayout="row" fxLayout.gt-sm="row" fxLayoutAlign="center center" style="background-color: #80ff80">
 
   <h1 class="mat-h2">{{labelForm}} Pedido</h1>
 </div>
-<div fxLayout="row" fxLayout.gt-sm="row" fxLayoutAlign="start center" style="background-color: #80ff80"
-  fxLayoutAlign.gt-sm="center start">
-
+<div fxLayout="row" fxLayoutAlign="center center" fxFlex="50px" style="background-color: #80ff80">
   <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
-    <mat-card class="card">
-      <div fxFlex="30%" fxFlex.gt-sm="25%">
-        <mat-form-field appearance="outline">
-          <mat-label>Status</mat-label>
-          <mat-select formControlName="status" required>
-            <mat-option *ngFor="let status of statusList" [value]="status">
-              {{status}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxFlex="40%" fxFlex.gt-sm="30%">
-        <mat-form-field appearance="outline">
-          <mat-label>Cliente</mat-label>
-          <mat-select formControlName="cliente" required>
-            <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
-              {{cliente.nome}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxFlex="30%" fxFlex.gt-sm="30%">
-        <h1 class="mat-h2">Pedido Número: {{pedido?.numero}}</h1>
-      </div>
-      <div fxFlex="30%" fxFlex.gt-sm="30%">
-        <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
-        <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
-      </div>
-    </mat-card>
-
+    <div fxFlex="20%">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statusList" [value]="status">
+            {{status}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="30%">
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="cliente" required>
+          <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+            {{cliente.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="10%">
+      <h1 class="mat-h1">Nº. {{pedido?.numero}}</h1>
+    </div>
+    <div fxFlex="10%">
+      <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
+      <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
+    </div>
   </form>
-</div>
+</div> -->
 
 <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start center" fxLayoutAlign.gt-sm="center start">
   <div fxFlex="50%" fxFlex.gt-sm="25%">
@@ -47,21 +42,57 @@
     <app-carrinho></app-carrinho>
   </div>
 </div> -->
+<mat-card class="card">
+  <mat-card-title>{{labelForm}} Pedido</mat-card-title>
 
-<!-- Main -->
-<div fxLayout="row wrap" style="height: 150px">
-  <div fxFlexOrder="1" fxLayout="row" fxLayout.xs="column" fxFlex.xs="100" fxFlex.gt-xs="30"
-    style="background-color: #e6e6e6" fxLayoutAlign="center center">
-    <app-add-item-form></app-add-item-form>
-  </div>
-  <div fxFlexOrder="5" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50" style="background-color: #e6e6e6
-  " fxLayoutAlign="center center">
-    <app-carrinho></app-carrinho>
-  </div>
-  <div fxFlexOrder="10" fxLayout="row" fxHide.xs fxHide.sm fxFlex.gt-sm="20" style="background-color: #e6e6e6"
-    fxLayoutAlign="center center">  <h4 class="mat-h2">TOTAL: R$ 1.500,00</h4>
-  </div>
-</div>
+  <mat-card-subtitle>
+    <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
+      <div fxFlex="20%">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option *ngFor="let status of statusList" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="30%">
+        <mat-form-field appearance="outline">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="cliente" required>
+            <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+              {{cliente.nome}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="10%">
+        <h1 class="mat-h1">Nº. {{pedido?.numero}}</h1>
+      </div>
+      <div fxFlex="10%">
+        <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
+        <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
+      </div>
+    </form>
+  </mat-card-subtitle>
+
+  <!-- content -->
+  <mat-card-content>
+    <div fxLayout="column">
+      <!-- Header -->
+      <!-- <div fxLayout="row" fxFlex="50px" style="background-color: #74edfd" fxLayoutAlign="center center">header</div> -->
+      <!-- Main -->
+      <div fxLayout="row wrap" style="height: 150px">
+        <div fxFlexOrder="1" fxLayout="row" fxLayout.xs="column" fxFlex.xs="80" fxFlex.gt-xs="30" style="background-color: #99ff99" fxLayoutAlign="center center"><app-add-item-form></app-add-item-form></div>
+        <div fxFlexOrder="5" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50" style="background-color: #99ff99" fxLayoutAlign="center center"><app-carrinho></app-carrinho></div>
+        <div fxFlexOrder="10" fxLayout="row" fxHide.xs fxHide.sm fxFlex.gt-sm="20" style="background-color: #b3ffb3" fxLayoutAlign="center center"><h1 class="mat-h1">TOTAL: R$ 1.500,00</h1></div>
+      </div>
+      <!-- Footer -->
+      <!-- <div fxLayout="row" fxFlex="50px" style="background-color: #74edfd" fxLayoutAlign="center center">footer</div> -->
+    </div>
+  </mat-card-content>
+</mat-card>
 <!-- Footer -->
 <!-- <div class="flex-container">
   <div class=".flex-item:nth-child(1)">
