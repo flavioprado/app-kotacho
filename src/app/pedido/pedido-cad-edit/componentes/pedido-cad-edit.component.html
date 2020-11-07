@@ -1,35 +1,69 @@
-<form [formGroup]="formCadastro" (ngSubmit)="salvar()">
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <h1 class="mat-h2">{{labelForm}} Pedido</h1>
-  </div>
-  <mat-card class="top-card">
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="0px">
-      <mat-form-field fxFlex="20" appearance="outline">
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status" required>
-          <mat-option *ngFor="let status of statusList" [value]="status">
-            {{status}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field fxFlex="40" appearance="outline">
-        <mat-label>Cliente</mat-label>
-        <mat-select formControlName="cliente" required>
-          <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
-            {{cliente.nome}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <h1 class="mat-h2">Pedido Número: {{pedido?.numero}}</h1>
-    </div>
-  </mat-card>
+<div fxLayout="row" fxLayout.gt-sm="row" fxLayoutAlign="center center" style="background-color: #80ff80">
 
-  <mat-card-actions>
-    <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
-    <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
-  </mat-card-actions>
-</form>
-<div class="flex-container">
+  <h1 class="mat-h2">{{labelForm}} Pedido</h1>
+</div>
+<div fxLayout="row" fxLayout.gt-sm="row" fxLayoutAlign="start center" style="background-color: #80ff80"
+  fxLayoutAlign.gt-sm="center start">
+
+  <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
+    <mat-card class="card">
+      <div fxFlex="30%" fxFlex.gt-sm="25%">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option *ngFor="let status of statusList" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="40%" fxFlex.gt-sm="30%">
+        <mat-form-field appearance="outline">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="cliente" required>
+            <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+              {{cliente.nome}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="30%" fxFlex.gt-sm="30%">
+        <h1 class="mat-h2">Pedido Número: {{pedido?.numero}}</h1>
+      </div>
+      <div fxFlex="30%" fxFlex.gt-sm="30%">
+        <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
+        <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
+      </div>
+    </mat-card>
+
+  </form>
+</div>
+
+<!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start center" fxLayoutAlign.gt-sm="center start">
+  <div fxFlex="50%" fxFlex.gt-sm="25%">
+    <app-add-item-form></app-add-item-form>
+  </div>
+  <div fxFlex="50%" fxFlex.gt-sm="50%">
+    <app-carrinho></app-carrinho>
+  </div>
+</div> -->
+
+<!-- Main -->
+<div fxLayout="row wrap" style="height: 150px">
+  <div fxFlexOrder="1" fxLayout="row" fxLayout.xs="column" fxFlex.xs="100" fxFlex.gt-xs="30"
+    style="background-color: #e6e6e6" fxLayoutAlign="center center">
+    <app-add-item-form></app-add-item-form>
+  </div>
+  <div fxFlexOrder="5" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50" style="background-color: #e6e6e6
+  " fxLayoutAlign="center center">
+    <app-carrinho></app-carrinho>
+  </div>
+  <div fxFlexOrder="10" fxLayout="row" fxHide.xs fxHide.sm fxFlex.gt-sm="20" style="background-color: #e6e6e6"
+    fxLayoutAlign="center center">  <h4 class="mat-h2">TOTAL: R$ 1.500,00</h4>
+  </div>
+</div>
+<!-- Footer -->
+<!-- <div class="flex-container">
   <div class=".flex-item:nth-child(1)">
     <app-add-item-form></app-add-item-form>
   </div>
@@ -38,4 +72,4 @@
     </app-carrinho>
   </div>
   
-</div>
+</div> -->
