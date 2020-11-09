@@ -13,13 +13,32 @@ p {
 }
 
 
-.card {
-  margin: 20px;
-  height: 70px;
+.card-container{
+  margin-top: 20px;
+  padding: 10px;
+  display: flex;
+  height: 80px;
+
   justify-content: center;
-  background-color: rgb(60, 247, 60);
+  background-color:  #b3b3ff
+  ;
   align-items: center;
 }
+
+.actions{
+  display: flex;
+  height: 50px;
+
+  justify-content: center;
+  background-color:  #b3b3ff;
+}
+
+/* mat-card-title{
+  justify-content: center;
+  align-items: center;
+  font-family: Lato;
+
+} */
 
 
 

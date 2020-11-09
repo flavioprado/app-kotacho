@@ -3,13 +3,15 @@ body {
   margin: 0;
 }
 
-.basic-container {
-  padding: 5px;
+.table-container {
+  padding: 0px;
+  margin: 0;
 }
 
 
 .mat-table {
-  width: 100%;
+  width: 600px;
+  margin: 0;
 } 
 .version-info {
   color: black;

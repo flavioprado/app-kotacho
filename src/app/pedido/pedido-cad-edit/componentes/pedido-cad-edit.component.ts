@@ -212,6 +212,7 @@ export class PedidoCadEditComponent implements OnInit {
             cliente
 
         } as Pedido;
+        debugger;
 
         pedido.itens = this.carrinhoSvc.getItens();
         pedido.ativo = true;
