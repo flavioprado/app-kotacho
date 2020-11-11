@@ -94,6 +94,11 @@ export class PedidoCadEditComponent implements OnInit {
         this.carrinho.reload();
     }
 
+    onUpdateItem() {
+        console.log('ITEM ATUALIZADO')
+        this.pedido.total = this.getTotal();
+    }
+
 
     getTotal() {
         return this.pedido.itens?.map(t => t.total).reduce((acc, value) => acc + value, 0);

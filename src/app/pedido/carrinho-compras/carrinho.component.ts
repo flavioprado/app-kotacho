@@ -18,11 +18,10 @@ import { CarrinhoService } from './carrinho.service';
 })
 export class CarrinhoComponent implements OnInit {
     @ViewChild(MatTable) dataTable: MatTable<any>;
-
     @Output() removerItem = new EventEmitter();
+    @Output() updateItem = new EventEmitter();
 
     @Input() itens: Item[] = [];
-
     dataSource: MatTableDataSource<Item>;
 
     constructor(private carrinhoSvc: CarrinhoService,
@@ -33,18 +32,22 @@ export class CarrinhoComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.carrinhoSvc.onEditItem.subscribe(()=>{
+            console.log('ALTEROU ITEM')
+            this.reload();
+
+        });
         this.reload();
     }
 
     displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total', 'actions'];
 
-    getTotalCost() {
-
-    }
 
     reload() {
         this.dataSource = new MatTableDataSource(this.itens);
-        // this.dataTable.renderRows();
+        
+        this.updateItem.emit();
     }
 
     onEdit(item: Item) {
@@ -53,16 +56,14 @@ export class CarrinhoComponent implements OnInit {
 
     onDeleteItem(item: Item) {
         this.removerItem.emit(item);
-       // this.reload();
     }
 
     refresh() {
         this.reload();
-        // this.itens =re this.carrinhoSvc.getItens();
-        // this.dataTable.renderRows();
     }
 
     openDialog(item: Item) {
+        debugger;
         const dialog = this._dialog.open(SampleDialogComponent, {
             width: '250px',
             disableClose: true,
@@ -70,8 +71,8 @@ export class CarrinhoComponent implements OnInit {
         });
 
         if (dialog) {
-            this.carrinhoSvc.editItem(item);
-
+            console.log('algo')
+            // this.carrinhoSvc.editItem(item);
         }
     }
 }

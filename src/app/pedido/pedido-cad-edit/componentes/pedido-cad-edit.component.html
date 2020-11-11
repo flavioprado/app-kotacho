@@ -35,7 +35,6 @@
   <!-- <div fxLayout="row" fxFlex="50px" style="background-color: #74edfd" fxLayoutAlign="center center">header</div> -->
   <!-- Main -->
 
-  {{pedido.total | json}}
   <div fxLayout="row wrap" style="height: 150px">
     <div fxFlexOrder="1" fxLayout="row" fxLayout.xs="column" fxFlex.xs="80" fxFlex.gt-xs="30"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">
@@ -43,7 +42,7 @@
     </div>
     <div fxFlexOrder="2" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">
-      <app-carrinho (removerItem)="onItemRemovido($event)" *ngIf="pedido?.itens" [itens]="pedido?.itens"> </app-carrinho>
+      <app-carrinho (updateItem)="onUpdateItem($event)" (removerItem)="onItemRemovido($event)" *ngIf="pedido?.itens" [itens]="pedido?.itens"> </app-carrinho>
     </div>
     <div fxFlexOrder="3" fxLayout="row" fxHide.xs fxHide.sm fxFlex.gt-sm="20" style="background-color: #b3ffb3"
       fxLayoutAlign="space-around center">

@@ -1,25 +1,29 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Produto } from 'src/app/interfaces/produto.model';
 import { ProdutoService } from 'src/app/produto/produto.service';
+import { CarrinhoComponent } from '../carrinho-compras/carrinho.component';
+import { CarrinhoService } from '../carrinho-compras/carrinho.service';
 
 @Component({
   selector: 'app-sample-dialog',
   templateUrl: './sample-dialog.component.html',
 })
 export class SampleDialogComponent implements OnInit {
+
   produtos = Array<Produto>();
 
 
   constructor(
     private produtoService: ProdutoService,
+    private carrinhoService: CarrinhoService,
     public dialogRef: MatDialogRef<SampleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
 
   ngOnInit() {
-    console.log('Dialog got', this.data);
+    // console.log('Dialog got', this.data);
   }
 
   onKey(evento: any) {
@@ -27,9 +31,10 @@ export class SampleDialogComponent implements OnInit {
     const p = this.data.produto.precoVenda;
     if (this.isNumeric(q)) {
       this.data.total = (q * p);
+      console.log('DATA TOTAL '+this.data.total)
     } else {
-      this.data.quantidade = null;
-      this.data.total = null;
+      this.data.quantidade = 0;
+      this.data.total = 0;
     }
   }
 
@@ -43,6 +48,13 @@ export class SampleDialogComponent implements OnInit {
   }
 
   closeDialog() {
+    debugger;
+    console.log('atualizou item')
+    
+   this.carrinhoService.udpateItem();
+    
+  
+
     this.dialogRef.close();
   }
 }

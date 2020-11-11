@@ -42,9 +42,10 @@ export class CarrinhoService {
     editItem(item: Item) {
         this.onEditItem.emit(item);
     }
-    
-    udpateItem(item: Item){
 
+    udpateItem() {
+        console.log('UDPTATEOU')
+        this.onEditItem.emit();
     }
 
     listar(queryBuilder: QueryBuilder): Observable<Page<Pedido>> {
