@@ -1,6 +1,6 @@
 <div style="text-align: center; margin-top: 10px;">
   <mat-card-title>{{labelForm}} Pedido </mat-card-title>
-  <mat-card-subtitle *ngIf="pedido.id">Nº. {{pedido?.numero}}</mat-card-subtitle>
+  <mat-card-subtitle *ngIf="pedido?.id">Nº. {{pedido?.numero}}</mat-card-subtitle>
 </div>
 <div fxLayout="column" class="card-container" fxLayoutAlign="space-around center">
   <div fxLayout="row" fxLayoutAlign="space-between">
@@ -34,18 +34,20 @@
   <!-- Header -->
   <!-- <div fxLayout="row" fxFlex="50px" style="background-color: #74edfd" fxLayoutAlign="center center">header</div> -->
   <!-- Main -->
+
+  {{pedido.total | json}}
   <div fxLayout="row wrap" style="height: 150px">
     <div fxFlexOrder="1" fxLayout="row" fxLayout.xs="column" fxFlex.xs="80" fxFlex.gt-xs="30"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">
-      <app-add-item-form></app-add-item-form>
+      <app-add-item-form (adicionarProduto)="onItemAdicionado($event)"></app-add-item-form>
     </div>
     <div fxFlexOrder="2" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">
-      <app-carrinho></app-carrinho>
+      <app-carrinho (removerItem)="onItemRemovido($event)" *ngIf="pedido?.itens" [itens]="pedido?.itens"> </app-carrinho>
     </div>
     <div fxFlexOrder="3" fxLayout="row" fxHide.xs fxHide.sm fxFlex.gt-sm="20" style="background-color: #b3ffb3"
       fxLayoutAlign="space-around center">
-      <h1 class="mat-h1">TOTAL: R$ 1.500,00</h1>
+      <h1 class="mat-h1">TOTAL: {{pedido.total}}</h1>
     </div>
   </div>
   <!-- Footer -->

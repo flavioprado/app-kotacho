@@ -19,8 +19,9 @@ import { CarrinhoService } from './carrinho.service';
 export class CarrinhoComponent implements OnInit {
     @ViewChild(MatTable) dataTable: MatTable<any>;
 
-    @Output() produtoRemovido = new EventEmitter();
-    itens: Item[] = [];
+    @Output() removerItem = new EventEmitter();
+
+    @Input() itens: Item[] = [];
 
     dataSource: MatTableDataSource<Item>;
 
@@ -28,24 +29,22 @@ export class CarrinhoComponent implements OnInit {
         private _dialog: MatDialog,
         private router: Router,
     ) {
-
+        this.itens = [];
     }
 
     ngOnInit() {
-        this.carrinhoSvc.onNewItem.subscribe((p) => {
-           this.reloadCarrinho();
-            // this.dataTable.renderRows();
-        });
+        this.reload();
     }
-    displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total','actions'];
+
+    displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total', 'actions'];
 
     getTotalCost() {
 
     }
 
-    reloadCarrinho() {
-        this.itens = this.carrinhoSvc.getItens();
+    reload() {
         this.dataSource = new MatTableDataSource(this.itens);
+        // this.dataTable.renderRows();
     }
 
     onEdit(item: Item) {
@@ -53,13 +52,13 @@ export class CarrinhoComponent implements OnInit {
     }
 
     onDeleteItem(item: Item) {
-        this.carrinhoSvc.removeItem(item);
-        this.refresh();
+        this.removerItem.emit(item);
+       // this.reload();
     }
 
     refresh() {
-        this.reloadCarrinho();
-        // this.itens = this.carrinhoSvc.getItens();
+        this.reload();
+        // this.itens =re this.carrinhoSvc.getItens();
         // this.dataTable.renderRows();
     }
 

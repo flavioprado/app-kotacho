@@ -28,7 +28,7 @@ import { AddItemFormComponent } from '../../item/add-item-form/add-item-form.com
 export class PedidoCadEditComponent implements OnInit {
     @ViewChild('someRef') someRef: MatSelect;
     @ViewChild("cliente") clienteField: ElementRef;
-    @ViewChild(CarrinhoComponent)  carrinho: CarrinhoComponent;
+    @ViewChild(CarrinhoComponent) carrinho: CarrinhoComponent;
     @ViewChild(AddItemFormComponent) private addItem: AddItemFormComponent;
 
     itens: Item[] = [];
@@ -39,6 +39,7 @@ export class PedidoCadEditComponent implements OnInit {
     endereco: Endereco;
     labelForm: string;
     produto: Produto;
+    valorTotal: any;
 
     clientes = Array<Cliente>();
     produtos = Array<Produto>();
@@ -66,15 +67,16 @@ export class PedidoCadEditComponent implements OnInit {
 
         this.labelForm = id ? 'Editar' : 'Novo';
 
+        this.buildForm();
         if (id) {
             this.loadPedido(id);
         } else {
             this.initPedido();
         }
 
-        this.buildForm();
         this.loadClientes();
         this.loadProdutos();
+
     }
 
 
@@ -82,19 +84,19 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
             this.pedido = pedido;
             this.populateForm(pedido);
-            if (this.pedido.itens) {
-                debugger;
-                this.itens = this.pedido.itens;
-                this.carrinhoSvc.setItens(this.pedido.itens);
-                this.carrinho.refresh();
-                console.log()
-            }
         })
+    }
+
+    onItemRemovido(item: Item) {
+        this.pedido.itens = this.pedido.itens.filter(elem => elem !== item);
+        this.carrinho.itens = this.pedido.itens;
+        this.pedido.total = this.getTotal();
+        this.carrinho.reload();
     }
 
 
     getTotal() {
-        return this.itens.map(t => t.total).reduce((acc, value) => acc + value, 0);
+        return this.pedido.itens?.map(t => t.total).reduce((acc, value) => acc + value, 0);
     }
 
     createNumber() {
@@ -174,6 +176,14 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
 
+    onItemAdicionado(item: Item) {
+        item.pedId = this.pedido?.id;
+        this.pedido.itens.push(item);
+        this.pedido.total = this.getTotal();
+        this.carrinho.reload();
+    }
+
+
     // addItem() {
     //     const item = this.createItem();
     //     item.numero = this.createNumber();
@@ -188,39 +198,40 @@ export class PedidoCadEditComponent implements OnInit {
             itens: [],
             ativo: true,
             status: 'ABERTO',
-            desconto: null,
-            valorTotal: null,
+            desconto: 0,
+            total: 0,
             dataAtualizacao: null
         }
 
     }
 
+    loadFormInObject() {
+
+        const id = this.formCadastro.get('id').value;
+        const numero = this.formCadastro.get('numero').value;
+        const cliente = this.formCadastro.get('cliente').value;
+        const status = this.formCadastro.get('status').value;
+        const ativo = true;
+        // const desconto = this.formCadastro.get('desconto').value;
+        // const valorTotal = this.formCadastro.get('valorTotal').value;
+        // const dataAtualizacao = this.formCadastro.get('dataAtualizacao').value;
+
+
+        this.pedido.id = id;
+        this.pedido.numero = numero;
+        this.pedido.cliente = cliente;
+        this.pedido.status = status;
+        this.pedido.ativo = ativo;
+        this.pedido.desconto = 0;
+        // this.valorTotal = this.getTotal();
+        // this.pedido.dataAtualizacao = dataAtualizacao;
+    }
 
     salvar() {
-        const {
-            id,
-            numero,
-            status,
-            cliente,
-
-        } = this.formCadastro.value;
-
-        const pedido = {
-            id,
-            numero,
-            status,
-            cliente
-
-        } as Pedido;
-        debugger;
-
-        pedido.itens = this.carrinhoSvc.getItens();
-        pedido.ativo = true;
-
-        pedido.dataAtualizacao = new Date();
+        this.loadFormInObject();
 
         if (this.pedido && this.pedido.id) {
-            this.pedidoService.atualizar(pedido).subscribe(
+            this.pedidoService.atualizar(this.pedido).subscribe(
                 (itemAtualizado) => {
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
@@ -236,7 +247,7 @@ export class PedidoCadEditComponent implements OnInit {
                 }
             );
         } else {
-            this.pedidoService.cadastrar(pedido).subscribe(
+            this.pedidoService.cadastrar(this.pedido).subscribe(
                 (itemCadastrado) => {
                     this.matSnackBar.open("Cadastrado com sucesso!", null, {
                         duration: 5000,

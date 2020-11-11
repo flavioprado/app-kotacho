@@ -10,6 +10,6 @@ export interface Pedido {
     itens: any[],
     status: string,
     desconto: number,
-    valorTotal: number,
+    total: number,
     dataAtualizacao: any,
 }

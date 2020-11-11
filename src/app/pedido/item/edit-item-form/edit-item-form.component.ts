@@ -138,7 +138,7 @@ export class EditItemFormComponent implements OnInit {
             this.item.produto = prod;
             this.item.quantidade = this.formCadastro.get('quantidade').value;
             this.item.total = this.total;
-            this.carrinhoSvc.addItem(this.item);
+           // this.carrinhoSvc.addItem(this.item);
             this.initItem();
             this.initProduto();
             this.formCadastro.reset();
