@@ -25,9 +25,9 @@
             formControlName="quantidade">
         </mat-form-field>
         <br />
-        <p>Preço: {{preco}} </p>
+        <p>Preço: {{preco | currency : 'R$' }} </p>
         <br />
-        <p>Total: {{total}}</p>
+        <p>Total: {{total | currency : 'R$' }}</p>
       </mat-card-content>
       <mat-card-actions>
         <div class="button-flex-container">

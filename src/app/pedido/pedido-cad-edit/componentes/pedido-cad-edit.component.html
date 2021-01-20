@@ -2,17 +2,20 @@
   <mat-card-title>{{labelForm}} Pedido </mat-card-title>
   <mat-card-subtitle *ngIf="pedido?.id">Nº. {{pedido?.numero}}</mat-card-subtitle>
 </div>
+<div style="text-align: center; margin-top: 10px;">
+  <mat-card-title>Status: {{pedido.status}}  </mat-card-title>
+</div>
 <div fxLayout="column" class="card-container" fxLayoutAlign="space-around center">
   <div fxLayout="row" fxLayoutAlign="space-between">
     <form [formGroup]="formCadastro" (ngSubmit)="salvar()">
-      <mat-form-field fxFlex="30" appearance="outline">
+      <!-- <mat-form-field fxFlex="30" appearance="outline">
         <mat-label>Status</mat-label>
         <mat-select formControlName="status" required>
           <mat-option *ngFor="let status of statusList" [value]="status">
             {{status}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field fxFlex="50" appearance="outline">
         <mat-label>Cliente</mat-label>
@@ -25,6 +28,7 @@
       <div class="actions">
         <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
         <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
+        <button type="button" mat-raised-button (click)="finalizar()">Finalizar</button>
       </div>
     </form>
   </div>
@@ -42,11 +46,12 @@
     </div>
     <div fxFlexOrder="2" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">
-      <app-carrinho (updateItem)="onUpdateItem($event)" (removerItem)="onItemRemovido($event)" *ngIf="pedido?.itens" [itens]="pedido?.itens"> </app-carrinho>
+      <app-carrinho (updateItem)="onUpdateItem($event)" (removerItem)="onItemRemovido($event)" *ngIf="pedido?.itens"
+        [itens]="pedido?.itens"> </app-carrinho>
     </div>
     <div fxFlexOrder="3" fxLayout="row" fxHide.xs fxHide.sm fxFlex.gt-sm="20" style="background-color: #b3ffb3"
       fxLayoutAlign="space-around center">
-      <h1 class="mat-h1">TOTAL: {{pedido.total}}</h1>
+      <h1 class="mat-h1">TOTAL: {{pedido.total | currency : 'R$' }} </h1>
     </div>
   </div>
   <!-- Footer -->

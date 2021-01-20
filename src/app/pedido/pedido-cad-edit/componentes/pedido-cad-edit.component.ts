@@ -18,6 +18,7 @@ import { CarrinhoComponent } from '../../carrinho-compras/carrinho.component';
 import { MatSelect } from '@angular/material/select';
 import { CarrinhoService } from '../../carrinho-compras/carrinho.service';
 import { AddItemFormComponent } from '../../item/add-item-form/add-item-form.component';
+import Dinero from "dinero.js";
 
 
 @Component({
@@ -40,6 +41,7 @@ export class PedidoCadEditComponent implements OnInit {
     labelForm: string;
     produto: Produto;
     valorTotal: any;
+    status: string;
 
     clientes = Array<Cliente>();
     produtos = Array<Produto>();
@@ -64,8 +66,9 @@ export class PedidoCadEditComponent implements OnInit {
 
     ngOnInit() {
         let id = this.route.snapshot.paramMap.get('id');
+        status = 'ABERTO';
 
-        this.labelForm = id ? 'Editar' : 'Novo';
+        this.labelForm = id ? 'Alterar' : 'Novo';
 
         this.buildForm();
         if (id) {
@@ -83,6 +86,7 @@ export class PedidoCadEditComponent implements OnInit {
     loadPedido(id) {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
             this.pedido = pedido;
+            
             this.populateForm(pedido);
         })
     }
@@ -99,6 +103,8 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedido.total = this.getTotal();
     }
 
+    somaItens() { }
+
 
     getTotal() {
         return this.pedido.itens?.map(t => t.total).reduce((acc, value) => acc + value, 0);
@@ -107,6 +113,7 @@ export class PedidoCadEditComponent implements OnInit {
     createNumber() {
         return this.itens.map(t => t.numero).reduce((value) => value + 1, 1);
     }
+
 
 
     ngAfterViewInit() {
@@ -133,7 +140,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro.patchValue(pedido);
         this.formCadastro.patchValue({
             cliente: pedido.cliente.id,
-            status: pedido.status
+           // status: pedido.status
         });
     }
 
@@ -155,7 +162,6 @@ export class PedidoCadEditComponent implements OnInit {
             id: null,
             numero: [],
             cliente: ["", Validators.required],
-            status: ['ABERTO', Validators.required],
             desconto: [],
             total: [""],
             obs: [""],
@@ -215,7 +221,6 @@ export class PedidoCadEditComponent implements OnInit {
         const id = this.formCadastro.get('id').value;
         const numero = this.formCadastro.get('numero').value;
         const cliente = this.formCadastro.get('cliente').value;
-        const status = this.formCadastro.get('status').value;
         const ativo = true;
         // const desconto = this.formCadastro.get('desconto').value;
         // const valorTotal = this.formCadastro.get('valorTotal').value;
@@ -230,6 +235,26 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedido.desconto = 0;
         // this.valorTotal = this.getTotal();
         // this.pedido.dataAtualizacao = dataAtualizacao;
+    }
+    finalizar() {
+        if (this.pedido && this.pedido.id) {
+            this.pedido.status = 'FINALIZADO';
+            this.pedidoService.atualizar(this.pedido).subscribe(
+                (itemAtualizado) => {
+                    this.matSnackBar.open("Finalizado com sucesso!", null, {
+                        duration: 5000,
+                        panelClass: "green-snackbar",
+                    });
+                    //  this.router.navigateByUrl("/pedidos");
+                },
+                (error) => {
+                    this.matSnackBar.open("Erro ao finalizar", null, {
+                        duration: 5000,
+                        panelClass: "red-snackbar",
+                    });
+                }
+            );
+        }
     }
 
     salvar() {
