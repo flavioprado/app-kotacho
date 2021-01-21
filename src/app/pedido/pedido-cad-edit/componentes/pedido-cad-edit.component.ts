@@ -19,6 +19,7 @@ import { MatSelect } from '@angular/material/select';
 import { CarrinhoService } from '../../carrinho-compras/carrinho.service';
 import { AddItemFormComponent } from '../../item/add-item-form/add-item-form.component';
 import Dinero from "dinero.js";
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class PedidoCadEditComponent implements OnInit {
     produto: Produto;
     valorTotal: any;
     status: string;
+    showReabrir: boolean = false;
 
     clientes = Array<Cliente>();
     produtos = Array<Produto>();
@@ -86,7 +88,10 @@ export class PedidoCadEditComponent implements OnInit {
     loadPedido(id) {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
             this.pedido = pedido;
-            
+            if (this.pedido.status === 'FINALIZADO') {
+                this.showReabrir = true;
+                this.formCadastro.disable();
+            }
             this.populateForm(pedido);
         })
     }
@@ -99,8 +104,9 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
     onUpdateItem() {
-        console.log('ITEM ATUALIZADO')
+        debugger;
         this.pedido.total = this.getTotal();
+        console.log();
     }
 
     somaItens() { }
@@ -140,7 +146,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.formCadastro.patchValue(pedido);
         this.formCadastro.patchValue({
             cliente: pedido.cliente.id,
-           // status: pedido.status
+            // status: pedido.status
         });
     }
 
@@ -237,15 +243,28 @@ export class PedidoCadEditComponent implements OnInit {
         // this.pedido.dataAtualizacao = dataAtualizacao;
     }
     finalizar() {
+        this.atualizar('FINALIZADO');
+    }
+    reabrir() {
+        this.atualizar('ABERTO');
+    }
+    atualizar(status: string) {
+        const label = status === 'ABERTO' ? 'Aberto' : 'Finalizado';
         if (this.pedido && this.pedido.id) {
-            this.pedido.status = 'FINALIZADO';
+            this.pedido.status = status;
             this.pedidoService.atualizar(this.pedido).subscribe(
                 (itemAtualizado) => {
-                    this.matSnackBar.open("Finalizado com sucesso!", null, {
+                    this.matSnackBar.open(`${label} com sucesso!`, null, {
                         duration: 5000,
                         panelClass: "green-snackbar",
                     });
-                    //  this.router.navigateByUrl("/pedidos");
+                    if (status !== 'ABERTO') {
+                        this.router.navigateByUrl("/pedidos");
+                    }
+                    if (status === 'ABERTO') {
+                       this.showReabrir = false;
+                    }
+
                 },
                 (error) => {
                     this.matSnackBar.open("Erro ao finalizar", null, {
@@ -255,7 +274,9 @@ export class PedidoCadEditComponent implements OnInit {
                 }
             );
         }
+
     }
+
 
     salvar() {
         this.loadFormInObject();
