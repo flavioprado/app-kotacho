@@ -19,7 +19,8 @@ import { MatSelect } from '@angular/material/select';
 import { CarrinhoService } from '../../carrinho-compras/carrinho.service';
 import { AddItemFormComponent } from '../../item/add-item-form/add-item-form.component';
 import Dinero from "dinero.js";
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { isAfter, isBefore, differenceInHours, format, parseISO } from 'date-fns';
+
 
 
 @Component({
@@ -44,6 +45,7 @@ export class PedidoCadEditComponent implements OnInit {
     valorTotal: any;
     status: string;
     showReabrir: boolean = false;
+    periodoValido: boolean = false;
 
     clientes = Array<Cliente>();
     produtos = Array<Produto>();
@@ -96,6 +98,24 @@ export class PedidoCadEditComponent implements OnInit {
         })
     }
 
+    isDataValida(dataPedido: any) {
+        const today = format(new Date(), "yyyy/MM/dd HH:mm");
+        const dataInclusao = format(new Date(dataPedido), "yyyy/MM/dd HH:mm");
+
+        const result = differenceInHours(
+            new Date(today),
+            new Date(dataInclusao)
+        )
+
+        if (result <= 24) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+
     onItemRemovido(item: Item) {
         this.pedido.itens = this.pedido.itens.filter(elem => elem !== item);
         this.carrinho.itens = this.pedido.itens;
@@ -104,7 +124,6 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
     onUpdateItem() {
-        debugger;
         this.pedido.total = this.getTotal();
         console.log();
     }
@@ -217,6 +236,7 @@ export class PedidoCadEditComponent implements OnInit {
             status: 'ABERTO',
             desconto: 0,
             total: 0,
+            dataInclusao: null,
             dataAtualizacao: null
         }
 
@@ -246,35 +266,56 @@ export class PedidoCadEditComponent implements OnInit {
         this.atualizar('FINALIZADO');
     }
     reabrir() {
-        this.atualizar('ABERTO');
-    }
-    atualizar(status: string) {
-        const label = status === 'ABERTO' ? 'Aberto' : 'Finalizado';
-        if (this.pedido && this.pedido.id) {
-            this.pedido.status = status;
-            this.pedidoService.atualizar(this.pedido).subscribe(
-                (itemAtualizado) => {
-                    this.matSnackBar.open(`${label} com sucesso!`, null, {
-                        duration: 5000,
-                        panelClass: "green-snackbar",
-                    });
-                    if (status !== 'ABERTO') {
-                        this.router.navigateByUrl("/pedidos");
-                    }
-                    if (status === 'ABERTO') {
-                       this.showReabrir = false;
-                    }
+        if (this.pedido.status === 'FINALIZADO') {
 
-                },
-                (error) => {
-                    this.matSnackBar.open("Erro ao finalizar", null, {
-                        duration: 5000,
-                        panelClass: "red-snackbar",
-                    });
-                }
-            );
         }
+        this.atualizar('ABERTO');
+        this.formCadastro.enable();
+    }
 
+    atualizar(status: string) {
+        let label = '';
+        let atualizar = false;
+
+        if (this.pedido && this.pedido.id) {
+            if (status === 'ABERTO' && this.isDataValida(this.pedido.dataInclusao)) {
+                this.pedido.status = status;
+                atualizar = true;
+                label = 'Aberta';
+            }
+
+            if (status === 'FINALIZADO') {
+                this.pedido.status = status;
+                atualizar = true;
+                label = 'Finalizado';
+            }
+            // let label = status === 'ABERTO' ? 'Aberto' : 'Finalizado';
+            if (atualizar) {
+                this.pedidoService.atualizar(this.pedido).subscribe(
+                    (itemAtualizado) => {
+                        this.matSnackBar.open(`${label} com sucesso!`, null, {
+                            duration: 5000,
+                            panelClass: "green-snackbar",
+                        });
+                        if (status !== 'ABERTO') {
+                            this.router.navigateByUrl("/pedidos");
+                        }
+                        if (status === 'ABERTO') {
+                            this.showReabrir = false;
+                        }
+
+                    },
+                    (error) => {
+                        this.matSnackBar.open("Erro ao finalizar", null, {
+                            duration: 5000,
+                            panelClass: "red-snackbar",
+                        });
+                    }
+                );
+            }
+
+        }
+        atualizar = false;
     }
 
 

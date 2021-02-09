@@ -3,7 +3,7 @@
   <mat-card-subtitle *ngIf="pedido?.id">Nº. {{pedido?.numero}}</mat-card-subtitle>
 </div>
 <div style="text-align: center; margin-top: 10px;">
-  <mat-card-title>Status: {{pedido?.status}}  </mat-card-title>
+  <mat-card-title>Situação: {{pedido?.status}}  </mat-card-title>
 </div>
 <div fxLayout="column" class="card-container" fxLayoutAlign="space-around center">
   <div fxLayout="row" fxLayoutAlign="space-between">
@@ -28,7 +28,7 @@
       <div class="actions">
         <button mat-raised-button color="primary" [disabled]="!formCadastro.valid">Salvar</button>
         <button type="button" mat-raised-button routerLink="/pedidos">Voltar</button>
-        <button type="button" *ngIf="pedido?.status ==='ABERTO'"  mat-raised-button (click)="finalizar()">Finalizar</button>
+        <button type="button" *ngIf="pedido?.status ==='ABERTO' && pedido.id"  mat-raised-button (click)="finalizar()">Finalizar</button>
         <button type="button" *ngIf="showReabrir"  mat-raised-button (click)="reabrir()">Reabrir</button>
 
       </div>

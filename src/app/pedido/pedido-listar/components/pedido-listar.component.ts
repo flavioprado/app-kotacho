@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ɵbypassSanitizationTrustResourceUrl } from "@angular/core";
 
 import { Page, PageRequest } from "../../../_util/Pagination";
 import { PageEvent } from "@angular/material/paginator";
@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 import { PedidoService } from '../../pedido.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/_shared/confirm-dialog/confirm-dialog.component';
-
+import { SelectionModel } from "@angular/cdk/collections";
+import { isAfter, isBefore, differenceInHours, format, parseISO } from 'date-fns';
 
 @Component({
     selector: 'app-pedido-listar',
@@ -18,16 +19,22 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/_shared/conf
     styleUrls: ['./pedido-listar.component.css']
 })
 export class PedidoListarComponent implements OnInit {
+    // import { format, parseISO } from 'date-fns'
+    // const formattedDate = format(parseISO('2019-02-11T14:00:00'), 'MM/dd/yyyy HH:mm');
+    // console.log(formattedDate)
 
-    colunasTabela = ["numero", "desconto","total","datapedido","dataAtualizacao","status","action"];
+
+    colunasTabela = ["select", "numero", "desconto", "total", "datapedido", "dataAtualizacao", "status", "action"];
 
     page: Page<Pedido> = new Page([], 0);
     pageEvent: PageEvent;
     sortEvent: Sort;
 
     carregando = false;
+    selection = new SelectionModel<Pedido>(true, []);
 
-    constructor(private pedidoService: PedidoService, 
+
+    constructor(private pedidoService: PedidoService,
         public dialog: MatDialog,
 
         private router: Router,
@@ -35,6 +42,83 @@ export class PedidoListarComponent implements OnInit {
 
     ngOnInit() {
         this.listarItens();
+        //  this.selection = new SelectionModel<Pedido>(true, []);
+
+    }
+
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.page.content.length;
+        return numSelected === numRows;
+    }
+
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.page.content.forEach(row => this.selection.select(row));
+    }
+
+    alterarSituacao(situacao: string) {
+        const numSelected = this.selection.selected.length;
+        const novaSituacao = situacao;
+        if (numSelected === 0) {
+            this.matSnackBar.open("Favor selecionar o(s) pedido(s) !", null, {
+                duration: 3000,
+                panelClass: "green-snackbar",
+            });
+        } else {
+            let pedidos = [];
+            this.selection.selected.forEach(row => {
+                console.log(row);
+                if (novaSituacao === 'ABERTO' && this.isDataValida(row.dataInclusao)) {
+                    row.status = novaSituacao;
+                    pedidos.push(row);
+                }
+                if (novaSituacao === 'FINALIZADO') {
+                    row.status = novaSituacao;
+                    pedidos.push(row);
+                }
+
+            });
+
+            if (pedidos.length > 0) {
+                this.pedidoService.alterarSituacao(pedidos).subscribe(res => {
+                    if (res) {
+                        this.matSnackBar.open("Pedido Atualizado com sucesso!", null, {
+                            duration: 5000,
+                            panelClass: "green-snackbar",
+                        });
+
+                    }
+                });
+            } else {
+                this.listarItens();
+
+                this.matSnackBar.open("Pedidos Não pode sem  Atualizados", null, {
+                    duration: 5000,
+                    panelClass: "green-snackbar",
+                });
+
+            }
+        }
+    }
+
+
+    isDataValida(dataPedido: any) {
+        const today = format(new Date(), "yyyy/MM/dd HH:mm");
+        const dataInclusao = format(new Date(dataPedido), "yyyy/MM/dd HH:mm");
+
+        const result = differenceInHours(
+            new Date(today),
+            new Date(dataInclusao)
+        )
+
+
+        if (result <= 24) {
+            return true;
+        }
+
+        return false;
     }
 
     listarItens() {

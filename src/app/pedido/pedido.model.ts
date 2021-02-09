@@ -11,5 +11,6 @@ export interface Pedido {
     status: string,
     desconto: number,
     total: number,
+    dataInclusao : any,
     dataAtualizacao: any,
 }

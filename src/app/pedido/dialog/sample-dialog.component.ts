@@ -48,7 +48,7 @@ export class SampleDialogComponent implements OnInit {
   }
 
   closeDialog() {
-    debugger;
+    
     console.log('atualizou item')
     
    this.carrinhoService.udpateItem();

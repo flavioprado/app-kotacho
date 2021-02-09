@@ -41,7 +41,7 @@ export class CarrinhoComponent implements OnInit {
         this.reload();
     }
 
-    displayedColumns: string[] = ['#', 'produto', 'quantidade', 'preco', 'total', 'actions'];
+    displayedColumns: string[] = ['produto', 'quantidade', 'preco', 'total', 'actions'];
 
 
     reload() {
@@ -63,7 +63,6 @@ export class CarrinhoComponent implements OnInit {
     }
 
     openDialog(item: Item) {
-        debugger;
         const dialog = this._dialog.open(SampleDialogComponent, {
             width: '250px',
             disableClose: true,

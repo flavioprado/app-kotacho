@@ -43,6 +43,9 @@ export class PedidoService {
     atualizar(pedido: Pedido): Observable<Pedido> {
         return this.httpClient.post<Pedido>(`${this.baseURL}/${this.endpoint}`, pedido);
     }
+    alterarSituacao(pedidos: Pedido[]): Observable<Pedido[]> {
+        return this.httpClient.post<Pedido[]>(`${this.baseURL}/${this.endpoint}`, pedidos);
+    }
     deletar(_id:string): Observable<{}> {
         return this.httpClient.delete(`${this.baseURL}/${this.endpoint}/${_id}`);
     }
