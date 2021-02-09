@@ -4,5 +4,5 @@ export const dynamicValues = {
   angularVersion: '~10.0.6',
   primeNgVersion: 'undefined',
   saneNgVersion: 'undefined',
-  updatedIn: '21/01/2021'
+  updatedIn: '09/02/2021'
 };
