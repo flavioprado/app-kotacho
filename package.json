@@ -1,6 +1,6 @@
 {
   "name": "app-kotacho",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "scripts": {
     "ng": "ng",
     "clean": "npx shx rm -rf dist",
