@@ -23,6 +23,7 @@ import { isAfter, isBefore, differenceInHours, format, parseISO } from 'date-fns
 
 
 
+
 @Component({
     selector: 'app-pedido-cad-edit',
     templateUrl: './pedido-cad-edit.component.html',
@@ -115,24 +116,34 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
 
+    atualizarPedido() {
+        this.pedido.precofinal = this.getTotalPrecoFinal();
+        this.pedido.precoestimado = this.getTotalPrecoEstimado();
+    }
 
     onItemRemovido(item: Item) {
         this.pedido.itens = this.pedido.itens.filter(elem => elem !== item);
         this.carrinho.itens = this.pedido.itens;
-        this.pedido.total = this.getTotal();
+        this.atualizarPedido();
         this.carrinho.reload();
     }
-
+    s
     onUpdateItem() {
-        this.pedido.total = this.getTotal();
+        debugger;
+        this.atualizarPedido();
         console.log();
     }
 
     somaItens() { }
 
 
-    getTotal() {
-        return this.pedido.itens?.map(t => t.total).reduce((acc, value) => acc + value, 0);
+    getTotalPrecoEstimado() {
+        return this.pedido.itens?.map(item => parseFloat(item.precoEstimado.toString())).reduce((acc, value) => (acc + value), 0);
+
+    }
+
+    getTotalPrecoFinal() {
+        return this.pedido.itens?.map(item => parseFloat(item.precoFinal.toString())).reduce((acc, value) => (acc + value), 0);
     }
 
     createNumber() {
@@ -144,15 +155,15 @@ export class PedidoCadEditComponent implements OnInit {
     ngAfterViewInit() {
         //   this.carrinho.refresh();
 
-        setTimeout(() => {
-            // if (this.someRef) {
-            //     this.someRef.focus();
-            // }
+        //        setTimeout(() => {
+        // if (this.someRef) {
+        //     this.someRef.focus();
+        // }
 
-            // if (this.clienteField.nativeElement) {
-            //     this.clienteField.nativeElement.focus();
-            // }
-        })
+        // if (this.clienteField.nativeElement) {
+        //     this.clienteField.nativeElement.focus();
+        // }
+        // })
     }
 
 
@@ -193,10 +204,10 @@ export class PedidoCadEditComponent implements OnInit {
 
             item: this.fb.group({
                 produto: [null],
-                precoEstimado: [null],
-                quantidade: [null],
+                precoEstimado: [0],
+                quantidade: [0],
                 medida: [null],
-                subTotal: [null],
+                precoFinal: [0],
             })
         });
     }
@@ -215,18 +226,12 @@ export class PedidoCadEditComponent implements OnInit {
     onItemAdicionado(item: Item) {
         item.pedId = this.pedido?.id;
         this.pedido.itens.push(item);
-        this.pedido.total = this.getTotal();
+        this.atualizarPedido();
         this.carrinho.reload();
     }
 
 
-    // addItem() {
-    //     const item = this.createItem();
-    //     item.numero = this.createNumber();
-    //     this.itens.push(item);
-    //     this.dataSource = new MatTableDataSource(this.itens);
-    // }
-
+  
     initPedido() {
         this.pedido = {
             numero: null,
@@ -235,7 +240,8 @@ export class PedidoCadEditComponent implements OnInit {
             ativo: true,
             status: 'ABERTO',
             desconto: 0,
-            total: 0,
+            precofinal: 0,
+            precoestimado: 0,
             dataInclusao: null,
             dataAtualizacao: null
         }
@@ -259,77 +265,72 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedido.status = status;
         this.pedido.ativo = ativo;
         this.pedido.desconto = 0;
-        // this.valorTotal = this.getTotal();
+        // // this.valorTotal = this.getTotal();
         // this.pedido.dataAtualizacao = dataAtualizacao;
     }
+    
     finalizar() {
-        this.atualizar('FINALIZADO');
+        this.alterarSituacao('FINALIZADO');
     }
-    reabrir() {
-        if (this.pedido.status === 'FINALIZADO') {
 
-        }
-        this.atualizar('ABERTO');
+    reabrir() {
+        this.alterarSituacao('ABERTO');
         this.formCadastro.enable();
     }
 
-    atualizar(status: string) {
-        let label = '';
-        let atualizar = false;
 
+
+
+    async alterarSituacao(status: string) {
+        let label = '';
         if (this.pedido && this.pedido.id) {
             if (status === 'ABERTO' && this.isDataValida(this.pedido.dataInclusao)) {
                 this.pedido.status = status;
-                atualizar = true;
-                label = 'Aberta';
+                debugger;
+                this.salvar();
+
+                label = 'Aberto';
+                console.log('aberto')
             }
 
             if (status === 'FINALIZADO') {
                 this.pedido.status = status;
-                atualizar = true;
+                debugger;
+                this.salvar();
+
+
                 label = 'Finalizado';
-            }
-            // let label = status === 'ABERTO' ? 'Aberto' : 'Finalizado';
-            if (atualizar) {
-                this.pedidoService.atualizar(this.pedido).subscribe(
-                    (itemAtualizado) => {
-                        this.matSnackBar.open(`${label} com sucesso!`, null, {
-                            duration: 5000,
-                            panelClass: "green-snackbar",
-                        });
-                        if (status !== 'ABERTO') {
-                            this.router.navigateByUrl("/pedidos");
-                        }
-                        if (status === 'ABERTO') {
-                            this.showReabrir = false;
-                        }
+                console.log('finalizou')
 
-                    },
-                    (error) => {
-                        this.matSnackBar.open("Erro ao finalizar", null, {
-                            duration: 5000,
-                            panelClass: "red-snackbar",
-                        });
-                    }
-                );
             }
-
+            // this.atualizarPedido();
         }
-        atualizar = false;
+
     }
 
 
-    salvar() {
-        this.loadFormInObject();
 
+     salvar() {
+        debugger;
+        // this.loadFormInObject();
         if (this.pedido && this.pedido.id) {
-            this.pedidoService.atualizar(this.pedido).subscribe(
+            if (this.pedido.status === 'ABERTO') {
+                this.showReabrir = false;
+            }
+            debugger;
+
+            this.pedidoService.salvar(this.pedido).subscribe(
+
                 (itemAtualizado) => {
+                    console.log('SALVOU !!!!!')
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
                         panelClass: "green-snackbar",
                     });
-                    this.router.navigateByUrl("/pedidos");
+                    debugger;
+                    this.loadPedido(this.pedido.id);
+                    this.carrinho.reload();
+                    // this.router.navigateByUrl("/pedidos");
                 },
                 (error) => {
                     this.matSnackBar.open("Erro ao atualizar", null, {

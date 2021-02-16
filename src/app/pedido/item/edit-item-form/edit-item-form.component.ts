@@ -30,7 +30,8 @@ export class EditItemFormComponent implements OnInit {
     produtos = Array<Produto>();
     item: Item;
     qtde: any;
-    preco: any;
+    precoEstimado: any;
+    precoFinal: any;
     total: any;
 
 
@@ -98,7 +99,7 @@ export class EditItemFormComponent implements OnInit {
             ativo: true,
             quantidade: null,
             precoEstimado: null,
-            total: null,
+            precoFinal:null,
         }
     }
 
@@ -137,7 +138,8 @@ export class EditItemFormComponent implements OnInit {
             const prod = this.formCadastro.get('produto').value;
             this.item.produto = prod;
             this.item.quantidade = this.formCadastro.get('quantidade').value;
-            this.item.total = this.total;
+            this.item.precoEstimado = this.total;
+            this.item.precoFinal = this.total;
            // this.carrinhoSvc.addItem(this.item);
             this.initItem();
             this.initProduto();
@@ -154,8 +156,9 @@ export class EditItemFormComponent implements OnInit {
     onKey(evento: any) {
         console.log(evento);
         this.qtde = evento.key;
-        this.preco = this.produto.precoVenda;
-        const total = (this.qtde * this.preco);
+        this.precoEstimado = this.produto.precoVenda;
+        this.precoFinal = this.produto.precoVenda;
+        const total = (this.qtde * this.precoFinal);
         this.total = total;
     }
 

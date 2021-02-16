@@ -64,7 +64,7 @@ export class ProdutoCadEditComponent implements OnInit {
 
     loadProduto(id) {
         this.produtoService.pesquisarPorId(id).subscribe((produto) => {
-            this.produto = produto;
+            this.produto = produto as any;
             this.formCadastro.patchValue(produto);
             this.formCadastro.patchValue({
                 categoria: produto.categoria.id

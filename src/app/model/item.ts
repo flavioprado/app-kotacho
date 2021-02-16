@@ -9,5 +9,5 @@ export interface Item {
   ativo: boolean;
   quantidade: number;
   precoEstimado: number;
-  total: number;
+  precoFinal: number;
 }

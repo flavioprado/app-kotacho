@@ -24,7 +24,7 @@ export class PedidoListarComponent implements OnInit {
     // console.log(formattedDate)
 
 
-    colunasTabela = ["select", "numero", "desconto", "total", "datapedido", "dataAtualizacao", "status", "action"];
+    colunasTabela = ["select", "numero", "desconto","precoestimado","precofinal" ,"datapedido", "dataAtualizacao", "status", "action"];
 
     page: Page<Pedido> = new Page([], 0);
     pageEvent: PageEvent;
@@ -94,7 +94,7 @@ export class PedidoListarComponent implements OnInit {
             } else {
                 this.listarItens();
 
-                this.matSnackBar.open("Pedidos Não pode sem  Atualizados", null, {
+                this.matSnackBar.open("Pedidos Não podem ser Atualizados", null, {
                     duration: 5000,
                     panelClass: "green-snackbar",
                 });

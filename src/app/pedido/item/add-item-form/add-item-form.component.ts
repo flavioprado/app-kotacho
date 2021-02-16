@@ -30,7 +30,9 @@ export class AddItemFormComponent implements OnInit {
     produtos = Array<Produto>();
     item: Item;
     qtde: number = 0;
-    preco: number = 0;
+    precoEstimado: number = 0;
+    precoFinal: number = 0;
+
     total: number = 0;
     formValido = false;
 
@@ -91,7 +93,9 @@ export class AddItemFormComponent implements OnInit {
     }
 
     initItem() {
-        this.preco = 0;
+        this.precoEstimado = 0;
+        this.precoFinal = 0;
+
         this.qtde = 0;
         this.total = 0;
         this.formCadastro.reset();
@@ -101,9 +105,9 @@ export class AddItemFormComponent implements OnInit {
             numero: null,
             produto: null,
             ativo: true,
-            quantidade: null,
-            precoEstimado: null,
-            total: null,
+            quantidade: 0,
+            precoEstimado: 0,
+            precoFinal:0,
         }
     }
 
@@ -133,6 +137,8 @@ export class AddItemFormComponent implements OnInit {
         this.produto = event.value;
         this.item.produto = this.produto;
         this.item.precoEstimado = this.produto.precoVenda;
+        this.item.precoFinal = this.produto.precoVenda;
+        
         this.setFocusQtde();
     }
 
@@ -142,7 +148,8 @@ export class AddItemFormComponent implements OnInit {
             const prod = this.formCadastro.get('produto').value;
             this.item.produto = prod;
             this.item.quantidade = this.qtde;
-            this.item.total = this.total;
+            this.item.precoEstimado = this.total;
+            this.item.precoFinal = this.total;
             this.item.pedId = "";
             // this.carrinhoSvc.addItem(this.item);
             this.adicionarProduto.emit(this.item);
@@ -158,10 +165,10 @@ export class AddItemFormComponent implements OnInit {
 
     onKey(evento: any) {
         this.qtde = this.formCadastro.get('quantidade').value;
-        this.preco = this.produto.precoVenda;
-        if (this.qtde && this.qtde > 0 && this.preco > 0) {
-            this.total = this.qtde * this.preco;
-            console.log('this total ' + this.total)
+        this.precoEstimado = this.produto.precoVenda;
+        this.precoFinal = this.produto.precoVenda;
+        if (this.qtde && this.qtde > 0 && this.precoFinal > 0) {
+            this.total = this.qtde * this.precoEstimado;
             this.formValido = true;
         } else {
             this.initItem();

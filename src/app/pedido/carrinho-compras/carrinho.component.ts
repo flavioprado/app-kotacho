@@ -32,22 +32,20 @@ export class CarrinhoComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.carrinhoSvc.onEditItem.subscribe(()=>{
-            console.log('ALTEROU ITEM')
+        this.carrinhoSvc.onEditItem.subscribe(() => {
             this.reload();
 
         });
         this.reload();
     }
 
-    displayedColumns: string[] = ['produto', 'quantidade', 'preco', 'total', 'actions'];
+    displayedColumns: string[] = ['produto', 'quantidade', 'precoEstimado', 'precoFinal', 'actions'];
 
 
     reload() {
         this.dataSource = new MatTableDataSource(this.itens);
-        
-        this.updateItem.emit();
+
+       this.updateItem.emit();
     }
 
     onEdit(item: Item) {
