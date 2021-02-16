@@ -1085,8 +1085,7 @@ class PedidoCadEditComponent {
         });
     }
     salvar() {
-        debugger;
-        // this.loadFormInObject();
+        this.loadFormInObject();
         if (this.pedido && this.pedido.id) {
             if (this.pedido.status === 'ABERTO') {
                 this.showReabrir = false;
@@ -2003,4 +2002,4 @@ module.exports = v4;
 /***/ })
 
 }]);
-//# sourceMappingURL=5.2484c8f17f777caf4117.js.map
+//# sourceMappingURL=5.e651edfb4a2083a36ff6.js.map
