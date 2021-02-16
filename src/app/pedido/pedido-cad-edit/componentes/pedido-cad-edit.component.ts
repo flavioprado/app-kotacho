@@ -231,7 +231,7 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
 
-  
+
     initPedido() {
         this.pedido = {
             numero: null,
@@ -268,7 +268,7 @@ export class PedidoCadEditComponent implements OnInit {
         // // this.valorTotal = this.getTotal();
         // this.pedido.dataAtualizacao = dataAtualizacao;
     }
-    
+
     finalizar() {
         this.alterarSituacao('FINALIZADO');
     }
@@ -310,9 +310,8 @@ export class PedidoCadEditComponent implements OnInit {
 
 
 
-     salvar() {
-        debugger;
-        // this.loadFormInObject();
+    salvar() {
+        this.loadFormInObject();
         if (this.pedido && this.pedido.id) {
             if (this.pedido.status === 'ABERTO') {
                 this.showReabrir = false;
