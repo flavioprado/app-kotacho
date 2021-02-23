@@ -67,8 +67,7 @@ export class PedidoService {
                 item.precoFinal = (prod.precoVenda * item.quantidade);
             }
             item.precoEstimado = (prod.precoVenda * item.quantidade);          
-        });
-        debugger;
+        });        
         return pedido;
     }
 

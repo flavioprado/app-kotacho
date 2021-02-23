@@ -164,7 +164,6 @@ export class ClienteCadEditComponent implements OnInit {
         if (cep) {
             this.cepService.pesquisar(cep).subscribe(dados => {
                 this.loadCepInForm(dados);
-                console.log(dados);
             })
         }
     }

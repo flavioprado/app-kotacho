@@ -20,7 +20,7 @@ export class CarrinhoComponent implements OnInit {
     @ViewChild(MatTable) dataTable: MatTable<any>;
     @Output() removerItem = new EventEmitter();
     @Output() updateItem = new EventEmitter();
-
+    @Input() status: string;
     @Input() itens: Item[] = [];
     dataSource: MatTableDataSource<Item>;
 
@@ -36,6 +36,7 @@ export class CarrinhoComponent implements OnInit {
             this.reload();
 
         });
+
         this.reload();
     }
 
@@ -43,9 +44,8 @@ export class CarrinhoComponent implements OnInit {
 
 
     reload() {
-        this.dataSource = new MatTableDataSource(this.itens);
-
-       this.updateItem.emit();
+        this.dataSource = new MatTableDataSource(this.itens);      
+        this.updateItem.emit();
     }
 
     onEdit(item: Item) {
@@ -68,7 +68,6 @@ export class CarrinhoComponent implements OnInit {
         });
 
         if (dialog) {
-            console.log('algo')
             // this.carrinhoSvc.editItem(item);
         }
     }

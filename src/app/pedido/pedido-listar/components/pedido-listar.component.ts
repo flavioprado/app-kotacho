@@ -69,7 +69,6 @@ export class PedidoListarComponent implements OnInit {
         } else {
             let pedidos = [];
             this.selection.selected.forEach(row => {
-                console.log(row);
                 if (novaSituacao === 'ABERTO' && this.isDataValida(row.dataInclusao)) {
                     row.status = novaSituacao;
                     pedidos.push(row);

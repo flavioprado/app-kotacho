@@ -44,7 +44,6 @@ export class CarrinhoService {
     }
 
     udpateItem() {
-        console.log('UDPTATEOU')
         this.onEditItem.emit();
     }
 

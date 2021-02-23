@@ -217,7 +217,6 @@ export class ProdutoCadEditComponent implements OnInit {
 
     receivedChildMessage: string;
     getUploadedFile(message: string) {
-        console.log('path ' + JSON.stringify(message));
         this.receivedChildMessage = message;
     }
 

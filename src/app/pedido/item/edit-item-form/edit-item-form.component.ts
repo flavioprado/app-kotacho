@@ -154,6 +154,7 @@ export class EditItemFormComponent implements OnInit {
     }
 
     onKey(evento: any) {
+        console.log('alterando item')
         console.log(evento);
         this.qtde = evento.key;
         this.precoEstimado = this.produto.precoVenda;

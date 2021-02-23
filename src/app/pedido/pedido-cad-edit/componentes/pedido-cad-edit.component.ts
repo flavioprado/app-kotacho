@@ -91,10 +91,15 @@ export class PedidoCadEditComponent implements OnInit {
     loadPedido(id) {
         this.pedidoService.pesquisarPorId(id).subscribe((pedido) => {
             this.pedido = pedido;
+
             if (this.pedido.status === 'FINALIZADO') {
-                this.showReabrir = true;
                 this.formCadastro.disable();
-            }
+                if (this.isDataValida(this.pedido.dataInclusao)) {
+                    this.showReabrir = true;
+                }
+            }     
+
+
             this.populateForm(pedido);
         })
     }
@@ -116,22 +121,15 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
 
-    atualizarPedido() {
-        this.pedido.precofinal = this.getTotalPrecoFinal();
-        this.pedido.precoestimado = this.getTotalPrecoEstimado();
-    }
+
 
     onItemRemovido(item: Item) {
         this.pedido.itens = this.pedido.itens.filter(elem => elem !== item);
         this.carrinho.itens = this.pedido.itens;
-        this.atualizarPedido();
         this.carrinho.reload();
     }
     s
     onUpdateItem() {
-        debugger;
-        this.atualizarPedido();
-        console.log();
     }
 
     somaItens() { }
@@ -181,7 +179,6 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
     onSelectCliente() {
-        console.log('clie slected')
         this.addItem.setFocusProduto();
     }
 
@@ -226,7 +223,6 @@ export class PedidoCadEditComponent implements OnInit {
     onItemAdicionado(item: Item) {
         item.pedId = this.pedido?.id;
         this.pedido.itens.push(item);
-        this.atualizarPedido();
         this.carrinho.reload();
     }
 
@@ -262,7 +258,7 @@ export class PedidoCadEditComponent implements OnInit {
         this.pedido.id = id;
         this.pedido.numero = numero;
         this.pedido.cliente = cliente;
-        this.pedido.status = status;
+        // this.pedido.status = status;
         this.pedido.ativo = ativo;
         this.pedido.desconto = 0;
         // // this.valorTotal = this.getTotal();
@@ -279,32 +275,24 @@ export class PedidoCadEditComponent implements OnInit {
     }
 
 
-
-
     async alterarSituacao(status: string) {
         let label = '';
-        if (this.pedido && this.pedido.id) {
-            if (status === 'ABERTO' && this.isDataValida(this.pedido.dataInclusao)) {
-                this.pedido.status = status;
-                debugger;
-                this.salvar();
 
+        if (this.pedido && this.pedido.id) {
+            if ((status === 'ABERTO' && this.isDataValida(this.pedido.dataInclusao))) {
+                this.pedido.status = status;
                 label = 'Aberto';
-                console.log('aberto')
+                this.salvar();
             }
 
             if (status === 'FINALIZADO') {
                 this.pedido.status = status;
-                debugger;
-                this.salvar();
-
-
                 label = 'Finalizado';
-                console.log('finalizou')
-
+                this.salvar();
             }
             // this.atualizarPedido();
         }
+        this.carrinho.reload();
 
     }
 
@@ -316,20 +304,21 @@ export class PedidoCadEditComponent implements OnInit {
             if (this.pedido.status === 'ABERTO') {
                 this.showReabrir = false;
             }
-            debugger;
 
             this.pedidoService.salvar(this.pedido).subscribe(
+                (pedidoAtualizado) => {
+                    
+                    this.itens = pedidoAtualizado.itens;
+                    this.loadPedido(pedidoAtualizado.id);
+                    this.carrinho.itens = pedidoAtualizado.itens;
 
-                (itemAtualizado) => {
-                    console.log('SALVOU !!!!!')
+                    this.carrinho.reload();
+
+                    // this.router.navigateByUrl("/pedidos");
                     this.matSnackBar.open("Atualizado com sucesso!", null, {
                         duration: 5000,
                         panelClass: "green-snackbar",
                     });
-                    debugger;
-                    this.loadPedido(this.pedido.id);
-                    this.carrinho.reload();
-                    // this.router.navigateByUrl("/pedidos");
                 },
                 (error) => {
                     this.matSnackBar.open("Erro ao atualizar", null, {

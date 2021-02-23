@@ -31,7 +31,10 @@ export class SampleDialogComponent implements OnInit {
     const p = this.data.produto.precoVenda;
     if (this.isNumeric(q)) {
       this.data.total = (q * p);
+
       console.log('DATA TOTAL '+this.data.total)
+     // this.carrinhoService.udpateItem();
+
     } else {
       this.data.quantidade = 0;
       this.data.total = 0;
