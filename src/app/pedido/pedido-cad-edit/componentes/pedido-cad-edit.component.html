@@ -45,7 +45,7 @@
   <div fxLayout="row wrap" style="height: 150px">
     <div fxFlexOrder="1" fxLayout="row" fxLayout.xs="column" fxFlex.xs="80" fxFlex.gt-xs="30"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">
-      <app-add-item-form (adicionarProduto)="onItemAdicionado($event)" *ngIf="pedido.status === 'ABERTO'"></app-add-item-form>
+      <app-add-item-form (adicionarProduto)="onItemAdicionado($event)" *ngIf="pedido?.status === 'ABERTO'"></app-add-item-form>
     </div>
     <div fxFlexOrder="2" fxLayout="row" fxFlex.xs="100" fxFlex.gt-xs="70" fxFlex.gt-sm="50"
       style="background-color: #99ff99" fxLayoutAlign="space-around start">

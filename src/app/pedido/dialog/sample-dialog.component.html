@@ -4,7 +4,7 @@
 
 
   <mat-form-field>
-    <input matInput placeholder="Quantidade" (keyup)="onKey($event)" [(ngModel)]="data.quantidade">
+    <input matInput placeholder="Quantidade" (keyup)="onKey($event)" (change)="onKey($event)" [(ngModel)]="data.quantidade">
   </mat-form-field>
 
   <p>Preço: {{data.produto.precoVenda}}</p>

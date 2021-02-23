@@ -31,9 +31,12 @@ export class SampleDialogComponent implements OnInit {
     const p = this.data.produto.precoVenda;
     if (this.isNumeric(q)) {
       this.data.total = (q * p);
+      this.data.precoFinal = this.data.total;
+      this.data.precoEstimado = this.data.total;
 
-      console.log('DATA TOTAL '+this.data.total)
-     // this.carrinhoService.udpateItem();
+
+      console.log('DATA TOTAL ' + this.data.total)
+      this.carrinhoService.udpateItem();
 
     } else {
       this.data.quantidade = 0;
@@ -51,12 +54,12 @@ export class SampleDialogComponent implements OnInit {
   }
 
   closeDialog() {
-    
+
     console.log('atualizou item')
-    
-   this.carrinhoService.udpateItem();
-    
-  
+
+    this.carrinhoService.udpateItem();
+
+
 
     this.dialogRef.close();
   }
