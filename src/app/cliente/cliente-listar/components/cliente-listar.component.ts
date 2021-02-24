@@ -72,8 +72,9 @@ export class ClienteListarComponent implements OnInit {
             );
     }
 
-    onEdit(row) {
-        this.router.navigateByUrl(`/clientes/editar/${row.cli_id}`);
+    onEdit(row: any) {
+       // console.log(row)
+        this.router.navigateByUrl(`/clientes/editar/${row.id}`);
     }
 
     onDelete($key) {
