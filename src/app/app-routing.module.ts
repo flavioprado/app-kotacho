@@ -79,6 +79,11 @@ const routes: Routes = [
     path: "pedidos/editar/:id",
     loadChildren: () => import('./pedido/pedido-cad-edit/pedido-cad-edit.module').then(modulo => modulo.PedidoCadEditModule)
   },
+  {
+    path: "relatorios",
+    loadChildren: () => import('./relatorio/relatorio.module').then(modulo => modulo.RelatorioModule)
+  },
+  
   { path: "404", component: PagenotfoundComponent },
   { path: "**", redirectTo: "404" }
 
