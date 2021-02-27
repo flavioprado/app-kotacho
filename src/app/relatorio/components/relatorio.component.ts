@@ -51,9 +51,7 @@ export class RelatorioComponent implements OnInit {
         this.relatorioService.downloadPDF().subscribe((result) => {
             const blob = new Blob([result], { type: "application/pdf" });
             saveAs(blob, "rel_pedidos_por_municipio.pdf");
-        });
-
-        
+        });  
 
     }
 
