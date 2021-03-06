@@ -32,6 +32,10 @@ export class RelatorioService {
 
     }
 
+    public relatorioPrecos(): Observable<any> {
+        return this.httpClient.get(`${this.baseURL}/${this.endpoint}/precos`, {  responseType: 'blob' });
+    }
+
     
     showMessage(msg: string, isError: boolean = false): void {
         this.snackBar.open(msg, "X", {

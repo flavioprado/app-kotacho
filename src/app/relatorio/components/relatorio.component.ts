@@ -55,6 +55,13 @@ export class RelatorioComponent implements OnInit {
 
     }
 
+    gerarRelatorioPrecos(){
+        this.relatorioService.relatorioPrecos().subscribe((result) => {
+            const blob = new Blob([result], { type: "application/pdf" });
+            saveAs(blob, "rel_precos_produto.pdf");
+        });  
+    }
+
 
 }
 
